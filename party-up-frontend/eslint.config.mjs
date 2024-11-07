@@ -8,7 +8,15 @@ export default [
   {
     files: ['**/*.{js,mjs,cjs,jsx}'],
     languageOptions: {
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        require: 'readonly',
+        module: 'readonly',
+        cy: 'readonly',
+        Cypress: 'readonly',
+        describe: 'readonly',
+        it: 'readonly',
+      },
     },
     plugins: {
       prettier: pluginPrettier,
