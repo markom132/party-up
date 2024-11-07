@@ -154,7 +154,7 @@
                                 </rule>
                             </rules>
                             <excludes>
-                                <exclude>com/party_up/PartyUpApplication*</exclude>
+                                <exclude>com/party_up/network/PartyUpApplication*</exclude>
                             </excludes>
                         </configuration>
                     </execution>
