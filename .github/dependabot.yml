@@ -1,0 +1,19 @@
+version: 2
+updates:
+  # Maven dependencies for backend
+  - package-ecosystem: "maven"
+    directory: "/party-up-service"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 5
+
+  # NPM dependencies for frontend
+  - package-ecosystem: "npm"
+    directory: "/party-up-frontend"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 5
