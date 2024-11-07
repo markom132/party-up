@@ -82,7 +82,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -102,7 +102,9 @@ jobs:
   prettier:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -117,3 +119,29 @@ jobs:
         run: |
           cd party-up-frontend
           npx prettier --check .
+
+  stylelint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.14.0'
+
+      - name: Install dependencies
+        run: |
+          cd party-up-frontend
+          npm install
+
+      - name: Run Prettier
+        run: |
+          cd party-up-frontend
+          npx prettier --check .
+
+      - name: Run Stylelint
+        run: |
+          cd party-up-frontend
+          npx stylelint "**/*.css"
