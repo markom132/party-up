@@ -3,6 +3,16 @@
   "rules": {
     "block-no-empty": true,
     "color-no-invalid-hex": true,
-    "unit-allowed-list": ["em", "rem", "px", "vmin", "vh", "vw","%", "s", "deg"]
+    "unit-allowed-list": [
+      "em",
+      "rem",
+      "px",
+      "vmin",
+      "vh",
+      "vw",
+      "%",
+      "s",
+      "deg"
+    ]
   }
 }
