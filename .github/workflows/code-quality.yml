@@ -145,3 +145,22 @@ jobs:
         run: |
           cd party-up-frontend
           npx stylelint "**/*.css"
+
+  cypress:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.14.0'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./party-up-frontend
+
+      - name: Run Cypress tests
+        run: npx cypress run
+        working-directory: ./party-up-frontend
