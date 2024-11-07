@@ -161,6 +161,13 @@ jobs:
         run: npm install
         working-directory: ./party-up-frontend
 
+      - name: Start the app
+        run: npm start &
+        working-directory: ./party-up-frontend
+
+      - name: Wait for app to start
+        run: sleep 10
+
       - name: Run Cypress tests
         run: npx cypress run
         working-directory: ./party-up-frontend
