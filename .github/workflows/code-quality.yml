@@ -45,10 +45,14 @@ jobs:
           java-version: '17'
 
       - name: Build with Maven
-        run: mvn clean install
+        run: |
+          cd party-up-service
+          mvn clean install
 
       - name: Run Tests with JaCoCo
-        run: mvn test jacoco:report
+        run: |
+          cd party-up-service
+          mvn test jacoco:report
 
       - name: Upload JaCoCo Report
         uses: actions/upload-artifact@v3
