@@ -103,7 +103,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.23.0</version>
+                <version>3.26.0</version>
                 <configuration>
                     <failOnViolation>true</failOnViolation>
                     <linkXRef>false</linkXRef>
@@ -163,7 +163,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.6.0</version>
                 <configuration>
                     <configLocation>src/main/resources/checkstyle.xml</configLocation>
                     <encoding>UTF-8</encoding>
