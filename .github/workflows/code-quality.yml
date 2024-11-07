@@ -107,12 +107,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20.14.0'
+
       - name: Install dependencies
         run: |
           cd party-up-frontend
           npm install
-        working-directory: ./party-up-frontend
 
       - name: Run Prettier
-        run: npx prettier --check .
-        working-directory: ./party-up-frontend
+        run: |
+          cd party-up-frontend
+          npx prettier --check .
