@@ -9,17 +9,7 @@ on:
       - master
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: rootpassword
-          MYSQL_DATABASE: party_up
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping --silent" --health-interval=5s --health-timeout=5s --health-retries=3
+
   pmd:
     runs-on: ubuntu-latest
     steps:
@@ -31,13 +21,6 @@ jobs:
         with:
           java-version: '17'
           distribution: 'corretto'
-
-      - name: Set up MySQL username and password from secrets
-        env:
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        run:
-          echo "MySQL username: $DB_USERNAME"
 
       - name: Build with Maven
         run: |
