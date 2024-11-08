@@ -8,7 +8,6 @@ import com.party_up.network.model.enums.AccountStatus;
 import com.party_up.network.repository.RequestResponseLogRepository;
 import com.party_up.network.repository.UserRepository;
 import com.party_up.network.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest(properties = {"spring.test.observability.enabled=false"})
+@SpringBootTest
 @AutoConfigureMockMvc
 public class UserControllerTest {
 
@@ -155,5 +154,4 @@ public class UserControllerTest {
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().string("Logout failed"));
     }
-
 }
