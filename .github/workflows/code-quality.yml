@@ -15,10 +15,6 @@ jobs:
     services:
       mysql:
         image: mysql:8
-        env:
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_DATABASE: party_up
-          MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -33,17 +29,17 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-      - name: Set up MySQL environment variables
-        run: |
-          echo "spring.datasource.url=jdbc:mysql://mysql:3306/party_up" >> party-up-service/src/main/resources/application.properties
-          echo "spring.datasource.username=root" >> party-up-service/src/main/resources/application.properties
-          echo "spring.datasource.password=root" >> party-up-service/src/main/resources/application.properties
-          echo "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver" >> party-up-service/src/main/resources/application.properties
-
-      - name: Set up MySQL
+      - name: Importing MYSQL file
+        env:
+          DB_HOST: 127.0.0.1
+          DB_CONNECTION: mysql
+          DB_DATABASE: test
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+          DB_USER: root
+          DB_PASSWORD: password
         run: |
           sudo /etc/init.d/mysql start
-          mysql -e 'CREATE DATABASE ${{ env.MYSQL_DATABASE }};'
+          mysql -Dtest -uroot -ppassword -hlocalhost -P33306 < "api_token.sql"
 
       - name: Wait for MySQL to be ready
         run: |
