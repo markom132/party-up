@@ -1,7 +1,7 @@
 package com.party_up.network.config.authentication;
 
-import com.party_up.network.model.User;
-import com.party_up.network.repository.UserRepository;
+import java.util.Collections;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.Collections;
+import com.party_up.network.model.User;
+import com.party_up.network.repository.UserRepository;
 
 /**
  * Configuration class that implements UserDetailsService for Spring Security.
@@ -19,6 +20,7 @@ import java.util.Collections;
 public class UserDetailsServiceConfig implements UserDetailsService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserDetailsServiceConfig.class);
+
     private final UserRepository userRepository;
 
     /**

@@ -71,7 +71,9 @@ public class SecurityConfig {
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(
-                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless sessions due to JWT usage
+                        session
+                                -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        // Stateless sessions due to JWT usage
                 );
 
         // Add JwtRequestFilter before UsernamePasswordAuthenticationFilter
@@ -89,7 +91,8 @@ public class SecurityConfig {
      * @throws Exception in case of retrieval errors
      */
     @Bean
-    public AuthenticationManager authentication(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authentication(
+            AuthenticationConfiguration authenticationConfiguration) throws Exception {
         logger.info("Retrieving AuthenticationManager from AuthenticationConfiguration.");
         return authenticationConfiguration.getAuthenticationManager();
     }

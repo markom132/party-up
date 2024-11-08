@@ -1,6 +1,7 @@
 package com.party_up.network.model;
 
 import jakarta.persistence.Entity;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,5 +12,6 @@ import lombok.NoArgsConstructor;
 @Entity
 public class User {
     private String username;
+
     private String password;
 }

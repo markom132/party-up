@@ -1,10 +1,11 @@
 package com.party_up.network.repository;
 
-import com.party_up.network.model.User;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import com.party_up.network.model.User;
 
 /**
  * Repository interface for managing {@link User} entities.

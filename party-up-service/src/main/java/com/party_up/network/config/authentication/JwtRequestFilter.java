@@ -1,13 +1,9 @@
 package com.party_up.network.config.authentication;
 
-import com.party_up.network.model.AuthToken;
-import com.party_up.network.repository.AuthTokenRepository;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.micrometer.common.lang.NonNull;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,9 +13,16 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.Optional;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.micrometer.common.lang.NonNull;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import com.party_up.network.model.AuthToken;
+import com.party_up.network.repository.AuthTokenRepository;
 
 /**
  * JWT request filter for validating JWT tokens in incoming requests.
@@ -30,18 +33,24 @@ import java.util.Optional;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
+
     private final JwtUtil jwtUtil;
+
     private final AuthTokenRepository authTokenRepository;
 
     @Autowired
-    public JwtRequestFilter(UserDetailsService userDetailsService, JwtUtil jwtUtil, AuthTokenRepository authTokenRepository) {
+    public JwtRequestFilter(UserDetailsService userDetailsService,
+                            JwtUtil jwtUtil,
+                            AuthTokenRepository authTokenRepository) {
         this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;
         this.authTokenRepository = authTokenRepository;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
         // Extract the Authorization header from the request
         final String authorizationHeader = request.getHeader("Authorization");
 

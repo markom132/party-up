@@ -1,16 +1,19 @@
 package com.party_up.network.config.authentication;
 
-import com.party_up.network.model.User;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
-
-import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+import javax.crypto.SecretKey;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+
+import com.party_up.network.model.User;
 
 /**
  * Utility class for handling JWT operations such as extracting claims and validating tokens.
@@ -102,7 +105,8 @@ public class JwtUtil {
                 .claims(claims) // Set claims in the token
                 .subject(subject) // Set the subject
                 .issuedAt(new Date(System.currentTimeMillis())) // Set the issued date
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // Set the expiration to 10 hours
+                // Set the expiration to 10 hours
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .signWith(SECRET_KEY) // Sign the token with the secret key
                 .compact(); // Build the token
     }

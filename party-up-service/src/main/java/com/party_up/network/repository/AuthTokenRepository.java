@@ -1,12 +1,14 @@
 package com.party_up.network.repository;
 
-import com.party_up.network.model.AuthToken;
-import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
+import jakarta.transaction.Transactional;
+
+import com.party_up.network.model.AuthToken;
 
 /**
  * Repository interface for managing {@link AuthToken} entities.
