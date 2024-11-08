@@ -41,6 +41,13 @@ jobs:
           echo "spring.datasource.password=${{ secrets.DB_PASSWORD }}" >> party-up-service/src/main/resources/application.properties
           echo "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver" >> party-up-service/src/main/resources/application.properties
 
+      - name: Wait for MySQL to be ready
+        run: |
+          until mysqladmin ping --host=mysql --user=root --password=${{ secrets.DB_PASSWORD }} --silent; do
+            echo "Waiting for MySQL..."
+            sleep 5
+          done
+
       - name: Build with Maven
         run: |
           cd party-up-service
