@@ -56,10 +56,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         // Extract the Authorization header from the request
         final String authorizationHeader = request.getHeader("Authorization");
-        String requestURI = request.getRequestURI();
 
-
-        if (requestURI.equals("/api/auth/login")) {
+        if (request.getRequestURI().equals("/api/auth/login")) {
             filterChain.doFilter(request, response); //Proceed with the filter chain
             return; // Exit the method
         }
@@ -77,15 +75,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         // Validate the JWT and handle potential exceptions
         try {
             username = jwtUtil.extractUsername(jwtToken); // Extract username from the token
-        } catch (ExpiredJwtException e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write(e.getMessage());
-            return; // Exit the method
-        } catch (SignatureException e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write(e.getMessage());
-            return; // Exit the method
-        } catch (MalformedJwtException e) {
+        } catch (ExpiredJwtException | SignatureException | MalformedJwtException e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write(e.getMessage());
             return; // Exit the method
