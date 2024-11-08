@@ -34,12 +34,6 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-      - name: Importing MYSQL file
-        env:
-          DB_DATABASE: party_up
-          DB_USER: root
-          DB_PASSWORD: root
-
       - name: Set up MySQL
         run: |
           sudo /etc/init.d/mysql start
