@@ -14,7 +14,7 @@ jobs:
 
     services:
       mysql:
-        image: mysql:8.0
+        image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: rootpassword
           MYSQL_DATABASE: party_up
@@ -29,14 +29,14 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '17'  # Ili verzija JDK koju koristiš
+          java-version: '17'
 
       - name: Set up MySQL username and password from secrets
         env:
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run:
-          echo "MySQL username: $DB_USERNAME"
+        echo "MySQL username: $DB_USERNAME"
 
       - name: Build and test with Maven
         run: mvn clean install
