@@ -38,7 +38,7 @@ jobs:
           DATABASE_PASSWORD: rootpassword
           DATABASE_ENDPOINT: 127.0.0.1
         run: |
-          until mysqladmin ping --host=mysql --user=root --password=${{ secrets.DB_PASSWORD }} --silent; do
+          until mysqladmin ping --host=mysql --user=root --password=rootpassword --silent; do
             echo "Waiting for MySQL..."
             sleep 5
           done
