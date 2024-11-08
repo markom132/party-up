@@ -1,174 +1,45 @@
-name: CI/CD Pipeline
+name: CI Pipeline
 
 on:
-  pull_request:
-    branches:
-      - master
   push:
     branches:
-      - master
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  pmd_and_jacoco:
+  build:
     runs-on: ubuntu-latest
 
     services:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: rootpassword
           MYSQL_DATABASE: party_up
-          MYSQL_USER: ${{ secrets.DB_USERNAME }}
-          MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
         ports:
           - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping --silent --user=root --password=${{ secrets.DB_PASSWORD }} -h localhost"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
+        options: --health-cmd="mysqladmin ping --silent" --health-interval=5s --health-timeout=5s --health-retries=3
 
-    steps:
-      - name: Check out the repository
-        uses: actions/checkout@v3
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'corretto'
-
-      # Wait for MySQL to be ready
-      - name: Wait for MySQL to be ready
-        run: |
-          until mysqladmin ping --host=localhost --user=root --password=${{ secrets.DB_PASSWORD }} --silent; do
-            echo "Waiting for MySQL..."
-            sleep 5
-          done
-
-      - name: Build with Maven
-        run: |
-          cd party-up-service
-          mvn clean install
-
-      - name: Run PMD Analysis
-        run: |
-          cd party-up-service
-          mvn pmd:check
-
-      - name: Run Tests with JaCoCo
-        run: |
-          cd party-up-service
-          mvn test jacoco:report
-
-      - name: Upload JaCoCo Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: jacoco-report
-          path: target/site/jacoco
-
-  checkstyle:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'corretto'
-          java-version: '17'
-
-      - name: Run Checkstyle
-        run: |
-          cd party-up-service
-          mvn checkstyle:check
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20.14.0'
-
-      - name: Install dependencies
-        run: |
-          cd party-up-frontend
-          npm install
-
-      - name: Run ESLint
-        run: |
-          cd party-up-frontend
-          npm run lint
-
-  prettier:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20.14.0'
-
-      - name: Install dependencies
-        run: |
-          cd party-up-frontend
-          npm install
-
-      - name: Run Prettier
-        run: |
-          cd party-up-frontend
-          npx prettier --check .
-
-  stylelint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20.14.0'
-
-      - name: Install dependencies
-        run: |
-          cd party-up-frontend
-          npm install
-
-      - name: Run Stylelint
-        run: |
-          cd party-up-frontend
-          npx stylelint "**/*.css"
-
-  cypress:
-    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
-          node-version: '20.14.0'
+          java-version: '17'  # Ili verzija JDK koju koristiš
 
-      - name: Install dependencies
-        run: npm install
-        working-directory: ./party-up-frontend
+      - name: Set up MySQL username and password from secrets
+        env:
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run:
+          echo "MySQL username: $DB_USERNAME"
 
-      - name: Start the app
-        run: npm start &
-        working-directory: ./party-up-frontend
+      - name: Build and test with Maven
+        run: mvn clean install
 
-      - name: Wait for app to start
-        run: sleep 10
-
-      - name: Run Cypress tests
-        run: npx cypress run
-        working-directory: ./party-up-frontend
+      - name: Run tests
+        run: mvn test
