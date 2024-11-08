@@ -37,7 +37,7 @@ jobs:
 
       - name: Wait for MySQL to be ready
         run: |
-          until mysqladmin ping --host=localhost --user=root --password=${{ secrets.DB_PASSWORD }} --silent; do
+          until mysqladmin ping --silent; do
             echo "Waiting for MySQL..."
             sleep 5
           done
