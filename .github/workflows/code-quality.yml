@@ -36,7 +36,7 @@ jobs:
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run:
-        echo "MySQL username: $DB_USERNAME"
+          echo "MySQL username: $DB_USERNAME"
 
       - name: Build and test with Maven
         run: mvn clean install
