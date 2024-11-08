@@ -5,6 +5,7 @@ import com.party_up.network.config.authentication.JwtUtil;
 import com.party_up.network.model.User;
 import com.party_up.network.model.dto.LoginRequestDTO;
 import com.party_up.network.model.enums.AccountStatus;
+import com.party_up.network.repository.RequestResponseLogRepository;
 import com.party_up.network.repository.UserRepository;
 import com.party_up.network.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,6 +43,9 @@ public class UserControllerTest {
 
     @MockBean
     private UserRepository userRepository;
+
+    @MockBean
+    private RequestResponseLogRepository requestResponseLogRepository;
 
     @MockBean
     private HttpServletRequest request;
