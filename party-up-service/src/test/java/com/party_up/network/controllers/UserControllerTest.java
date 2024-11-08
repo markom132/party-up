@@ -48,9 +48,6 @@ public class UserControllerTest {
     private RequestResponseLogRepository requestResponseLogRepository;
 
     @MockBean
-    private HttpServletRequest request;
-
-    @MockBean
     private JwtUtil jwtUtil;
 
     @Autowired
@@ -140,8 +137,6 @@ public class UserControllerTest {
     @Test
     @WithMockUser(username = "testuser")
     void logout_MissingAuthorizationHeader() throws Exception {
-        when(request.getHeader("Authorization")).thenReturn(null);
-
         mockMvc.perform(post("/api/auth/logout")
                         .with(csrf()))
                 .andExpect(status().isUnauthorized())
@@ -152,8 +147,6 @@ public class UserControllerTest {
     @WithMockUser(username = "testuser")
     void logout_ErrorDuringLogout() throws Exception {
         String jwtToken = "Bearer validToken";
-        when(request.getHeader("Authorization")).thenReturn(jwtToken);
-
         doThrow(new RuntimeException("Logout failed")).when(userService).logout(anyString());
 
         mockMvc.perform(post("/api/auth/logout")
