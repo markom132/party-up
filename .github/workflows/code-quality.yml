@@ -34,10 +34,12 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-      - name: Set up MySQL environment variables
-        env:
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      - name: Wait for MySQL to be ready
+        run: |
+          until mysqladmin ping --host=localhost --user=root --password=rootpassword --silent; do
+            echo "Waiting for MySQL..."
+            sleep 5
+          done
 
       - name: Build with Maven
         run: |
