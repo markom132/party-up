@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
 import io.micrometer.common.lang.NonNull;
 
 import jakarta.servlet.FilterChain;
@@ -54,6 +56,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         // Extract the Authorization header from the request
         final String authorizationHeader = request.getHeader("Authorization");
 
+        if (request.getRequestURI().equals("/api/auth/login")) {
+            filterChain.doFilter(request, response); //Proceed with the filter chain
+            return; // Exit the method
+        }
+
         // Check if the Authorization header is present and starts with "Bearer "
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -66,11 +73,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         // Validate the JWT and handle potential exceptions
         try {
-            username = jwtUtil.extractUsername(jwtToken); // Extract username (email) from the token
-        } catch (ExpiredJwtException | SecurityException e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);  // Correct HTTP status code
-            response.getWriter().write("Expired JWT token");  // Ensure the message matches the error type
-            return;
+            username = jwtUtil.extractUsername(jwtToken); // Extract username from the token
+        } catch (ExpiredJwtException | SignatureException | MalformedJwtException e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write(e.getMessage());
+            return; // Exit the method
         }
 
         // If the email is valid and no authentication exists in the security context
