@@ -58,6 +58,10 @@ public class UserService {
             User user = userRepository.findByUsername(username)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
+            if (!passwordEncoder.matches(password, user.getPassword())) {
+                throw new RuntimeException("Invalid credentials");
+            }
+
             if (!user.getStatus().equals(AccountStatus.ACTIVE)) {
                 throw new RuntimeException("User account is inactive");
             }
