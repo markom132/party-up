@@ -16,13 +16,13 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_ROOT_PASSWORD: rootpassword  # Root password
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
           MYSQL_DATABASE: party_up
-          MYSQL_USER: ${{ secrets.DB_USERNAME }}  # Korisničko ime
-          MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}  # Lozinka
+          MYSQL_USER: ${{ secrets.DB_USERNAME }}
+          MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping --silent" --health-interval=5s --health-timeout=5s --health-retries=3
+        options: --health-cmd="mysqladmin ping --host=localhost --user=root --password=${{ secrets.DB_PASSWORD }} --silent" --health-interval=5s --health-timeout=5s --health-retries=3
 
 
     steps:
