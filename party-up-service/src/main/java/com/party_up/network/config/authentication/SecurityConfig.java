@@ -62,11 +62,11 @@ public class SecurityConfig {
         logger.info("Configuring security filter chain.");
 
         // Disable CSRF as we're using stateless JWT authentication
-        http.csrf(AbstractHttpConfigurer::disable)
+        http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(
                         auth -> auth
                                 // Publicly accessible endpoints without authentication
-                                .requestMatchers("/api/login", "/api/register").permitAll()
+                                .requestMatchers("/api/auth/login").permitAll()
                                 // All other endpoints require authentication
                                 .anyRequest().authenticated()
                 )

@@ -57,6 +57,25 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AuthToken> authTokens;
 
+    /**
+     * Constructor for creating a user with username, password, first name, last name, email, and status.
+     *
+     * @param username  the username of the user
+     * @param password  the password of the user
+     * @param firstName the first name of the user
+     * @param lastName  the last name of the user
+     * @param email     the email of the user
+     * @param status    the status of the user
+     */
+    public User(String username, String password, String firstName, String lastName, String email, AccountStatus status) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.status = status;
+    }
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

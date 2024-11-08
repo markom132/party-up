@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -53,6 +56,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         // Extract the Authorization header from the request
         final String authorizationHeader = request.getHeader("Authorization");
+        String requestURI = request.getRequestURI();
+
+
+        if (requestURI.equals("/api/auth/login")) {
+            filterChain.doFilter(request, response); //Proceed with the filter chain
+            return; // Exit the method
+        }
 
         // Check if the Authorization header is present and starts with "Bearer "
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
@@ -66,11 +76,19 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         // Validate the JWT and handle potential exceptions
         try {
-            username = jwtUtil.extractUsername(jwtToken); // Extract username (email) from the token
-        } catch (ExpiredJwtException | SecurityException e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);  // Correct HTTP status code
-            response.getWriter().write("Expired JWT token");  // Ensure the message matches the error type
-            return;
+            username = jwtUtil.extractUsername(jwtToken); // Extract username from the token
+        } catch (ExpiredJwtException e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write(e.getMessage());
+            return; // Exit the method
+        } catch (SignatureException e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write(e.getMessage());
+            return; // Exit the method
+        } catch (MalformedJwtException e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write(e.getMessage());
+            return; // Exit the method
         }
 
         // If the email is valid and no authentication exists in the security context
