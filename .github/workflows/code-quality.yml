@@ -14,12 +14,15 @@ jobs:
 
     services:
       mysql:
-        image: mysql:8.0
+        image: mysql:8
         env:
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_DATABASE: SHOP_test
+          MYSQL_USER: ${{secrets.MYSQL_USER}}
+          MYSQL_PASSWORD: ${{secrets.MYSQL_PASSWORD}}
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: party_up
         ports:
-          - 3306:3306  # Port za MySQL
+          - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
