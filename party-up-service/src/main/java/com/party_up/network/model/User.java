@@ -1,15 +1,16 @@
 package com.party_up.network.model;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import jakarta.persistence.*;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.party_up.network.model.enums.AccountStatus;
-import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
