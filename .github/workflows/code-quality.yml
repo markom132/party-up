@@ -25,6 +25,7 @@ jobs:
         options: --health-cmd="mysqladmin ping --host=localhost --user=root --password=${{ secrets.DB_PASSWORD }} --silent" --health-interval=5s --health-timeout=5s --health-retries=3
 
 
+
     steps:
       - name: Check out the repository
         uses: actions/checkout@v3
