@@ -211,15 +211,11 @@ public class LogServiceTest {
     @Test
     void parseDate_InvalidDate_ThrowsIllegalArgumentException() {
         String invalidDate1 = "Invalid Date String";
-        Exception exception1 = assertThrows(IllegalArgumentException.class, () -> {
-            logService.parseDate(invalidDate1);
-        });
+        Exception exception1 = assertThrows(IllegalArgumentException.class, () -> logService.parseDate(invalidDate1));
         assertEquals("Invalid date format: " + invalidDate1, exception1.getMessage());
 
         String invalidDate2 = "2024-99-99"; // Invalid date
-        Exception exception2 = assertThrows(IllegalArgumentException.class, () -> {
-            logService.parseDate(invalidDate2);
-        });
+        Exception exception2 = assertThrows(IllegalArgumentException.class, () -> logService.parseDate(invalidDate2));
         assertEquals("Invalid date format: " + invalidDate2, exception2.getMessage());
     }
 

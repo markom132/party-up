@@ -5,7 +5,6 @@ import com.party_up.network.config.authentication.JwtUtil;
 import com.party_up.network.model.User;
 import com.party_up.network.model.dto.LoginRequestDTO;
 import com.party_up.network.model.enums.AccountStatus;
-import com.party_up.network.repository.RequestResponseLogRepository;
 import com.party_up.network.repository.UserRepository;
 import com.party_up.network.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,9 +44,6 @@ public class UserControllerTest {
     private UserRepository userRepository;
 
     @MockBean
-    private RequestResponseLogRepository requestResponseLogRepository;
-
-    @MockBean
     private HttpServletRequest request;
 
     @MockBean
@@ -61,15 +57,13 @@ public class UserControllerTest {
 
     private LoginRequestDTO loginRequestDTO;
 
-    private User mockUser;
-
     @BeforeEach
     void setUp() {
         loginRequestDTO = new LoginRequestDTO();
         loginRequestDTO.setUsername("username");
         loginRequestDTO.setPassword("password123");
 
-        mockUser = new User();
+        User mockUser = new User();
         mockUser.setId(1L);
         mockUser.setUsername("username");
         mockUser.setEmail("test@example.com");
@@ -81,7 +75,7 @@ public class UserControllerTest {
         when(userService.login(any(LoginRequestDTO.class))).thenReturn(createSuccessfulLoginResponse(mockUser));
         when(jwtUtil.validateToken(anyString(), any())).thenReturn(true);
         when(jwtUtil.extractUsername(anyString())).thenReturn("username");
-        when(userRepository.findByUsername(any())).thenReturn(Optional.ofNullable(mockUser));
+        when(userRepository.findByUsername(any())).thenReturn(Optional.of(mockUser));
 
         doNothing().when(userService).logout(any(String.class));
     }

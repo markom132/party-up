@@ -24,9 +24,8 @@ public class CachedBodyHttpServletResponse extends HttpServletResponseWrapper {
      * Construct a CachedBodyHttpServletResponse to enable response caching.
      *
      * @param response the original HttpServletResponse to be wrapped
-     * @throws IOException if an I/O error occurs while initializing the output stream
      */
-    public CachedBodyHttpServletResponse(HttpServletResponse response) throws IOException {
+    public CachedBodyHttpServletResponse(HttpServletResponse response) {
         super(response);
         logger.debug("CachedBodyHttpServletResponse initialized for response caching.");
     }

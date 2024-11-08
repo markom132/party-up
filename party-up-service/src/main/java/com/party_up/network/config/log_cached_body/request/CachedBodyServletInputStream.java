@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 
 /**
  * Custom ServletInputStream that wraps a cached body, allowing multiple reads of the request body.
@@ -66,10 +65,9 @@ public class CachedBodyServletInputStream extends ServletInputStream {
      * Reads the next byte of data from the input stream.
      *
      * @return the next byte of data, or -1 if the end of stream is reached
-     * @throws IOException if an I/O error occurs
      */
     @Override
-    public int read() throws IOException {
+    public int read() {
         int byteData = inputStream.read();
         logger.debug("read called, Byte read: {}", byteData);
         return byteData;

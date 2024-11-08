@@ -2,7 +2,6 @@ package com.party_up.network.controllers;
 
 import com.party_up.network.model.dto.LoginRequestDTO;
 import com.party_up.network.service.UserService;
-import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +38,7 @@ public class UserController {
      * @return a response entity containing login response or error message
      */
     @PostMapping("/auth/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO loginRequest) throws MessagingException, IOException {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO loginRequest) {
         Map<String, Object> response = new HashMap<>();
         try {
             response = userService.login(loginRequest);

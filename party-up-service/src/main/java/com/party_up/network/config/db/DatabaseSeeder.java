@@ -35,10 +35,9 @@ public class DatabaseSeeder implements CommandLineRunner {
      * Runs on application startup to seed initial data if the database is empty.
      *
      * @param args command line arguments
-     * @throws Exception if there is an issue during the seeding process
      */
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         if (userRepository.count() == 0) {
             User user1 = new User("johny", passwordEncoder.encode("Password123!"), "John", "Doe", "john.doe@example.com", AccountStatus.ACTIVE);
             User user2 = new User("johny1", passwordEncoder.encode("Password123!"), "Jane", "Smith", "jane.smith@example.com", AccountStatus.ACTIVE);

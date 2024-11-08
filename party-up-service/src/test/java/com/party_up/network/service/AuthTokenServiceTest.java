@@ -6,7 +6,6 @@ import com.party_up.network.exceptions.ResourceNotFoundException;
 import com.party_up.network.model.AuthToken;
 import com.party_up.network.model.User;
 import com.party_up.network.repository.AuthTokenRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -31,9 +30,6 @@ public class AuthTokenServiceTest {
     private JwtUtil jwtUtil;
 
     private AuthTokenService authTokenService;
-
-    @Mock
-    private HttpServletRequest request;
 
     @BeforeEach
     void setUp() {
@@ -147,9 +143,7 @@ public class AuthTokenServiceTest {
 
         when(authTokenRepository.findByToken(token)).thenReturn(Optional.empty());
 
-        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
-            authTokenService.findByToken(token);
-        });
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> authTokenService.findByToken(token));
         assertTrue(exception.getMessage().contains("Token not found: " + token));
 
         verify(authTokenRepository, times(1)).findByToken(token);
@@ -162,9 +156,7 @@ public class AuthTokenServiceTest {
         when(authTokenRepository.findByToken(anyString())).thenThrow(new DataAccessException("Database error") {
         });
 
-        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
-            authTokenService.findByToken(token);
-        });
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> authTokenService.findByToken(token));
         assertTrue(exception.getMessage().contains("Database error"));
 
         verify(authTokenRepository, times(1)).findByToken(token);

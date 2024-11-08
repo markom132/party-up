@@ -7,7 +7,6 @@ import com.party_up.network.model.User;
 import com.party_up.network.model.dto.LoginRequestDTO;
 import com.party_up.network.model.enums.AccountStatus;
 import com.party_up.network.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -49,9 +48,6 @@ public class UserServiceTest {
     private User user;
 
     private AuthToken authToken;
-
-    @Mock
-    private HttpServletRequest request;
 
     @BeforeEach
     public void setUp() {

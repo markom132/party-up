@@ -4,6 +4,7 @@ import com.party_up.network.config.log_cached_body.request.CachedBodyHttpServlet
 import com.party_up.network.config.log_cached_body.response.CachedBodyHttpServletResponse;
 import com.party_up.network.model.RequestResponseLog;
 import com.party_up.network.repository.RequestResponseLogRepository;
+import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -53,7 +54,7 @@ public class LogInterceptor implements HandlerInterceptor {
      * @throws IOException if an input or output error occurs while reading the request body
      */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
+    public boolean preHandle(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) throws IOException {
         String requestUri = request.getRequestURI();
         logger.info("Received request for URI: {}", requestUri);
 
@@ -90,10 +91,9 @@ public class LogInterceptor implements HandlerInterceptor {
      * @param handler  the chosen handler to execute
      * @param ex       any exception thrown on handler execution, if any; this does not
      *                 include exceptions that have been handled through an exception resolver
-     * @throws IOException if an input or output error occurs while reading the response body
      */
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws IOException {
+    public void afterCompletion(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler, Exception ex) {
         String requestUri = request.getRequestURI();
 
         // Check if the endpoint is excluded from logging
