@@ -40,18 +40,6 @@ public class UserControllerTest {
     @MockBean
     private UserService userService;
 
-    @MockBean
-    private UserRepository userRepository;
-
-    @MockBean
-    private RequestResponseLogRepository requestResponseLogRepository;
-
-    @MockBean
-    private JwtUtil jwtUtil;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -67,16 +55,11 @@ public class UserControllerTest {
         mockUser.setId(1L);
         mockUser.setUsername("username");
         mockUser.setEmail("test@example.com");
-        mockUser.setPassword(passwordEncoder.encode("password123"));
         mockUser.setStatus(AccountStatus.ACTIVE);
         mockUser.setFirstName("John");
         mockUser.setLastName("Doe");
 
         when(userService.login(any(LoginRequestDTO.class))).thenReturn(createSuccessfulLoginResponse(mockUser));
-        when(jwtUtil.validateToken(anyString(), any())).thenReturn(true);
-        when(jwtUtil.extractUsername(anyString())).thenReturn("username");
-        when(userRepository.findByUsername(any())).thenReturn(Optional.of(mockUser));
-
         doNothing().when(userService).logout(any(String.class));
     }
 
