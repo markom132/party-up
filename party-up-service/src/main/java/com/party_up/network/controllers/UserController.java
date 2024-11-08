@@ -1,6 +1,5 @@
 package com.party_up.network.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.party_up.network.model.dto.LoginRequestDTO;
 import com.party_up.network.service.UserService;
 import jakarta.mail.MessagingException;

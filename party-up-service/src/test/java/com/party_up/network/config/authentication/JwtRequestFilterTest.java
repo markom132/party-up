@@ -61,6 +61,7 @@ public class JwtRequestFilterTest {
         authToken.setExpiresAt(LocalDateTime.now().plusMinutes(10));
 
         when(request.getHeader("Authorization")).thenReturn("Bearer " + validToken);
+        when(request.getRequestURI()).thenReturn("/api/some-secure-endpoint");
         when(jwtUtil.extractUsername(validToken)).thenReturn(username);
         UserDetails userDetails = mock(UserDetails.class); // Mock UserDetails
         when(userDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
@@ -82,6 +83,7 @@ public class JwtRequestFilterTest {
         String expiredToken = "expired-token";
 
         when(request.getHeader("Authorization")).thenReturn("Bearer " + expiredToken);
+        when(request.getRequestURI()).thenReturn("/api/some-secure-endpoint");
         when(jwtUtil.extractUsername(expiredToken)).thenThrow(new ExpiredJwtException(null, null, "Expired JWT token"));
 
         // Mocking PrintWriter to avoid NullPointerException when getWriter() is called
@@ -101,6 +103,7 @@ public class JwtRequestFilterTest {
     @WithMockUser
     void testDoFilterInternalNoAuthorizationHeader() throws ServletException, IOException {
         when(request.getHeader("Authorization")).thenReturn(null);
+        when(request.getRequestURI()).thenReturn("/api/some-secure-endpoint");
 
         // Mocking PrintWriter to avoid NullPointerException when getWriter() is called
         PrintWriter mockWriter = mock(PrintWriter.class);
