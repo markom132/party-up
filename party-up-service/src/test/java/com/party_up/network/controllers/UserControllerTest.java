@@ -40,6 +40,9 @@ public class UserControllerTest {
     @MockBean
     private UserService userService;
 
+    @MockBean
+    private JwtUtil jwtUtil;
+
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -60,6 +63,8 @@ public class UserControllerTest {
         mockUser.setLastName("Doe");
 
         when(userService.login(any(LoginRequestDTO.class))).thenReturn(createSuccessfulLoginResponse(mockUser));
+        when(jwtUtil.validateToken(anyString(), any())).thenReturn(true);
+
         doNothing().when(userService).logout(any(String.class));
     }
 
