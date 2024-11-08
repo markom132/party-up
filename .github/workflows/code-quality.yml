@@ -14,15 +14,13 @@ jobs:
 
     services:
       mysql:
-        image: mysql:5.7  # koristi MySQL sliku verzije 5.7
+        image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: rootpassword  # Root password
-          MYSQL_DATABASE: party_up  # Baza podataka koju ćeš koristiti
-          MYSQL_USER: ${{ secrets.DB_USERNAME }}  # Korisničko ime za bazu (GitHub Secret)
-          MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}  # Lozinka za bazu (GitHub Secret)
+          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_DATABASE: party_up
         ports:
           - 3306:3306  # Port za MySQL
-        options: --health-cmd="mysqladmin ping --silent" --health-interval=5s --health-timeout=5s --health-retries=3
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Check out the repository
@@ -34,14 +32,17 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-      - name: Set up MySQL environment variables
-        run: |
-          echo "spring.datasource.url=jdbc:mysql://localhost:3306/party_up" >> party-up-service/src/main/resources/application.properties
-          echo "spring.datasource.username=${{ secrets.DB_USERNAME }}" >> party-up-service/src/main/resources/application.properties
-          echo "spring.datasource.password=${{ secrets.DB_PASSWORD }}" >> party-up-service/src/main/resources/application.properties
-          echo "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver" >> party-up-service/src/main/resources/application.properties
+      - uses: actions/checkout@v3
+                - name: Install Ubuntu dependencies
+                run: |
+                  sudo apt-get update
+                  sudo apt-get install libcurl4-openssl-dev libmysqlclient-dev libgirepository1.0-dev
 
       - name: Wait for MySQL to be ready
+        env:
+            DATABASE_USERNAME: root
+            DATABASE_PASSWORD: rootpassword
+            DATABASE_ENDPOINT: 127.0.0.1
         run: |
           until mysqladmin ping --host=mysql --user=root --password=${{ secrets.DB_PASSWORD }} --silent; do
             echo "Waiting for MySQL..."
