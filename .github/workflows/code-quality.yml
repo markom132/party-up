@@ -17,9 +17,7 @@ jobs:
         image: mysql:8
         env:
           MYSQL_HOST: 127.0.0.1
-          MYSQL_DATABASE: SHOP_test
-          MYSQL_USER: ${{secrets.MYSQL_USER}}
-          MYSQL_PASSWORD: ${{secrets.MYSQL_PASSWORD}}
+          MYSQL_DATABASE: party_up
           MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
