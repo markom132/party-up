@@ -67,7 +67,8 @@ public class User {
      * @param email     the email of the user
      * @param status    the status of the user
      */
-    public User(String username, String password, String firstName, String lastName, String email, AccountStatus status) {
+    public User(String username, String password, String firstName,
+                String lastName, String email, AccountStatus status) {
         this.username = username;
         this.email = email;
         this.password = password;

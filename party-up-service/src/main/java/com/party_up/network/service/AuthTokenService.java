@@ -1,23 +1,26 @@
 package com.party_up.network.service;
 
+import java.time.LocalDateTime;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
+
 import com.party_up.network.config.authentication.JwtUtil;
 import com.party_up.network.exceptions.DatabaseException;
 import com.party_up.network.exceptions.ResourceNotFoundException;
 import com.party_up.network.model.AuthToken;
 import com.party_up.network.model.User;
 import com.party_up.network.repository.AuthTokenRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 @Service
 public class AuthTokenService {
 
     private final AuthTokenRepository authTokenRepository;
+
     private final JwtUtil jwtUtil;
+
     private final Logger logger = LoggerFactory.getLogger(AuthTokenService.class);
 
     public AuthTokenService(AuthTokenRepository authTokenRepository, JwtUtil jwtUtil) {

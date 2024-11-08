@@ -1,13 +1,14 @@
 package com.party_up.network.repository;
 
-import com.party_up.network.model.RequestResponseLog;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import com.party_up.network.model.RequestResponseLog;
 
 /**
  * Repository interface for managing {@link RequestResponseLog} entities.
@@ -40,7 +41,8 @@ public interface RequestResponseLogRepository extends JpaRepository<RequestRespo
      * @param endpoint   the endpoint to filter by (optional)
      * @param method     the HTTP method to filter by (optional)
      * @param statusCode the status code to filter by (optional)
-     * @return an {@link Optional} containing a list of matching {@link RequestResponseLog} entries, or empty if no matches are found
+     * @return an {@link Optional} containing a list of matching
+     *  {@link RequestResponseLog} entries, or empty if no matches are found
      */
     @Query("SELECT r FROM RequestResponseLog r " +
             "WHERE (:endpoint IS NULL OR r.endpoint LIKE %:endpoint%) " +

@@ -3,10 +3,6 @@ package com.party_up.network.service;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import com.party_up.network.config.authentication.JwtUtil;
-import com.party_up.network.model.AuthToken;
-import com.party_up.network.model.dto.LoginRequestDTO;
-import com.party_up.network.model.enums.AccountStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,7 +12,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.party_up.network.config.authentication.JwtUtil;
+import com.party_up.network.model.AuthToken;
 import com.party_up.network.model.User;
+import com.party_up.network.model.dto.LoginRequestDTO;
+import com.party_up.network.model.enums.AccountStatus;
 import com.party_up.network.repository.UserRepository;
 
 /**
@@ -29,13 +29,19 @@ public class UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
+
     private final PasswordEncoder passwordEncoder;
+
     private final JwtUtil jwtUtil;
+
     private final AuthenticationManager authenticationManager;
+
     private final AuthTokenService authTokenService;
 
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil, AuthenticationManager authenticationManager, AuthTokenService authTokenService) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+                       JwtUtil jwtUtil, AuthenticationManager authenticationManager,
+                       AuthTokenService authTokenService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
@@ -102,7 +108,9 @@ public class UserService {
      * @param authorizationHeader authorization header containing JWT token
      */
     public void logout(String authorizationHeader) {
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ") || authorizationHeader.length() < 8) {
+        if (authorizationHeader == null ||
+                !authorizationHeader.startsWith("Bearer ") ||
+                authorizationHeader.length() < 8) {
             throw new IllegalArgumentException("Invalid Authorization header format");
         }
         logger.info("Logging out user with token: {}", authorizationHeader);

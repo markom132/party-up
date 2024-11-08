@@ -1,13 +1,14 @@
 package com.party_up.network.model.dto.mappers;
 
-import com.party_up.network.model.RequestResponseLog;
-import com.party_up.network.model.dto.RequestResponseLogDTO;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import com.party_up.network.model.RequestResponseLog;
+import com.party_up.network.model.dto.RequestResponseLogDTO;
 
 /**
  * Mapper for converting between RequestResponseLog entities and RequestResponseLogDTOs.
@@ -47,7 +48,8 @@ public class RequestResponseLogMapper {
      * @return a list of RequestResponseLogDTOs
      */
     public List<RequestResponseLogDTO> toDtoList(List<RequestResponseLog> logs) {
-        logger.info("Converting a list of RequestResponseLog entities to list of RequestResponseLogDTOs. Total logs: {}", logs.size());
+        logger.info("Converting a list of RequestResponseLog entities to list of " +
+                "RequestResponseLogDTOs. Total logs: {}", logs.size());
         return logs.stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
@@ -65,7 +67,9 @@ public class RequestResponseLogMapper {
             return null;
         }
 
-        logger.info("Converting RequestResponseLogDTO with method {} and endpoint {} to entity", requestResponseLogDTO.getMethod(), requestResponseLogDTO.getEndpoint());
+        logger.info("Converting RequestResponseLogDTO with method {} and endpoint {} to entity", 
+                requestResponseLogDTO.getMethod(), requestResponseLogDTO.getEndpoint());
+        
         RequestResponseLog requestResponseLog = new RequestResponseLog();
         requestResponseLog.setMethod(requestResponseLogDTO.getMethod());
         requestResponseLog.setEndpoint(requestResponseLogDTO.getEndpoint());

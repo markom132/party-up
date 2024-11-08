@@ -1,13 +1,14 @@
 package com.party_up.network.config.log_cached_body.response;
 
-import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpServletResponseWrapper;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 
 /**
  * A HttpServletResponse wrapper that caches the response body,
@@ -18,6 +19,7 @@ public class CachedBodyHttpServletResponse extends HttpServletResponseWrapper {
     private static final Logger logger = LoggerFactory.getLogger(CachedBodyHttpServletResponse.class);
 
     private final ByteArrayOutputStream cachedContent = new ByteArrayOutputStream();
+
     private ServletOutputStream outputStream;
 
     /**

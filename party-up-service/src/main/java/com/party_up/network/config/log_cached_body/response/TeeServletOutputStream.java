@@ -1,11 +1,12 @@
 package com.party_up.network.config.log_cached_body.response;
 
-import jakarta.servlet.ServletOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import jakarta.servlet.ServletOutputStream;
 
 /**
  * A custom ServletOutputStream that duplicates (or "tees") the output stream.
@@ -17,6 +18,7 @@ public class TeeServletOutputStream extends ServletOutputStream {
     private static final Logger logger = LoggerFactory.getLogger(TeeServletOutputStream.class);
 
     private final ServletOutputStream outputStream;
+
     private final ByteArrayOutputStream copyStream;
 
     /**

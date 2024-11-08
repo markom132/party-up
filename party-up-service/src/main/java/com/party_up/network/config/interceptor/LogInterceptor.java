@@ -1,22 +1,24 @@
 package com.party_up.network.config.interceptor;
 
-import com.party_up.network.config.log_cached_body.request.CachedBodyHttpServletRequest;
-import com.party_up.network.config.log_cached_body.response.CachedBodyHttpServletResponse;
-import com.party_up.network.model.RequestResponseLog;
-import com.party_up.network.repository.RequestResponseLogRepository;
-import io.micrometer.common.lang.NonNull;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import java.io.IOException;
-import java.time.Duration;
-import java.time.LocalDateTime;
+import io.micrometer.common.lang.NonNull;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import com.party_up.network.config.log_cached_body.request.CachedBodyHttpServletRequest;
+import com.party_up.network.config.log_cached_body.response.CachedBodyHttpServletResponse;
+import com.party_up.network.model.RequestResponseLog;
+import com.party_up.network.repository.RequestResponseLogRepository;
 
 /**
  * Interceptor for logging request and response details.
@@ -54,7 +56,9 @@ public class LogInterceptor implements HandlerInterceptor {
      * @throws IOException if an input or output error occurs while reading the request body
      */
     @Override
-    public boolean preHandle(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) throws IOException {
+    public boolean preHandle(HttpServletRequest request,
+                             @NonNull HttpServletResponse response,
+                             @NonNull Object handler) throws IOException {
         String requestUri = request.getRequestURI();
         logger.info("Received request for URI: {}", requestUri);
 
@@ -93,7 +97,9 @@ public class LogInterceptor implements HandlerInterceptor {
      *                 include exceptions that have been handled through an exception resolver
      */
     @Override
-    public void afterCompletion(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler, Exception ex) {
+    public void afterCompletion(HttpServletRequest request,
+                                @NonNull HttpServletResponse response,
+                                @NonNull Object handler, Exception ex) {
         String requestUri = request.getRequestURI();
 
         // Check if the endpoint is excluded from logging
@@ -101,14 +107,17 @@ public class LogInterceptor implements HandlerInterceptor {
             return;
         }
         // Retrieve the wrapped response to access cached response body content
-        CachedBodyHttpServletResponse responseWrapper = (CachedBodyHttpServletResponse) request.getAttribute("responseWrapper");
+        CachedBodyHttpServletResponse responseWrapper =
+                (CachedBodyHttpServletResponse) request.getAttribute("responseWrapper");
 
         if (responseWrapper != null) {
             String responseBody = new String(responseWrapper.getCachedContent());
             logger.info("Captured response body for logging");
 
             // Find the latest log entry for this specific request URI and method
-            RequestResponseLog log = requestResponseLogRepository.findTopByEndpointAndMethodOrderByTimestampDesc(request.getRequestURI(), request.getMethod());
+            RequestResponseLog log = requestResponseLogRepository.
+                    findTopByEndpointAndMethodOrderByTimestampDesc(request.getRequestURI(),
+                            request.getMethod());
 
             if (log != null) {
                 LocalDateTime requestTimestamp = log.getTimestamp();
@@ -124,12 +133,14 @@ public class LogInterceptor implements HandlerInterceptor {
                 try {
                     // Save the updated log entry
                     requestResponseLogRepository.save(log);
-                    logger.info("Log saved successfully for URI: {}, with status: {}", request.getRequestURI(), response.getStatus());
+                    logger.info("Log saved successfully for URI: {}, with status: {}",
+                            request.getRequestURI(), response.getStatus());
                 } catch (Exception e) {
                     logger.error("Error saving log for URI: {} - {}", request.getRequestURI(), e.getMessage());
                 }
             } else {
-                logger.warn("No matching log entry found for URI: {}, Method: {}", request.getRequestURI(), request.getMethod());
+                logger.warn("No matching log entry found for URI: {}, Method: {}",
+                        request.getRequestURI(), request.getMethod());
             }
         } else {
             logger.warn("No response wrapper available, unable to capture response body.");

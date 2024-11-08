@@ -1,12 +1,13 @@
 package com.party_up.network.config.log_cached_body.response;
 
-import jakarta.servlet.*;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Filter that wraps the HttpServletResponse to allow capturing and caching the response body context.
@@ -29,10 +30,12 @@ public class ResponseCaptureFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-        logger.debug("Initializing response capture filter for request: {}", ((HttpServletRequest) request).getRequestURI());
+        logger.debug("Initializing response capture filter for request: {}",
+                ((HttpServletRequest) request).getRequestURI());
 
         // Wraps the response to capture its content
-        CachedBodyHttpServletResponse responseWrapper = new CachedBodyHttpServletResponse((HttpServletResponse) response);
+        CachedBodyHttpServletResponse responseWrapper =
+                new CachedBodyHttpServletResponse((HttpServletResponse) response);
 
         // Cast the request and set the wrapped response in the request attributes for later access
         HttpServletRequest httpRequest = (HttpServletRequest) request;

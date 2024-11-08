@@ -1,13 +1,5 @@
 package com.party_up.network.service;
 
-import com.party_up.network.model.RequestResponseLog;
-import com.party_up.network.model.dto.RequestResponseLogDTO;
-import com.party_up.network.model.dto.mappers.RequestResponseLogMapper;
-import com.party_up.network.repository.RequestResponseLogRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,6 +9,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import com.party_up.network.model.RequestResponseLog;
+import com.party_up.network.model.dto.RequestResponseLogDTO;
+import com.party_up.network.model.dto.mappers.RequestResponseLogMapper;
+import com.party_up.network.repository.RequestResponseLogRepository;
+
 /**
  * Service class for managing request and response logs.
  */
@@ -24,10 +25,13 @@ import java.util.Optional;
 public class LogService {
 
     private final RequestResponseLogRepository requestResponseLogRepository;
+
     private final RequestResponseLogMapper requestResponseLogMapper;
+
     private final Logger logger = LoggerFactory.getLogger(LogService.class);
 
-    public LogService(RequestResponseLogRepository requestResponseLogRepository, RequestResponseLogMapper requestResponseLogMapper) {
+    public LogService(RequestResponseLogRepository requestResponseLogRepository,
+                      RequestResponseLogMapper requestResponseLogMapper) {
         this.requestResponseLogRepository = requestResponseLogRepository;
         this.requestResponseLogMapper = requestResponseLogMapper;
     }
@@ -59,11 +63,14 @@ public class LogService {
      * @return a list of RequestResponseLogDTO matching the criteria, or an empty list if none found
      */
     public List<RequestResponseLogDTO> findByCriteria(String endpoint, String method, Integer statusCode) {
-        Optional<List<RequestResponseLog>> response = requestResponseLogRepository.findByCriteria(endpoint, method, statusCode);
+        Optional<List<RequestResponseLog>> response =
+                requestResponseLogRepository.findByCriteria(endpoint, method, statusCode);
         if (response.isPresent()) {
-            logger.info("Found {} logs for criteria: endpoint={}, method={}, statusCode={}", response.get().size(), endpoint, method, statusCode);
+            logger.info("Found {} logs for criteria: endpoint={}, method={}, statusCode={}",
+                    response.get().size(), endpoint, method, statusCode);
         } else {
-            logger.info("No logs found for criteria: endpoint={}, method={}, statusCode={}", endpoint, method, statusCode);
+            logger.info("No logs found for criteria: endpoint={}, method={}, statusCode={}",
+                    endpoint, method, statusCode);
         }
         return response.map(requestResponseLogMapper::toDtoList).orElseGet(Collections::emptyList);
     }
