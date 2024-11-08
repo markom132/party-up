@@ -14,12 +14,14 @@ jobs:
 
     services:
       mysql:
-        image: mysql:8
-        ports:
-          - 3306:3306
+        image: mysql:5.7
         env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: test
+          MYSQL_DATABASE: test_db
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: rootpassword
+        ports:
+          - 33306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
@@ -34,16 +36,14 @@ jobs:
 
       - name: Importing MYSQL file
         env:
-          DB_HOST: 127.0.0.1
-          DB_CONNECTION: mysql
-          DB_DATABASE: party_up
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
-        run: |
-          sudo systemctl start mysql
-          until mysqladmin ping --host=mysql --user=root --password=root --silent; do
-            echo "Waiting for MySQL..."
-            sleep 5
-          done
+          DB_DATABASE: test_db
+          DB_USER: root
+          DB_PASSWORD: root
+        steps:
+          - name: Set up MySQL
+            run: |
+              sudo /etc/init.d/mysql start
+              mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
 
       - name: Build with Maven
         run: |
