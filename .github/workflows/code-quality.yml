@@ -39,7 +39,7 @@ jobs:
           DB_DATABASE: party_up
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
         run: |
-          sudo /etc/init.d/mysql start
+          sudo systemctl start mysql
           until mysqladmin ping --host=mysql --user=root --password=root --silent; do
             echo "Waiting for MySQL..."
             sleep 5
