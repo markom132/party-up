@@ -68,9 +68,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         try {
             username = jwtUtil.extractUsername(jwtToken); // Extract username (email) from the token
         } catch (ExpiredJwtException | SecurityException e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write(e.getMessage());
-            return; // Exit the method
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);  // Correct HTTP status code
+            response.getWriter().write("Expired JWT token");  // Ensure the message matches the error type
+            return;
         }
 
         // If the email is valid and no authentication exists in the security context
