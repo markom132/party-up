@@ -16,7 +16,7 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_DATABASE: test_db
+          MYSQL_DATABASE: party_up
           MYSQL_USER: user
           MYSQL_PASSWORD: password
           MYSQL_ROOT_PASSWORD: rootpassword
@@ -36,14 +36,14 @@ jobs:
 
       - name: Importing MYSQL file
         env:
-          DB_DATABASE: test_db
+          DB_DATABASE: party_up
           DB_USER: root
           DB_PASSWORD: root
-        steps:
-          - name: Set up MySQL
-            run: |
-              sudo /etc/init.d/mysql start
-              mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+
+      - name: Set up MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
 
       - name: Build with Maven
         run: |
