@@ -9,8 +9,8 @@ on:
       - master
 
 jobs:
-pmd_and_jacoco:
-  runs-on: ubuntu-latest
+  pmd_and_jacoco:
+    runs-on: ubuntu-latest
 
   services:
     mysql:
