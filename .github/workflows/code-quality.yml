@@ -32,11 +32,11 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-      - uses: actions/checkout@v3
-                - name: Install Ubuntu dependencies
-                run: |
-                  sudo apt-get update
-                  sudo apt-get install libcurl4-openssl-dev libmysqlclient-dev libgirepository1.0-dev
+      - name: Install Ubuntu dependencies
+        uses: actions/checkout@v3
+        run: |
+          sudo apt-get update
+          sudo apt-get install libcurl4-openssl-dev libmysqlclient-dev libgirepository1.0-dev
 
       - name: Wait for MySQL to be ready
         env:
