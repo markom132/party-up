@@ -9,15 +9,18 @@ on:
       - master
 
 jobs:
-  pmd_and_jacoco:
-    runs-on: ubuntu-latest
+pmd_and_jacoco:
+  runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:8
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+  services:
+    mysql:
+      image: mysql:8
+      ports:
+        - 3306:3306
+      env:
+        MYSQL_ROOT_PASSWORD: rootpassword  # Podrazumevana root lozinka
+        MYSQL_DATABASE: test               # Podrazumevana baza podataka
+      options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Check out the repository
@@ -31,22 +34,20 @@ jobs:
 
       - name: Importing MYSQL file
         env:
-          DB_HOST: 127.0.0.1
+          DB_HOST: mysql  # Koristi ime servisa kao host
           DB_CONNECTION: mysql
           DB_DATABASE: test
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
-          DB_USER: root
-          DB_PASSWORD: password
+          DB_PORT: 3306   # Koristi pravi port
+          DB_USER: root   # Koristi default korisnika (root)
+          DB_PASSWORD: rootpassword  # Koristi default lozinku (rootpassword)
         run: |
-          sudo /etc/init.d/mysql start
-          mysql -Dtest -uroot -ppassword -hlocalhost -P33306 < "api_token.sql"
-
-      - name: Wait for MySQL to be ready
-        run: |
-          until mysqladmin ping --host=mysql --user=root --password=root --silent; do
+          # Sačekaj da MySQL servis bude spreman za povezivanje
+          until mysqladmin ping --host=mysql --user=root --password=rootpassword --silent; do
             echo "Waiting for MySQL..."
             sleep 5
           done
+          # Importuj SQL fajl u MySQL
+          mysql -h mysql -u root -prootpassword -Dtest < "api_token.sql"
 
       - name: Build with Maven
         run: |
