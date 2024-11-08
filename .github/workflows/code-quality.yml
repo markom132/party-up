@@ -40,6 +40,11 @@ jobs:
           echo "spring.datasource.password=root" >> party-up-service/src/main/resources/application.properties
           echo "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver" >> party-up-service/src/main/resources/application.properties
 
+      - name: Set up MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e 'CREATE DATABASE ${{ env.MYSQL_DATABASE }};'
+
       - name: Wait for MySQL to be ready
         run: |
           until mysqladmin ping --host=mysql --user=root --password=root --silent; do
