@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -21,9 +20,6 @@ public class UserDetailsServiceConfigTest {
 
     @Mock
     private UserRepository userRepository;
-
-    @Mock
-    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UserDetailsServiceConfig userDetailsServiceConfig;
@@ -51,8 +47,6 @@ public class UserDetailsServiceConfigTest {
     public void testLoadUserByUsername_UserNotFound() {
         when(userRepository.findByUsername("nonexistentuser")).thenReturn(Optional.empty());
 
-        assertThrows(UsernameNotFoundException.class, () -> {
-            userDetailsServiceConfig.loadUserByUsername("nonexistentuser");
-        });
+        assertThrows(UsernameNotFoundException.class, () -> userDetailsServiceConfig.loadUserByUsername("nonexistentuser"));
     }
 }
