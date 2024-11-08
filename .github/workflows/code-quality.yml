@@ -17,58 +17,51 @@ jobs:
         image: mysql:8
         ports:
           - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Importing MYSQL file
         env:
-          MYSQL_ROOT_PASSWORD: rootpassword  # Podrazumevana root lozinka
-          MYSQL_DATABASE: test               # Podrazumevana baza podataka
-        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
+          DB_HOST: 127.0.0.1
+          DB_CONNECTION: mysql
+          DB_DATABASE: party_up
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+        run: |
+          sudo /etc/init.d/mysql start
+          until mysqladmin ping --host=mysql --user=root --password=root --silent; do
+            echo "Waiting for MySQL..."
+            sleep 5
+          done
 
-      steps:
-        - name: Check out the repository
-          uses: actions/checkout@v3
+      - name: Build with Maven
+        run: |
+          cd party-up-service
+          mvn clean install
 
-        - name: Set up JDK 17
-          uses: actions/setup-java@v3
-          with:
-            java-version: '17'
-            distribution: 'corretto'
+      - name: Run PMD Analysis
+        run: |
+          cd party-up-service
+          mvn pmd:check
 
-        - name: Importing MYSQL file
-          env:
-            DB_HOST: mysql  # Koristi ime servisa kao host
-            DB_CONNECTION: mysql
-            DB_DATABASE: test
-            DB_PORT: 3306   # Koristi pravi port
-            DB_USER: root   # Koristi default korisnika (root)
-            DB_PASSWORD: rootpassword  # Koristi default lozinku (rootpassword)
-          run: |
-            # Sačekaj da MySQL servis bude spreman za povezivanje
-            until mysqladmin ping --host=mysql --user=root --password=rootpassword --silent; do
-              echo "Waiting for MySQL..."
-              sleep 5
-            done
-            # Importuj SQL fajl u MySQL
-            mysql -h mysql -u root -prootpassword -Dtest < "api_token.sql"
+      - name: Run Tests with JaCoCo
+        run: |
+          cd party-up-service
+          mvn test jacoco:report
 
-        - name: Build with Maven
-          run: |
-            cd party-up-service
-            mvn clean install
-
-        - name: Run PMD Analysis
-          run: |
-            cd party-up-service
-            mvn pmd:check
-
-        - name: Run Tests with JaCoCo
-          run: |
-            cd party-up-service
-            mvn test jacoco:report
-
-        - name: Upload JaCoCo Report
-          uses: actions/upload-artifact@v3
-          with:
-            name: jacoco-report
-            path: target/site/jacoco
+      - name: Upload JaCoCo Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: jacoco-report
+          path: target/site/jacoco
 
   checkstyle:
     runs-on: ubuntu-latest
