@@ -68,7 +68,7 @@ public class UserServiceTest {
         authToken.setExpiresAt(LocalDateTime.now().plusHours(1));
     }
 
-    @Test
+   /* @Test
     void testFindUserUsernameSuccess() {
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(user));
 
@@ -89,7 +89,7 @@ public class UserServiceTest {
         assertFalse(result.isPresent());
 
         verify(userRepository, times(1)).findByUsername(anyString());
-    }
+    }*/
 
     @Test
     public void testLogin_Success() {

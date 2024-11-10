@@ -121,38 +121,65 @@ public class UserService {
         logger.info("Token {} marked as expired", token);
     }
 
-    public Optional<User> findUserByUsername(String username) {
-        logger.info("Fetching user with username: {}", username);
-        return userRepository.findByUsername(username);
-    }
-
+    /**
+     * Creates a new user based on the provided UserDTO. Validates that the username and email are unique before creating the user.
+     * Sets the user's status to INACTIVE upon creation.
+     *
+     * @param userDTO The data transfer object containing user information.
+     * @return UserDTO representing the created user.
+     * @throws RuntimeException if the username or email is already in use.
+     */
     public UserDTO createUser(UserDTO userDTO) {
         logger.info("Creating new user with username: {}", userDTO.getUsername());
 
+        // Extract username and email from the userDTO
         String username = userDTO.getUsername();
         String email = userDTO.getEmail();
 
+        // Validate that the username and email are unique
         validateCreateUserRequest(username, email);
 
+        // Map DTO to entity and set the status to INACTIVE
         User newUser = userMapper.toEntity(userDTO);
         newUser.setStatus(AccountStatus.INACTIVE);
-        userRepository.save(newUser);
 
-        logger.info("User created: {}", userDTO.getUsername());
+        // Save the new user in the repository
+        userRepository.save(newUser);
+        logger.info("User successfully created with username: {}", userDTO.getUsername());
+
+        // Convert entity back to DTO and return it
         return userMapper.toDTO(newUser);
     }
 
+    /**
+     * Validates that the provided username and email are unique.
+     * If either the username or email is already in use, logs a warning and throws a RuntimeException.
+     *
+     * @param username The username to check for uniqueness.
+     * @param email    The email to check for uniqueness.
+     * @throws RuntimeException if the username or email is already in use.
+     */
     public void validateCreateUserRequest(String username, String email) {
+        // Check if a user with the given username or email already exists
         if (userRepository.findByUsername(username).isPresent()) {
-            logger.warn("User already exists with username: {}", username);
+            logger.warn("Validation failed: User already exists with username: {}", username);
             throw new RuntimeException("User already exists with username: " + username);
         } else if (userRepository.findByEmail(email).isPresent()) {
-            logger.warn("User already exists with email: {}", email);
+            logger.warn("Validation failed: User already exists with email: {}", email);
             throw new RuntimeException("User already exists with email: " + email);
         }
     }
 
+    /**
+     * Populates a successful login response DTO with user details, a JWT token, and an expiration time.
+     *
+     * @param user      The authenticated user.
+     * @param jwtToken  The JWT token generated for the user.
+     * @param expiresAt The expiration time for the JWT token.
+     * @return LoginSuccessResponseDTO containing user details, JWT token, and token expiration.
+     */
     private LoginSuccessResponseDTO fillSuccessfulLoginResponse(User user, String jwtToken, String expiresAt) {
+        logger.debug("Filling successful login response for user with ID: {}", user.getId());
         return new LoginSuccessResponseDTO(
                 user.getId(),
                 user.getUsername(),

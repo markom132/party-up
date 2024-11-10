@@ -79,13 +79,26 @@ public class UserController {
         }
     }
 
+    /**
+     * Endpoint for creating a new user.
+     * Validates and processes the user data sent in the request body, then creates a new user in the system.
+     *
+     * @param userDTO The data transfer object containing user details for creation.
+     * @return ResponseEntity containing the created UserDTO and HTTP status 201 on success, or an error message with status 500 on failure.
+     */
     @PostMapping("/create-user")
     public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
         try {
+            logger.info("Received request to create user with username: {}", userDTO.getUsername());
+
+            // Delegates user creation to the service layer
             UserDTO userCreated = userService.createUser(userDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(userCreated);
         } catch (RuntimeException e) {
-            logger.error("Error creating user", e);
+            // Logs the error with exception details for debugging
+            logger.error("Error creating user with username: {}", userDTO.getUsername(), e);
+
+            // Returns an error response with status 500
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
