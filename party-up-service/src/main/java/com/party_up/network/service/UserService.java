@@ -1,9 +1,13 @@
 package com.party_up.network.service;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import com.party_up.network.model.dto.LoginSuccessResponseDTO;
+import com.party_up.network.model.dto.UserDTO;
+import com.party_up.network.model.dto.mappers.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,15 +43,18 @@ public class UserService {
 
     private final AuthTokenService authTokenService;
 
+    private final UserMapper userMapper;
+
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
                        JwtUtil jwtUtil, AuthenticationManager authenticationManager,
-                       AuthTokenService authTokenService) {
+                       AuthTokenService authTokenService, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
         this.authenticationManager = authenticationManager;
         this.authTokenService = authTokenService;
+        this.userMapper = userMapper;
     }
 
     /**
@@ -117,6 +124,32 @@ public class UserService {
     public Optional<User> findUserByUsername(String username) {
         logger.info("Fetching user with username: {}", username);
         return userRepository.findByUsername(username);
+    }
+
+    public UserDTO createUser(UserDTO userDTO) {
+        logger.info("Creating new user with username: {}", userDTO.getUsername());
+
+        String username = userDTO.getUsername();
+        String email = userDTO.getEmail();
+
+        validateCreateUserRequest(username, email);
+
+        User newUser = userMapper.toEntity(userDTO);
+        newUser.setStatus(AccountStatus.INACTIVE);
+        userRepository.save(newUser);
+
+        logger.info("User created: {}", userDTO.getUsername());
+        return userMapper.toDTO(newUser);
+    }
+
+    public void validateCreateUserRequest(String username, String email) {
+        if (userRepository.findByUsername(username).isPresent()) {
+            logger.warn("User already exists with username: {}", username);
+            throw new RuntimeException("User already exists with username: " + username);
+        } else if (userRepository.findByEmail(email).isPresent()) {
+            logger.warn("User already exists with email: {}", email);
+            throw new RuntimeException("User already exists with email: " + email);
+        }
     }
 
     private LoginSuccessResponseDTO fillSuccessfulLoginResponse(User user, String jwtToken, String expiresAt) {

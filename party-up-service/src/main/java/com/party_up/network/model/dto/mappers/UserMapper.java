@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Mapper for converting between User entities and UserDTOs.
@@ -47,7 +48,6 @@ public class UserMapper {
                 user.getStatus().name(),
                 user.getImage(),
                 formatBirthDay,
-                user.getAge(),
                 user.getBio(),
                 formatCreatedAt,
                 formatLastUpdatedAt
@@ -66,15 +66,16 @@ public class UserMapper {
             return null;
         }
 
+        int age = Math.toIntExact(ChronoUnit.YEARS.between(LocalDate.parse(userDTO.getBirthDay()), LocalDate.now()));
+
         User user = new User();
         user.setUsername(userDTO.getUsername());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
-        user.setStatus(AccountStatus.valueOf(userDTO.getStatus()));
         user.setImage(userDTO.getImage());
         user.setBirthDate(LocalDate.parse(userDTO.getBirthDay()));
-        user.setAge(userDTO.getAge());
+        user.setAge(age);
         user.setBio(userDTO.getBio());
 
         return user;

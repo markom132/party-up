@@ -56,7 +56,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         // Extract the Authorization header from the request
         final String authorizationHeader = request.getHeader("Authorization");
 
-        if (request.getRequestURI().equals("/api/auth/login")) {
+        if (request.getRequestURI().equals("/api/auth/login") ||
+                request.getRequestURI().equals("/api/create-user")) {
             filterChain.doFilter(request, response); //Proceed with the filter chain
             return; // Exit the method
         }

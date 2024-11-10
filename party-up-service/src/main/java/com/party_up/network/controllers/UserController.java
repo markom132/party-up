@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.party_up.network.model.dto.LoginSuccessResponseDTO;
+import com.party_up.network.model.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -74,6 +75,17 @@ public class UserController {
             return ResponseEntity.ok("Logged out successfully");
         } catch (RuntimeException e) {
             logger.error("Logout error: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/create-user")
+    public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
+        try {
+            UserDTO userCreated = userService.createUser(userDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(userCreated);
+        } catch (RuntimeException e) {
+            logger.error("Error creating user", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }

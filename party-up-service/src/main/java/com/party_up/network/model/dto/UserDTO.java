@@ -29,8 +29,6 @@ public class UserDTO {
 
     private String birthDay;
 
-    private int age;
-
     private String bio;
 
     private String createdAt;
