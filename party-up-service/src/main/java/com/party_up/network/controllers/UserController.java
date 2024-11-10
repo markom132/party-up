@@ -1,10 +1,8 @@
 package com.party_up.network.controllers;
 
-import java.util.HashMap;
-import java.util.Map;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
-import com.party_up.network.model.dto.LoginSuccessResponseDTO;
-import com.party_up.network.model.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -14,10 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
-
 import com.party_up.network.model.dto.LoginRequestDTO;
+import com.party_up.network.model.dto.LoginSuccessResponseDTO;
+import com.party_up.network.model.dto.UserDTO;
 import com.party_up.network.service.UserService;
 
 /**
@@ -84,7 +81,8 @@ public class UserController {
      * Validates and processes the user data sent in the request body, then creates a new user in the system.
      *
      * @param userDTO The data transfer object containing user details for creation.
-     * @return ResponseEntity containing the created UserDTO and HTTP status 201 on success, or an error message with status 500 on failure.
+     * @return ResponseEntity containing the created UserDTO and HTTP status 201 on success,
+     * or an error message with status 500 on failure.
      */
     @PostMapping("/create-user")
     public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {

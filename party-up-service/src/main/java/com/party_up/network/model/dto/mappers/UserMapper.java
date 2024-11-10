@@ -1,15 +1,15 @@
 package com.party_up.network.model.dto.mappers;
 
-import com.party_up.network.model.User;
-import com.party_up.network.model.dto.UserDTO;
-import com.party_up.network.model.enums.AccountStatus;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
+import com.party_up.network.model.User;
+import com.party_up.network.model.dto.UserDTO;
 
 /**
  * Mapper for converting between User entities and UserDTOs.

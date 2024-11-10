@@ -1,13 +1,7 @@
 package com.party_up.network.service;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
 
-import com.party_up.network.model.dto.LoginSuccessResponseDTO;
-import com.party_up.network.model.dto.UserDTO;
-import com.party_up.network.model.dto.mappers.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +17,9 @@ import com.party_up.network.model.User;
 import com.party_up.network.model.dto.LoginRequestDTO;
 import com.party_up.network.model.enums.AccountStatus;
 import com.party_up.network.repository.UserRepository;
+import com.party_up.network.model.dto.LoginSuccessResponseDTO;
+import com.party_up.network.model.dto.UserDTO;
+import com.party_up.network.model.dto.mappers.UserMapper;
 
 /**
  * Service class for managing user-related operations such as login, account activation,
@@ -122,7 +119,8 @@ public class UserService {
     }
 
     /**
-     * Creates a new user based on the provided UserDTO. Validates that the username and email are unique before creating the user.
+     * Creates a new user based on the provided UserDTO.
+     * Validates that the username and email are unique before creating the user.
      * Sets the user's status to INACTIVE upon creation.
      *
      * @param userDTO The data transfer object containing user information.
