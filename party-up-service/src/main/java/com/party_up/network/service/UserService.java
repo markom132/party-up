@@ -15,11 +15,11 @@ import com.party_up.network.config.authentication.JwtUtil;
 import com.party_up.network.model.AuthToken;
 import com.party_up.network.model.User;
 import com.party_up.network.model.dto.LoginRequestDTO;
-import com.party_up.network.model.enums.AccountStatus;
-import com.party_up.network.repository.UserRepository;
 import com.party_up.network.model.dto.LoginSuccessResponseDTO;
 import com.party_up.network.model.dto.UserDTO;
 import com.party_up.network.model.dto.mappers.UserMapper;
+import com.party_up.network.model.enums.AccountStatus;
+import com.party_up.network.repository.UserRepository;
 
 /**
  * Service class for managing user-related operations such as login, account activation,

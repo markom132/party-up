@@ -89,9 +89,9 @@ public class UserControllerTest {
                         .with(csrf()))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value("Login successful"))
+                .andExpect(jsonPath("$.username").value("username"))
                 .andExpect(jsonPath("$.email").value("test@example.com"))
-                .andExpect(jsonPath("$.status").value("ACTIVE"));
+                .andExpect(jsonPath("$.token").value("mockedJwtToken"));
     }
 
     @Test
@@ -102,8 +102,7 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginRequestDTO)))
                 .andExpect(status().isInternalServerError())
-                .andExpect(jsonPath("$.message").value("Error occurred during login request"))
-                .andExpect(jsonPath("$.error").value("Invalid credentials"));
+                .andExpect(content().string("Invalid credentials"));
     }
 
     @Test
