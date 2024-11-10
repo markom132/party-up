@@ -3,6 +3,7 @@ package com.party_up.network.controllers;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.party_up.network.model.dto.LoginSuccessResponseDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -42,15 +43,13 @@ public class UserController {
      */
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO loginRequest) {
-        Map<String, Object> response = new HashMap<>();
+        LoginSuccessResponseDTO response;
         try {
             response = userService.login(loginRequest);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (RuntimeException e) {
-            response.put("message", "Error occurred during login request");
-            response.put("error", e.getMessage());
             logger.error("Login error for {}: {}", loginRequest.getUsername(), e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 

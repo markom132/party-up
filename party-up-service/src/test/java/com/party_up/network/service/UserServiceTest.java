@@ -5,6 +5,7 @@ import com.party_up.network.exceptions.ResourceNotFoundException;
 import com.party_up.network.model.AuthToken;
 import com.party_up.network.model.User;
 import com.party_up.network.model.dto.LoginRequestDTO;
+import com.party_up.network.model.dto.LoginSuccessResponseDTO;
 import com.party_up.network.model.enums.AccountStatus;
 import com.party_up.network.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -99,17 +100,16 @@ public class UserServiceTest {
         when(jwtUtil.generateToken(user)).thenReturn("generatedToken");
         when(authTokenService.createAuthToken(any(), any())).thenReturn(authToken);
 
-        Map<String, Object> response = userService.login(loginRequest);
+        LoginSuccessResponseDTO response = userService.login(loginRequest);
 
         assertNotNull(response);
-        assertEquals(user.getId(), response.get("id"));
-        assertEquals(user.getUsername(), response.get("username"));
-        assertEquals(user.getEmail(), response.get("email"));
-        assertEquals(user.getFirstName(), response.get("firstName"));
-        assertEquals(user.getLastName(), response.get("lastName"));
-        assertEquals(String.valueOf(user.getStatus()), response.get("status"));
-        assertEquals("generatedToken", response.get("token"));
-        assertNotNull(response.get("expiresAt"));
+        assertEquals(user.getId(), response.getId());
+        assertEquals(user.getUsername(), response.getUsername());
+        assertEquals(user.getEmail(), response.getEmail());
+        assertEquals(user.getFirstName(), response.getFirstName());
+        assertEquals(user.getLastName(), response.getLastName());
+        assertEquals("generatedToken", response.getToken());
+        assertNotNull(response.getExpiresAt());
     }
 
     @Test

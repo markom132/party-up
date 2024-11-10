@@ -12,6 +12,18 @@ import lombok.NoArgsConstructor;
 @Data
 public class LoginSuccessResponseDTO {
 
+    private Long id;
 
+    private String username;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
+
+    private String token;
+
+    private String expiresAt;
 
 }

@@ -3,6 +3,7 @@ package com.party_up.network.service;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import com.party_up.network.model.dto.LoginSuccessResponseDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -55,7 +56,7 @@ public class UserService {
      * @param loginRequestDTO containing username and password for login
      * @return Map containing user details and JWT token
      */
-    public Map<String, Object> login(LoginRequestDTO loginRequestDTO) {
+    public LoginSuccessResponseDTO login(LoginRequestDTO loginRequestDTO) {
         String username = loginRequestDTO.getUsername();
         String password = loginRequestDTO.getPassword();
 
@@ -84,15 +85,7 @@ public class UserService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String formattedExpiresAt = authToken.getExpiresAt().format(formatter);
 
-            Map<String, Object> response = new LinkedHashMap<>();
-            response.put("id", user.getId());
-            response.put("username", user.getUsername());
-            response.put("email", user.getEmail());
-            response.put("firstName", user.getFirstName());
-            response.put("lastName", user.getLastName());
-            response.put("status", String.valueOf(user.getStatus()));
-            response.put("token", token);
-            response.put("expiresAt", formattedExpiresAt);
+            LoginSuccessResponseDTO response = fillSuccessfulLoginResponse(user, token, formattedExpiresAt);
 
             logger.info("Login successful for user: {}", user.getEmail());
             return response;
@@ -124,6 +117,18 @@ public class UserService {
     public Optional<User> findUserByUsername(String username) {
         logger.info("Fetching user with username: {}", username);
         return userRepository.findByUsername(username);
+    }
+
+    private LoginSuccessResponseDTO fillSuccessfulLoginResponse(User user, String jwtToken, String expiresAt) {
+        return new LoginSuccessResponseDTO(
+                user.getId(),
+                user.getUsername(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                jwtToken,
+                expiresAt
+        );
     }
 
 }

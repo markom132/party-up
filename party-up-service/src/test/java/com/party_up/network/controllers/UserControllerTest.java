@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.party_up.network.config.authentication.JwtUtil;
 import com.party_up.network.model.User;
 import com.party_up.network.model.dto.LoginRequestDTO;
+import com.party_up.network.model.dto.LoginSuccessResponseDTO;
 import com.party_up.network.model.enums.AccountStatus;
 import com.party_up.network.repository.RequestResponseLogRepository;
 import com.party_up.network.repository.UserRepository;
@@ -68,18 +69,16 @@ public class UserControllerTest {
         doNothing().when(userService).logout(any(String.class));
     }
 
-    private Map<String, Object> createSuccessfulLoginResponse(User user) {
-        Map<String, Object> response = new LinkedHashMap<>();
-        response.put("message", "Login successful");
-        response.put("id", user.getId());
-        response.put("username", user.getUsername());
-        response.put("email", user.getEmail());
-        response.put("firstName", user.getFirstName());
-        response.put("lastName", user.getLastName());
-        response.put("status", String.valueOf(user.getStatus()));
-        response.put("token", "mockedJwtToken");
-        response.put("expiresAt", "2024-11-02 12:00:00");
-        return response;
+    private LoginSuccessResponseDTO createSuccessfulLoginResponse(User user) {
+        return new LoginSuccessResponseDTO(
+                user.getId(),
+                user.getUsername(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                "mockedJwtToken",
+                "2024-11-02 12:00:00"
+        );
     }
 
     @Test
