@@ -1,5 +1,6 @@
 package com.party_up.network.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,7 +26,6 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
@@ -43,7 +43,7 @@ public class User {
     @Lob
     private byte[] image;
 
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
 
     private int age;
 

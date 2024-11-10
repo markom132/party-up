@@ -1,8 +1,5 @@
 package com.party_up.network.controllers;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -16,6 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 import com.party_up.network.model.dto.LoginRequestDTO;
+import com.party_up.network.model.dto.LoginSuccessResponseDTO;
+import com.party_up.network.model.dto.UserDTO;
 import com.party_up.network.service.UserService;
 
 /**
@@ -42,15 +41,13 @@ public class UserController {
      */
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO loginRequest) {
-        Map<String, Object> response = new HashMap<>();
+        LoginSuccessResponseDTO response;
         try {
             response = userService.login(loginRequest);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (RuntimeException e) {
-            response.put("message", "Error occurred during login request");
-            response.put("error", e.getMessage());
             logger.error("Login error for {}: {}", loginRequest.getUsername(), e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
@@ -75,6 +72,31 @@ public class UserController {
             return ResponseEntity.ok("Logged out successfully");
         } catch (RuntimeException e) {
             logger.error("Logout error: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    /**
+     * Endpoint for creating a new user.
+     * Validates and processes the user data sent in the request body, then creates a new user in the system.
+     *
+     * @param userDTO The data transfer object containing user details for creation.
+     * @return ResponseEntity containing the created UserDTO and HTTP status 201 on success,
+     * or an error message with status 500 on failure.
+     */
+    @PostMapping("/create-user")
+    public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
+        try {
+            logger.info("Received request to create user with username: {}", userDTO.getUsername());
+
+            // Delegates user creation to the service layer
+            UserDTO userCreated = userService.createUser(userDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(userCreated);
+        } catch (RuntimeException e) {
+            // Logs the error with exception details for debugging
+            logger.error("Error creating user with username: {}", userDTO.getUsername(), e);
+
+            // Returns an error response with status 500
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
