@@ -6,8 +6,6 @@ import com.party_up.network.model.User;
 import com.party_up.network.model.dto.LoginRequestDTO;
 import com.party_up.network.model.dto.LoginSuccessResponseDTO;
 import com.party_up.network.model.enums.AccountStatus;
-import com.party_up.network.repository.RequestResponseLogRepository;
-import com.party_up.network.repository.UserRepository;
 import com.party_up.network.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,11 +14,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
