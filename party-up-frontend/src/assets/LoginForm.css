@@ -1,0 +1,145 @@
+/* Background which takes whole display*/
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #1A1A1D;
+}
+
+/* Background textures */
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg,
+            rgba(255, 255, 255, 0.05) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.05) 50%,
+            rgba(255, 255, 255, 0.05) 75%,
+            transparent 75%,
+            transparent);
+    background-size: 4px 4px;
+    pointer-events: none;
+}
+
+/* Styles for form */
+.login-form {
+    padding-left: 30px;
+    background-color: #2E2E2E;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+    margin: 20px;
+}
+
+/* Container for icon and input */
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+}
+
+/* Styles for icon */
+.input-container i {
+    position: absolute;
+    left: 10px;
+    color: #A0A0A5;
+    font-size: 1rem;
+}
+
+/* Styles for input fields */
+.input-container input {
+    padding: 10px 10px 10px 30px;
+    width: 100%;
+    border: 1px solid #a1d661;
+    border-radius: 6px;
+    background-color: #2B2B2D;
+    color: #fff;
+    transition: box-shadow 0.3s ease;
+}
+
+/* Styles for input fields when focused */
+.input-container input:focus {
+    outline: none;
+    border-color: #ffcd29;
+    background-color: #2D2D2D;
+    box-shadow: 0 0 8px rgba(255, 205, 41, 0.5);
+}
+
+/* Styles for placeholder text */
+.input-container input::placeholder {
+    color: #A0A0A5;
+}
+
+/* Styles for button */
+.login-form button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #ff6e61;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.1rem;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+}
+
+/* Styles for button when hovered */
+.login-form button:hover {
+    background: linear-gradient(90deg, #ff7b6f, #ff6e61);
+}
+
+/* Styles for error message */
+.error-input {
+    color: #FF6B6B;
+    box-shadow: 0 0 5px rgba(255, 107, 107, 0.5);
+}
+
+/* Styles for error message text */
+.error-text {
+    color: #ff6b6b;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+/* Styles for form header */
+.form-header {
+    font-size: 2rem;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 25px;
+    color: #F5F5F5;
+    text-align: center;
+    font-weight: 700;
+}
+
+/* Styles for link "Forgot Password?" */
+.forgot-password {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.forgot-password a {
+    color: #ffffff;
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.3s ease, text-decoration 0.3s ease;
+}
+
+.forgot-password a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
