@@ -1,5 +1,0 @@
-src/components/__tests__/
-cypress/e2e/
-cypress/integration/
-*.test.js
-*.cy.js

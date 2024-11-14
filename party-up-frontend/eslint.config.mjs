@@ -16,6 +16,10 @@ export default [
         Cypress: 'readonly',
         describe: 'readonly',
         it: 'readonly',
+        test: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        jest: 'readonly',
       },
     },
     plugins: {
@@ -34,6 +38,25 @@ export default [
   pluginJs.configs.recommended,
   pluginReact.configs.flat.recommended,
   eslintConfigPrettier,
+  {
+    files: ['**/*.test.js', '**/*.spec.js', '**/*.cy.js'],
+    languageOptions: {
+      globals: {
+        jest: 'readonly',
+        cy: 'readonly',
+        Cypress: 'readonly',
+        describe: 'readonly',
+        it: 'readonly',
+        test: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+      },
+    },
+    rules: {
+      'no-unused-vars': 'off',
+      'no-undef': 'off',
+    },
+  },
   {
     settings: {
       react: {
