@@ -1,0 +1,130 @@
+/* src/components/Header.css */
+.header {
+    background-color: #1A1A1D;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+    font-family: 'Montserrat', 'Roboto', sans-serif;
+    font-weight: bold;
+    color: #F5F5F5;
+    font-size: 1.5rem;
+}
+
+.accent {
+    color: #ff6e61;
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    background-color: #1A1A1D;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    gap: 10px;
+}
+
+.nav-links a {
+    color: #F5F5F5;
+    text-decoration: none;
+    font-family: 'Montserrat', 'Roboto', sans-serif;
+    font-size: 1rem;
+    opacity: 0.7;
+}
+
+.nav-links a:hover {
+    opacity: 1;
+    text-decoration: underline;
+    color: #a1d661;
+}
+
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.login-link {
+    color: #F5F5F5;
+    padding: 5px 10px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-family: 'Montserrat', 'Roboto', sans-serif;
+    opacity: 0.7;
+}
+
+.login-link:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.signup-button {
+    background-color: transparent;
+    color: #FFFFFF;
+    border: 1px solid #ff6e61;
+    padding: 5px 10px;
+    font-size: 1rem;
+    font-family: 'Montserrat', 'Roboto', sans-serif;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: background-color 0.3s, border-color 0.3s;
+    background-image: linear-gradient(135deg, transparent 0%, transparent 50%, #ff6e61 100%);
+    background-size: 200% 200%;
+}
+
+.signup-button:hover {
+    background-position: right center;
+    background-color: #ff6e61;
+    color: #FFFFFF;
+    box-shadow: 0 0 10px rgba(255, 110, 97, 0.6);
+}
+
+.hamburger-menu {
+    display: none;
+    font-size: 1.5rem;
+    color: #F5F5F5;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+@media (max-width: 760px) {
+    .hamburger-menu {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .header-nav {
+        gap: 10px;
+    }
+}
+
+@media (min-width: 760px) {
+    .header {
+        flex-direction: row;
+    }
+}
