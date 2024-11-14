@@ -3,9 +3,15 @@ import '../assets/Header.css';
 
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
+    };
+
+    const toggleProfileMenu = () => {
+        setIsProfileMenuOpen(!isProfileMenuOpen);
     };
 
     return (
@@ -18,11 +24,23 @@ const Header = () => {
                     <a href='#home'>Home</a>
                     <a href='#events'>Events</a>
                     <a href='#explore'>Explore</a>
-                    <a href='#profile'>Profile</a>
                 </div>
                 <div className='auth-buttons'>
-                    <a href='#login' className='login-link'>Login</a>
-                    <button className='signup-button'>Sign Up</button>
+                    {isLoggedIn ? (
+                        <div className="profile-avatar" onClick={toggleProfileMenu}>
+                            <i className="fas fa-user-circle avatar-icon"></i>
+                            <div className={`dropdown-menu ${isProfileMenuOpen ? 'open' : ''}`}>
+                                <a href='#profile'>My Profile</a>
+                                <a href='#settings'>Settings</a>
+                                <button onClick={() => setIsLoggedIn(false)}>Log out</button>
+                            </div>
+                        </div>
+                    ) : (
+                        <>
+                            <a href='#login' className='login-link'>Login</a>
+                            <button className='signup-button'>Sign Up</button>
+                        </>
+                    )}
                 </div>
                 <button className='hamburger-menu' onClick={toggleMenu}>
                     &#9776;
