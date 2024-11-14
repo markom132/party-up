@@ -1,191 +1,198 @@
 /* src/components/Header.css */
 .header {
-    background-color: #1A1A1D;
-    color: #FFFFFF;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-    position: relative;
-    z-index: 10;
+  background-color: #1a1a1d;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 10;
 }
 
 .logo {
-    font-family: 'Montserrat', 'Roboto', sans-serif;
-    font-weight: bold;
-    color: #F5F5F5;
-    font-size: 1.5rem;
+  font-family: 'Montserrat', 'Roboto', sans-serif;
+  font-weight: bold;
+  color: #f5f5f5;
+  font-size: 1.5rem;
 }
 
 .accent {
-    color: #ff6e61;
+  color: #ff6e61;
 }
 
 .header-nav {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .nav-links {
-    display: flex;
-    gap: 15px;
+  display: flex;
+  gap: 15px;
 }
 
 .nav-links.open {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 50px;
-    right: 20px;
-    background-color: #1A1A1D;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  background-color: #1a1a1d;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  gap: 10px;
 }
 
 .nav-links a {
-    color: #F5F5F5;
-    text-decoration: none;
-    font-family: 'Montserrat', 'Roboto', sans-serif;
-    font-size: 1rem;
-    opacity: 0.7;
+  color: #f5f5f5;
+  text-decoration: none;
+  font-family: 'Montserrat', 'Roboto', sans-serif;
+  font-size: 1rem;
+  opacity: 0.7;
 }
 
 .nav-links a:hover {
-    opacity: 1;
-    text-decoration: underline;
-    color: #a1d661;
+  opacity: 1;
+  text-decoration: underline;
+  color: #a1d661;
 }
 
 .auth-buttons {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .login-link {
-    color: #F5F5F5;
-    padding: 5px 10px;
-    text-decoration: none;
-    font-size: 1rem;
-    font-family: 'Montserrat', 'Roboto', sans-serif;
-    opacity: 0.7;
+  color: #f5f5f5;
+  padding: 5px 10px;
+  text-decoration: none;
+  font-size: 1rem;
+  font-family: 'Montserrat', 'Roboto', sans-serif;
+  opacity: 0.7;
 }
 
 .login-link:hover {
-    opacity: 1;
-    text-decoration: underline;
+  opacity: 1;
+  text-decoration: underline;
 }
 
 .signup-button {
-    background-color: transparent;
-    color: #FFFFFF;
-    border: 1px solid #ff6e61;
-    padding: 5px 10px;
-    font-size: 1rem;
-    font-family: 'Montserrat', 'Roboto', sans-serif;
-    cursor: pointer;
-    border-radius: 20px;
-    transition: background-color 0.3s, border-color 0.3s;
-    background-image: linear-gradient(135deg, transparent 0%, transparent 50%, #ff6e61 100%);
-    background-size: 200% 200%;
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid #ff6e61;
+  padding: 5px 10px;
+  font-size: 1rem;
+  font-family: 'Montserrat', 'Roboto', sans-serif;
+  cursor: pointer;
+  border-radius: 20px;
+  transition:
+    background-color 0.3s,
+    border-color 0.3s;
+  background-image: linear-gradient(
+    135deg,
+    transparent 0%,
+    transparent 50%,
+    #ff6e61 100%
+  );
+  background-size: 200% 200%;
 }
 
 .signup-button:hover {
-    background-position: right center;
-    background-color: #ff6e61;
-    color: #FFFFFF;
-    box-shadow: 0 0 10px rgba(255, 110, 97, 0.6);
+  background-position: right center;
+  background-color: #ff6e61;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 110, 97, 0.6);
 }
 
 .hamburger-menu {
-    display: none;
-    font-size: 1.5rem;
-    color: #F5F5F5;
-    background: none;
-    border: none;
-    cursor: pointer;
+  display: none;
+  font-size: 1.5rem;
+  color: #f5f5f5;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 @media (max-width: 760px) {
-    .hamburger-menu {
-        display: block;
-    }
+  .hamburger-menu {
+    display: block;
+  }
 
-    .nav-links {
-        display: none;
-    }
+  .nav-links {
+    display: none;
+  }
 
-    .header-nav {
-        gap: 10px;
-    }
+  .header-nav {
+    gap: 10px;
+  }
 }
 
 @media (min-width: 760px) {
-    .header {
-        flex-direction: row;
-    }
+  .header {
+    flex-direction: row;
+  }
 }
 
 .profile-avatar {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    background-color: #ff6e61;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: #ff6e61;
 }
 
 .profile-avatar:hover {
-    box-shadow: 0 0 10px rgba(255, 110, 97, 0.6);
+  box-shadow: 0 0 10px rgba(255, 110, 97, 0.6);
 }
 
 .avatar-icon {
-    font-size: 1.5rem;
-    color: #F5F5F5;
+  font-size: 1.5rem;
+  color: #f5f5f5;
 }
 
 .dropdown-menu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background-color: #1A1A1D;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    padding: 10px 0;
-    display: none;
-    flex-direction: column;
-    width: 150px;
-    z-index: 1000;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #1a1a1d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  padding: 10px 0;
+  display: none;
+  flex-direction: column;
+  width: 150px;
+  z-index: 1000;
 }
 
 .dropdown-menu.open {
-    display: flex;
+  display: flex;
 }
 
 .dropdown-menu a,
 .dropdown-menu button {
-    padding: 10px 15px;
-    color: #F5F5F5;
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-family: 'Montserrat', 'Roboto', sans-serif;
-    transition: background-color 0.2s;
-    text-align: left;
-    border: none;
-    background: none;
-    cursor: pointer;
+  padding: 10px 15px;
+  color: #f5f5f5;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-family: 'Montserrat', 'Roboto', sans-serif;
+  transition: background-color 0.2s;
+  text-align: left;
+  border: none;
+  background: none;
+  cursor: pointer;
 }
 
 .dropdown-menu a:hover,
 .dropdown-menu button:hover {
-    background-color: #333;
+  background-color: #333;
 }
