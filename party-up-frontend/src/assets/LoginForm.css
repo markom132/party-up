@@ -144,10 +144,7 @@ button .spinner {
   text-align: center;
   margin-top: 15px;
   font-size: 0.9rem;
-}
-
-.forgot-password a {
-  color: #fff;
+  color: #a0a0a5;
   text-decoration: none;
   opacity: 0.7;
   transition:
@@ -155,9 +152,33 @@ button .spinner {
     text-decoration 0.3s ease;
 }
 
-.forgot-password a:hover {
+.forgot-password:hover {
   opacity: 1;
   text-decoration: underline;
+}
+
+.account-options {
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.create-account {
+  color: #a1d661;
+  font-weight: bold;
+  text-decoration: none;
+  opacity: 0.7;
+}
+
+.create-account:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.divider {
+  margin: 0 10px;
+  color: #ccc;
 }
 
 /* Spinner animation */

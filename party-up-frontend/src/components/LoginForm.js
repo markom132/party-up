@@ -41,6 +41,7 @@ const LoginForm = () => {
         console.log('Logged in successfully:', data);
       } catch (error) {
         setError((prevError) => ({ ...prevError, api: error.message }));
+        setSuccessMessage('');
       } finally {
         setIsLoading(false);
       }
@@ -79,8 +80,10 @@ const LoginForm = () => {
           <button type="submit" disabled={isLaoding}>
             {isLaoding ? <span className="spinner"></span> : 'Login'}
           </button>
-          <p className="forgot-password">
-            <a href="#forgot-password">Forgot Password?</a>
+          <p className="account-options">
+            <a href="#forgot-password" className="forgot-password">Forgot Password?</a>
+            <span className='divider'>|</span>
+            <a href='#create-account' className='create-account'>Create Account</a>
           </p>
         </form>
       </div>
