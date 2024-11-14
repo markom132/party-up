@@ -81,9 +81,13 @@ const LoginForm = () => {
             {isLaoding ? <span className="spinner"></span> : 'Login'}
           </button>
           <p className="account-options">
-            <a href="#forgot-password" className="forgot-password">Forgot Password?</a>
-            <span className='divider'>|</span>
-            <a href='#create-account' className='create-account'>Create Account</a>
+            <a href="#forgot-password" className="forgot-password">
+              Forgot Password?
+            </a>
+            <span className="divider">|</span>
+            <a href="#create-account" className="create-account">
+              Create Account
+            </a>
           </p>
         </form>
       </div>
