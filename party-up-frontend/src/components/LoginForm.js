@@ -6,6 +6,7 @@ const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState({ username: '', password: '', api: '' });
+  const [isLaoding, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,11 +33,14 @@ const LoginForm = () => {
     setError(newError);
 
     if (!hasError) {
+        setIsLoading(true);
       try {
         const data = await loginUser(username, password);
         console.log('Logged in successfully:', data);
       } catch (error) {
         setError((prevError) => ({ ...prevError, api: error.message }));
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -69,7 +73,9 @@ const LoginForm = () => {
             {error.password && <p className="error-text">{error.password}</p>}
           </div>
           {error.api && <p className="error-text">{error.api}</p>}
-          <button type="submit">Login</button>
+            <button type="submit" disabled={isLaoding}>
+                {isLaoding ? <span className='spinner'></span> : 'Login' }
+            </button>
           <p className="forgot-password">
             <a href="#forgot-password">Forgot Password?</a>
           </p>
