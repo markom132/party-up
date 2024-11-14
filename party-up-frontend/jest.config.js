@@ -4,4 +4,8 @@ module.exports = {
         "/node_modules/",
         "/cypress/"
     ],
+    testEnvironment: "jsdom",
+    moduleNameMapper: {
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    },
 };

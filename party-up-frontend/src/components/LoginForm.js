@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import '../assets/LoginForm.css';
 import { loginUser } from '../services/authService';
+import '../assets/LoginForm.css';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
