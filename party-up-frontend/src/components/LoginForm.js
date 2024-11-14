@@ -75,7 +75,7 @@ const LoginForm = () => {
             {error.password && <p className="error-text">{error.password}</p>}
           </div>
           {error.api && <p className="error-text">{error.api}</p>}
-          {successMessage && <p className='success-text'>{successMessage}</p>}
+          {successMessage && <p className="success-text">{successMessage}</p>}
           <button type="submit" disabled={isLaoding}>
             {isLaoding ? <span className="spinner"></span> : 'Login'}
           </button>
