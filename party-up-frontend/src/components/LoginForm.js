@@ -33,7 +33,7 @@ const LoginForm = () => {
     setError(newError);
 
     if (!hasError) {
-        setIsLoading(true);
+      setIsLoading(true);
       try {
         const data = await loginUser(username, password);
         console.log('Logged in successfully:', data);
@@ -73,9 +73,9 @@ const LoginForm = () => {
             {error.password && <p className="error-text">{error.password}</p>}
           </div>
           {error.api && <p className="error-text">{error.api}</p>}
-            <button type="submit" disabled={isLaoding}>
-                {isLaoding ? <span className='spinner'></span> : 'Login' }
-            </button>
+          <button type="submit" disabled={isLaoding}>
+            {isLaoding ? <span className="spinner"></span> : 'Login'}
+          </button>
           <p className="forgot-password">
             <a href="#forgot-password">Forgot Password?</a>
           </p>
