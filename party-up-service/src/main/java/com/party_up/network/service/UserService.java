@@ -94,7 +94,7 @@ public class UserService {
             logger.info("Login successful for user: {}", user.getEmail());
             return response;
         } catch (AuthenticationException e) {
-            logger.error("Authentication failed for email: {}", username, e);
+            logger.error("Authentication failed for user: {}", username, e);
             throw new RuntimeException("Invalid credentials");
         }
     }

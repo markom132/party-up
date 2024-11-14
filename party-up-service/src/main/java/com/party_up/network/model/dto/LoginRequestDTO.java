@@ -19,7 +19,7 @@ public class LoginRequestDTO {
      * User's username for login. Must be valid and within character limits.
      */
     @NotBlank(message = "Username cannot be blank")
-    @Size(min = 5, max = 255, message = "Username must be between 5 and 255 characters")
+    @Size(min = 5, max = 30, message = "Username must be between 5 and 30 characters")
     private String username;
 
     /**
