@@ -7,6 +7,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState({ username: '', password: '', api: '' });
   const [isLaoding, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,6 +37,7 @@ const LoginForm = () => {
       setIsLoading(true);
       try {
         const data = await loginUser(username, password);
+        setSuccessMessage('Login successful');
         console.log('Logged in successfully:', data);
       } catch (error) {
         setError((prevError) => ({ ...prevError, api: error.message }));
@@ -73,6 +75,7 @@ const LoginForm = () => {
             {error.password && <p className="error-text">{error.password}</p>}
           </div>
           {error.api && <p className="error-text">{error.api}</p>}
+          {successMessage && <p className='success-text'>{successMessage}</p>}
           <button type="submit" disabled={isLaoding}>
             {isLaoding ? <span className="spinner"></span> : 'Login'}
           </button>
