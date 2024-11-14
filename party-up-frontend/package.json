@@ -18,7 +18,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "lint:css": "stylelint **/*.css --fix"
   },
   "eslintConfig": {
     "extends": [
