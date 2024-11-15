@@ -1,22 +1,22 @@
 import React from 'react';
-import '../assets/Footer.css';
+import styles from './Footer.module.scss';
 
-const Footer = () => {
+const Footer: React.FC = () => {
   return (
-    <footer className="footer">
-      <div className="footer-container">
-        <div className="footer-section about">
+    <footer className={styles.footer}>
+      <div className={styles['footer-container']}>
+        <div className={`${styles['footer-section']} ${styles.about}`}>
           <h4>About</h4>
           <p>
-            Parti-Up is a social network dedicated to connecting people through
+            Party-Up is a social network dedicated to connecting people through
             shared events and experiences. Find friends, create events, enjoy
             unforgettable moments.
           </p>
         </div>
 
-        <div className="footer-section quick-links">
+        <div className={`${styles['footer-section']} ${styles['quick-links']}`}>
           <h4>Links</h4>
-          <div className="links-columns">
+          <div className={styles['links-columns']}>
             <a href="#home">Home</a>
             <a href="#events">Events</a>
             <a href="#explore">Explore</a>
@@ -26,26 +26,26 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="footer-section social-media">
+        <div className={`${styles['footer-section']} ${styles['social-media']}`}>
           <h4>Follow Us</h4>
-          <div className="social-icons">
-            <a href="#facebook" className="social-icon facebook">
+          <div className={styles['social-icons']}>
+            <a href="#facebook" className={styles['social-icon']} aria-label="Facebook">
               <i className="fab fa-facebook-f"></i>
             </a>
-            <a href="#instagram" className="social-icon instagram">
+            <a href="#instagram" className={styles['social-icon']} aria-label="Instagram">
               <i className="fab fa-instagram"></i>
             </a>
-            <a href="#twitter" className="social-icon twitter">
+            <a href="#twitter" className={styles['social-icon']} aria-label="Twitter">
               <i className="fab fa-twitter"></i>
             </a>
-            <a href="#linkedin" className="social-icon linkedin">
+            <a href="#linkedin" className={styles['social-icon']} aria-label="LinkedIn">
               <i className="fab fa-linkedin-in"></i>
             </a>
           </div>
         </div>
       </div>
 
-      <div className="footer-bottom">
+      <div className={styles['footer-bottom']}>
         <p>&copy; 2024 Party-Up. All rights reserved.</p>
       </div>
     </footer>

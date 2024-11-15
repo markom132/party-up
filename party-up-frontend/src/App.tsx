@@ -5,10 +5,9 @@ import {
   Routes,
   Navigate,
 } from 'react-router-dom';
-import './App.css';
-import LoginForm from './components/LoginForm';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import LoginForm from './components/LoginForm/LoginForm';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 
 function App() {
   return (

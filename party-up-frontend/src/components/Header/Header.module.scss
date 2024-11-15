@@ -1,0 +1,208 @@
+// SCSS vars
+$primary-color: #1a1a1d;
+$accent-color: #ff6e61;
+$text-light: #f5f5f5;
+$hover-hignlight: #a1d661;
+$box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+$border-light: rgba(255, 255, 255, 0.1);
+
+@mixin transition($properties...) {
+  transition: $properties;
+}
+
+.header {
+  background-color: $primary-color;
+  color: $text-light;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  box-shadow: $box-shadow;
+  border-bottom: 2px solid $border-light;
+  position: relative;
+  z-index: 10;
+}
+
+.logo {
+  font-family: Montserrat, Roboto, sans-serif;
+  font-weight: bold;
+  color: $text-light;
+  font-size: 1.5rem;
+
+  .accent {
+    color: #ff6e61;
+  }
+}
+
+.headerNav {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.navLinks {
+  display: flex;
+  gap: 15px;
+
+  &.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    background-color: $primary-color;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    gap: 10px;
+  }
+
+  a {
+    color: $text-light;
+    text-decoration: none;
+    font-family: Montserrat, Roboto, sans-serif;
+    font-size: 1rem;
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 1;
+      text-decoration: underline;
+      color: $hover-hignlight;
+    }
+  }
+}
+
+.authButtons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .loginLink {
+    color: $text-light;
+    padding: 5px 10px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-family: Montserrat, Roboto, sans-serif;
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+  }
+
+  .signupButton {
+    background-color: transparent;
+    color: $text-light;
+    border: 1px solid $accent-color;
+    padding: 5px 10px;
+    font-size: 1rem;
+    font-family: Montserrat, Roboto, sans-serif;
+    cursor: pointer;
+    border-radius: 20px;
+    @include transition(background-color 0.3s,
+      border-color 0.3s background-position 0.3s);
+    background-image: linear-gradient(135deg,
+        transparent 0%,
+        transparent 50%,
+        $accent-color 100%);
+    background-size: 200% 200%;
+
+    &:hover {
+      background-position: right center;
+      background-color: $accent-color;
+      color: $text-light;
+      box-shadow: 0 0 10px rgba($accent-color, 0.6);
+    }
+  }
+
+  .profileAvatar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: $accent-color;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 0 10px rgb($accent-color, 0.6);
+    }
+
+    .avatarIcon {
+      font-size: 1.5rem;
+      color: $text-light;
+    }
+
+    .dropdownMenu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: $primary-color;
+      border: 1px solid $border-light;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      padding: 10px 0;
+      display: none;
+      flex-direction: column;
+      width: 150px;
+      z-index: 1000;
+
+      &.open {
+        display: flex;
+      }
+
+      a,
+      button {
+        padding: 10px 15px;
+        color: $text-light;
+        text-decoration: none;
+        font-size: 0.9rem;
+        text-align: left;
+        border: none;
+        background: none;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #333;
+        }
+      }
+    }
+  }
+}
+
+.hamburgerMenu {
+  display: none;
+  font-size: 1.5rem;
+  color: $text-light;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+// Responsive styling
+@media (max-width: 760px) {
+  .hamburgerMenu {
+    display: block;
+  }
+
+  .navLinks {
+    display: none;
+  }
+
+  .headerNav {
+    gap: 10px;
+  }
+}
+
+@media (min-width: 760px) {
+  .navLinks {
+    display: flex;
+  }
+
+  .header {
+    flex-direction: row;
+  }
+}
