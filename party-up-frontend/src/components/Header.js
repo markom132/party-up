@@ -28,7 +28,7 @@ const Header = () => {
         <div className="auth-buttons">
           {isLoggedIn ? (
             <div className="profile-avatar" onClick={toggleProfileMenu}>
-              <i className="fas fa-user-circle avatar-icon"></i>
+              <i className="fas fa-user-circle avatar-icon" aria-label="Profile Avatar"></i>
               <div
                 className={`dropdown-menu ${isProfileMenuOpen ? 'open' : ''}`}
               >
