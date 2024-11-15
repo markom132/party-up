@@ -8,6 +8,7 @@ import {
 import './App.css';
 import LoginForm from './components/LoginForm';
 import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<LoginForm />} />
       </Routes>
+      <Footer />
     </Router>
   );
 }

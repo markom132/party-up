@@ -3,14 +3,6 @@ import { loginUser } from '../services/authService';
 import '../assets/LoginForm.css';
 
 const LoginForm = () => {
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, []);
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState({ username: '', password: '', api: '' });
