@@ -16,13 +16,15 @@
 }
 
 .footer-section {
-    flex: 1 1 calc(33.333% - 20px); /* 3 kolone */
+    flex: 1 1 calc(33.333% - 20px);
+    /* 3 kolone */
     min-width: 200px;
 }
 
 .footer-section h4 {
     font-family: 'Montserrat', 'Roboto', sans-serif;
-    color: #ffcd29; /* Sunglow nijansa */
+    color: #ffcd29;
+    /* Sunglow nijansa */
     margin-bottom: 10px;
     font-size: 1.2rem;
 }
@@ -38,14 +40,16 @@
 }
 
 .footer-section a:hover {
-    color: #ff6e61; /* Bittersweet nijansa */
+    color: #ff6e61;
+    /* Bittersweet nijansa */
     opacity: 1;
     text-decoration: underline;
 }
 
 .links-columns {
     display: grid;
-    grid-template-columns: repeat(2, auto); /* Dva stupca */
+    grid-template-columns: repeat(2, auto);
+    /* Dva stupca */
     gap: 5px;
 }
 
@@ -63,7 +67,8 @@
     height: 40px;
     border-radius: 50%;
     background-color: transparent;
-    color: #ffcd29; /* Sunglow */
+    color: #ffcd29;
+    /* Sunglow */
     border: 1px solid #ffcd29;
     font-size: 1.2rem;
     transition: all 0.3s ease;
@@ -80,4 +85,15 @@
     padding-top: 20px;
     font-size: 0.8rem;
     opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .links-columns {
+        grid-template-columns: 1fr;
+    }
 }
