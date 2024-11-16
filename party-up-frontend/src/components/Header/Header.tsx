@@ -15,20 +15,20 @@ const Header: React.FC = () => {
     <header className={styles.header}>
       <h1 className={styles.logo}>
         Par<span className={styles.accent}>t</span>y-
-        <span className={styles.accent}>Up</span>
+        <span className={styles['accent']}>Up</span>
       </h1>
-      <nav className={styles.headerNav}>
-        <div className={`${styles.navLinks} ${menuOpen ? styles.open : ''}`}>
+      <nav className={styles['header-nav']}>
+        <div className={`${styles['nav-links']} ${menuOpen ? styles.open : ''}`}>
           <a href="#home">Home</a>
           <a href="#events">Events</a>
           <a href="#explore">Explore</a>
         </div>
-        <div className={styles.authButtons}>
+        <div className={styles['auth-buttons']}>
           {isLoggedIn ? (
-            <div className={styles.profileAvatar} onClick={toggleProfileMenu}>
-              <i className={`${styles.avatarIcon} fas fa-user-circle`}></i>
+            <div className={styles['profile-avatar']} onClick={toggleProfileMenu}>
+              <i className={`${styles['avatar-icon']} fas fa-user-circle`}></i>
               <div
-                className={`${styles.dropdownMenu} ${
+                className={`${styles['dropdown-menu']} ${
                   isProfileMenuOpen ? styles.open : ''
                 }`}
               >
@@ -39,14 +39,14 @@ const Header: React.FC = () => {
             </div>
           ) : (
             <>
-              <a href="#login" className={styles.loginLink}>
+              <a href="#login" className={styles['login-link']}>
                 Login
               </a>
-              <button className={styles.signupButton}>Sign Up</button>
+              <button className={styles['signup-button']}>Sign Up</button>
             </>
           )}
         </div>
-        <button className={styles.hamburgerMenu} onClick={toggleMenu}>
+        <button className={styles['hamburger-menu']} onClick={toggleMenu}>
           &#9776;
         </button>
       </nav>

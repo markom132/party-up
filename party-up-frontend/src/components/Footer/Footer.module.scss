@@ -3,7 +3,7 @@
   color: #a0a0a5;
   padding: 40px 20px;
   text-align: center;
-  border-top: 2px solid rgba(255, 255, 255, 0.1);
+  border-top: 2px solid rgb(255 255 255 / 10%);
 
   .footer-container {
     display: flex;
@@ -17,7 +17,7 @@
     .footer-section {
       flex: 1 1 calc(33.333% - 20px);
       min-width: 200px;
-      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      border-right: 1px solid rgb(255 255 255 / 10%);
       padding-right: 20px;
 
       &:last-child {
@@ -30,17 +30,17 @@
       }
 
       h4 {
-        font-family: 'Montserrat', 'Roboto', sans-serif;
+        font-family: Montserrat, Roboto, sans-serif;
         color: #ffcd29;
         margin-bottom: 15px;
         font-size: 1.2rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 1px solid rgb(255 255 255 / 10%);
         padding-bottom: 5px;
       }
 
       p {
         font-size: 0.9rem;
-        font-family: 'Montserrat', 'Roboto', sans-serif;
+        font-family: Montserrat, Roboto, sans-serif;
         color: #f5f5f5;
         text-decoration: none;
         opacity: 0.8;
@@ -52,7 +52,7 @@
 
       a {
         font-size: 0.9rem;
-        font-family: 'Montserrat', 'Roboto', sans-serif;
+        font-family: Montserrat, Roboto, sans-serif;
         color: #f5f5f5;
         text-decoration: none;
         opacity: 0.8;
@@ -95,9 +95,9 @@
           transition: all 0.3s ease;
 
           &:hover {
-            background-color: rgba(255, 205, 41, 0.2);
+            background-color: rgb(255 205 41 / 20%);
             color: #1a1a1d;
-            box-shadow: 0 0 10px rgba(255, 205, 41, 0.5);
+            box-shadow: 0 0 10px rgb(255 205 41 / 50%);
             border-color: #ffcd29;
           }
         }
@@ -107,7 +107,7 @@
 
   .footer-bottom {
     margin-top: 40px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgb(255 255 255 / 10%);
     padding-top: 20px;
     font-size: 0.8rem;
     color: #a0a0a5;
@@ -115,7 +115,7 @@
     opacity: 0.7;
   }
 
-  @media (max-width: 768px) {
+  @media (width <= 768px) {
     .footer-container {
       flex-direction: column;
       gap: 30px;

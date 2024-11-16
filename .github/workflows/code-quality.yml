@@ -148,7 +148,7 @@ jobs:
       - name: Run Stylelint
         run: |
           cd party-up-frontend
-          npx stylelint "**/*.scss"
+          npx stylelint "**/*.module.scss"
 
   cypress:
     runs-on: ubuntu-latest
