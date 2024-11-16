@@ -18,14 +18,19 @@ const Header: React.FC = () => {
         <span className={styles['accent']}>Up</span>
       </h1>
       <nav className={styles['header-nav']}>
-        <div className={`${styles['nav-links']} ${menuOpen ? styles.open : ''}`}>
+        <div
+          className={`${styles['nav-links']} ${menuOpen ? styles.open : ''}`}
+        >
           <a href="#home">Home</a>
           <a href="#events">Events</a>
           <a href="#explore">Explore</a>
         </div>
         <div className={styles['auth-buttons']}>
           {isLoggedIn ? (
-            <div className={styles['profile-avatar']} onClick={toggleProfileMenu}>
+            <div
+              className={styles['profile-avatar']}
+              onClick={toggleProfileMenu}
+            >
               <i className={`${styles['avatar-icon']} fas fa-user-circle`}></i>
               <div
                 className={`${styles['dropdown-menu']} ${
