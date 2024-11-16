@@ -30,7 +30,7 @@ const Header: React.FC = () => {
             <div
               className={styles['profile-avatar']}
               onClick={toggleProfileMenu}
-              aria-label='Profile Avatar'
+              aria-label="Profile Avatar"
             >
               <i className={`${styles['avatar-icon']} fas fa-user-circle`}></i>
               <div
