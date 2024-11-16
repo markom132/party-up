@@ -20,8 +20,9 @@ const Header: React.FC = () => {
       <nav className={styles['header-nav']}>
         <div
           className={`${styles['nav-links']} ${menuOpen ? styles.open : ''}`}
+          data-testid="nav-links"
         >
-          <a href="#home">Home</a>
+          <a href="#home" data-testid="nav-link-home">Home</a>
           <a href="#events">Events</a>
           <a href="#explore">Explore</a>
         </div>
@@ -31,12 +32,13 @@ const Header: React.FC = () => {
               className={styles['profile-avatar']}
               onClick={toggleProfileMenu}
               aria-label="Profile Avatar"
+              data-testid="profile-avatar"
             >
               <i className={`${styles['avatar-icon']} fas fa-user-circle`}></i>
               <div
-                className={`${styles['dropdown-menu']} ${
-                  isProfileMenuOpen ? styles.open : ''
-                }`}
+                className={`${styles['dropdown-menu']} ${isProfileMenuOpen ? styles.open : ''
+                  }`}
+                data-testid="dropdown-menu"
               >
                 <a href="#profile">My Profile</a>
                 <a href="#settings">Settings</a>
@@ -45,14 +47,17 @@ const Header: React.FC = () => {
             </div>
           ) : (
             <>
-              <a href="#login" className={styles['login-link']}>
+              <a href="#login" className={styles['login-link']}
+                data-testid="login-link">
                 Login
               </a>
-              <button className={styles['signup-button']}>Sign Up</button>
+              <button className={styles['signup-button']}
+                data-testid="signup-button">Sign Up</button>
             </>
           )}
         </div>
-        <button className={styles['hamburger-menu']} onClick={toggleMenu}>
+        <button className={styles['hamburger-menu']} onClick={toggleMenu}
+          data-testid="hamburger-menu">
           &#9776;
         </button>
       </nav>

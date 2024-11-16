@@ -41,7 +41,7 @@ $border-light: rgb(255 255 255 / 10%);
 }
 
 .nav-links {
-  display: flex;
+  display: none;
   gap: 15px;
 
   &.open {
@@ -189,7 +189,22 @@ $border-light: rgb(255 255 255 / 10%);
 }
 
 // Responsive styling
-@media (width <= 760px) {
+@media (min-width: 760px) {
+  .hamburger-menu {
+    display: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 15px;
+  }
+
+  .header {
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 760px) {
   .hamburger-menu {
     display: block;
   }
@@ -203,12 +218,3 @@ $border-light: rgb(255 255 255 / 10%);
   }
 }
 
-@media (width >= 760px) {
-  .nav-links {
-    display: flex;
-  }
-
-  .header {
-    flex-direction: row;
-  }
-}
