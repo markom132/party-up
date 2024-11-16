@@ -1,9 +1,12 @@
 interface LoginResponse {
-  token?: string; 
+  token?: string;
   message?: string;
 }
 
-export const loginUser = async (username: string, password: string): Promise<LoginResponse> => {
+export const loginUser = async (
+  username: string,
+  password: string
+): Promise<LoginResponse> => {
   const response = await fetch('http://localhost:8080/api/auth/login', {
     method: 'POST',
     headers: {

@@ -14,10 +14,11 @@ const Header: React.FC = () => {
   return (
     <header className={styles.header}>
       <h1 className={styles.logo}>
-        Par<span className={styles.accent}>t</span>y-<span className={styles.accent}>Up</span>
+        Par<span className={styles.accent}>t</span>y-
+        <span className={styles.accent}>Up</span>
       </h1>
       <nav className={styles.headerNav}>
-      <div className={`${styles.navLinks} ${menuOpen ? styles.open : ''}`}>
+        <div className={`${styles.navLinks} ${menuOpen ? styles.open : ''}`}>
           <a href="#home">Home</a>
           <a href="#events">Events</a>
           <a href="#explore">Explore</a>
@@ -28,7 +29,8 @@ const Header: React.FC = () => {
               <i className={`${styles.avatarIcon} fas fa-user-circle`}></i>
               <div
                 className={`${styles.dropdownMenu} ${
-                  isProfileMenuOpen ? styles.open : ''}`}
+                  isProfileMenuOpen ? styles.open : ''
+                }`}
               >
                 <a href="#profile">My Profile</a>
                 <a href="#settings">Settings</a>

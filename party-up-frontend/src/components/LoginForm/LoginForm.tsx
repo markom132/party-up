@@ -11,7 +11,11 @@ interface ErrorState {
 const LoginForm: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState<ErrorState>({ username: '', password: '', api: '' });
+  const [error, setError] = useState<ErrorState>({
+    username: '',
+    password: '',
+    api: '',
+  });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>('');
 
@@ -68,7 +72,9 @@ const LoginForm: React.FC = () => {
               placeholder="Enter your username"
               className={error.username ? styles['error-input'] : ''}
             />
-            {error.username && <p className={styles['error-text']}>{error.username}</p>}
+            {error.username && (
+              <p className={styles['error-text']}>{error.username}</p>
+            )}
           </div>
           <div className={styles['input-container']}>
             <i className="fas fa-lock"></i>
@@ -79,10 +85,14 @@ const LoginForm: React.FC = () => {
               placeholder="Enter your password"
               className={error.password ? styles['error-input'] : ''}
             />
-            {error.password && <p className={styles['error-text']}>{error.password}</p>}
+            {error.password && (
+              <p className={styles['error-text']}>{error.password}</p>
+            )}
           </div>
           {error.api && <p className={styles['error-text']}>{error.api}</p>}
-          {successMessage && <p className={styles['success-text']}>{successMessage}</p>}
+          {successMessage && (
+            <p className={styles['success-text']}>{successMessage}</p>
+          )}
           <button type="submit" disabled={isLoading}>
             {isLoading ? <span className={styles['spinner']}></span> : 'Login'}
           </button>

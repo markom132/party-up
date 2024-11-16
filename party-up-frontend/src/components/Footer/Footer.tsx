@@ -26,19 +26,37 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className={`${styles['footer-section']} ${styles['social-media']}`}>
+        <div
+          className={`${styles['footer-section']} ${styles['social-media']}`}
+        >
           <h4>Follow Us</h4>
           <div className={styles['social-icons']}>
-            <a href="#facebook" className={styles['social-icon']} aria-label="Facebook">
+            <a
+              href="#facebook"
+              className={styles['social-icon']}
+              aria-label="Facebook"
+            >
               <i className="fab fa-facebook-f"></i>
             </a>
-            <a href="#instagram" className={styles['social-icon']} aria-label="Instagram">
+            <a
+              href="#instagram"
+              className={styles['social-icon']}
+              aria-label="Instagram"
+            >
               <i className="fab fa-instagram"></i>
             </a>
-            <a href="#twitter" className={styles['social-icon']} aria-label="Twitter">
+            <a
+              href="#twitter"
+              className={styles['social-icon']}
+              aria-label="Twitter"
+            >
               <i className="fab fa-twitter"></i>
             </a>
-            <a href="#linkedin" className={styles['social-icon']} aria-label="LinkedIn">
+            <a
+              href="#linkedin"
+              className={styles['social-icon']}
+              aria-label="LinkedIn"
+            >
               <i className="fab fa-linkedin-in"></i>
             </a>
           </div>
