@@ -189,7 +189,7 @@ $border-light: rgb(255 255 255 / 10%);
 }
 
 // Responsive styling
-@media (min-width: 760px) {
+@media (width >= 760px) {
   .hamburger-menu {
     display: none;
   }
@@ -204,7 +204,7 @@ $border-light: rgb(255 255 255 / 10%);
   }
 }
 
-@media (max-width: 760px) {
+@media (width <= 760px) {
   .hamburger-menu {
     display: block;
   }
