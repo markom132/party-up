@@ -5,32 +5,41 @@ import pluginPrettier from 'eslint-plugin-prettier';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import pluginTypescript from '@typescript-eslint/eslint-plugin';
 import parserTypescript from '@typescript-eslint/parser';
+import pluginCypress from 'eslint-plugin-cypress';
 
 export default [
+  // Base Configuration
   {
     files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
+    ignores: [
+      'node_modules/**',
+      'dist/**',
+      '**/*.d.ts',
+      '__mocks__/**/*',
+      '**/*.cjs',
+      'cypress/**/*.js',
+      'cypress/**/*.ts',
+      'cypress/**/*.tsx',
+      '**/*.test.{js,ts,tsx}',
+      '**/*.spec.{js,ts,tsx}',
+      'coverage/**',
+      '*.config.mjs',
+      '*.config.js',
+      'jest.setup.js',
+      '**/__tests__/**'
+    ],
     languageOptions: {
       parser: parserTypescript,
       parserOptions: {
         ecmaVersion: 2020,
         sourceType: 'module',
-        ecmaFeatures: {
-          jsx: true,
-        },
+        ecmaFeatures: { jsx: true },
         project: './tsconfig.json',
       },
       globals: {
         ...globals.browser,
         require: 'readonly',
         module: 'readonly',
-        cy: 'readonly',
-        Cypress: 'readonly',
-        describe: 'readonly',
-        it: 'readonly',
-        test: 'readonly',
-        expect: 'readonly',
-        beforeEach: 'readonly',
-        jest: 'readonly',
       },
     },
     plugins: {
@@ -41,7 +50,7 @@ export default [
       'no-console': 'warn',
       'no-unused-vars': 'warn',
       '@typescript-eslint/no-unused-vars': ['warn'],
-      '@typescript-eslint/explicit-module-boundary-types': 'warn',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
       quotes: ['error', 'single'],
       semi: ['error', 'always'],
@@ -50,21 +59,20 @@ export default [
       'prettier/prettier': 'error',
     },
   },
-  pluginJs.configs.recommended,
-  pluginReact.configs.flat.recommended,
-  eslintConfigPrettier,
+  // Test Files (Unit and Integration)
   {
-    files: ['**/*.test.{js,ts,tsx}', '**/*.spec.{js,ts,tsx}', '**/*.cy.{js,ts,tsx}'],
+    files: ['**/*.test.{js,ts,tsx}', '**/*.spec.{js,ts,tsx}'],
     languageOptions: {
       globals: {
+        window: 'readonly',
+        Event: 'readonly',
         jest: 'readonly',
-        cy: 'readonly',
-        Cypress: 'readonly',
         describe: 'readonly',
         it: 'readonly',
         test: 'readonly',
         expect: 'readonly',
         beforeEach: 'readonly',
+        afterEach: 'readonly',
       },
     },
     rules: {
@@ -73,11 +81,34 @@ export default [
       'no-undef': 'off',
     },
   },
+  // Cypress Files
   {
-    settings: {
-      react: {
-        version: 'detect',
+    files: ['cypress/**/*.js', 'cypress/**/*.ts', 'cypress/**/*.tsx'],
+    plugins: {
+      cypress: pluginCypress,
+    },
+    languageOptions: {
+      globals: {
+        cy: 'readonly',
+        Cypress: 'readonly',
+        describe: 'readonly',
+        it: 'readonly',
+        beforeEach: 'readonly',
       },
     },
+    rules: {
+      'no-unused-vars': 'off',
+      'no-undef': 'off',
+    },
   },
+  // React-Specific Settings
+  {
+    settings: {
+      react: { version: 'detect' },
+    },
+  },
+  // Prettier Compatibility
+  eslintConfigPrettier,
+  pluginJs.configs.recommended,
+  pluginReact.configs.flat.recommended,
 ];

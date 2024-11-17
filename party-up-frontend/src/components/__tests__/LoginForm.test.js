@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import LoginForm from '../LoginForm/LoginForm';
 import { loginUser } from '../../services/authService';
@@ -25,7 +25,7 @@ describe('LoginForm Component', () => {
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
     expect(
-      await screen.findByText('Please enter your username')
+      await screen.findByText('Please enter your username'),
     ).toBeInTheDocument();
     expect(screen.getByText('Please enter your password')).toBeInTheDocument();
   });

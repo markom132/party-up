@@ -17,7 +17,7 @@ describe('Header Component', () => {
     render(<Header />);
 
     expect(
-      screen.getByRole('button', { name: /log out/i })
+      screen.getByRole('button', { name: /log out/i }),
     ).toBeInTheDocument();
     expect(screen.queryByText('Login')).not.toBeInTheDocument();
     expect(screen.queryByText('Sign Up')).not.toBeInTheDocument();
