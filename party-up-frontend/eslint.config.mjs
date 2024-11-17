@@ -26,7 +26,7 @@ export default [
       '*.config.mjs',
       '*.config.js',
       'jest.setup.js',
-      '**/__tests__/**'
+      '**/__tests__/**',
     ],
     languageOptions: {
       parser: parserTypescript,

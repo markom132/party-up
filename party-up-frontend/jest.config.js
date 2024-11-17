@@ -1,12 +1,11 @@
 export default {
-  preset: 'ts-jest',
+   preset: 'ts-jest',
   testEnvironment: 'jsdom',
-  moduleNameMapper: {
-    '\\.(css|scss)$': 'identity-obj-proxy',
-  },
   transform: {
-    '^.+\\.(ts|tsx|js|jsx)$': 'ts-jest',
+    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
   },
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  extensionsToTreatAsEsm: ['.ts', '.tsx'],
+  transformIgnorePatterns: ['<rootDir>/node_modules/'],
+  moduleNameMapper: {
+    '\\.(css|scss|sass)$': 'identity-obj-proxy', // Mock style imports
+  },
 };
