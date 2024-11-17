@@ -3,11 +3,21 @@ import pluginJs from '@eslint/js';
 import pluginReact from 'eslint-plugin-react';
 import pluginPrettier from 'eslint-plugin-prettier';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import parserTypescript from '@typescript-eslint/parser';
 
 export default [
   {
-    files: ['**/*.{js,mjs,cjs,jsx}'],
+    files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
     languageOptions: {
+      parser: parserTypescript,
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+        project: './tsconfig.json',
+      },
       globals: {
         ...globals.browser,
         require: 'readonly',
@@ -24,14 +34,18 @@ export default [
     },
     plugins: {
       prettier: pluginPrettier,
+      '@typescript-eslint': pluginTypescript,
     },
     rules: {
       'no-console': 'warn',
       'no-unused-vars': 'warn',
+      '@typescript-eslint/no-unused-vars': ['warn'],
+      '@typescript-eslint/explicit-module-boundary-types': 'warn',
+      '@typescript-eslint/no-explicit-any': 'warn',
       quotes: ['error', 'single'],
       semi: ['error', 'always'],
-      'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
-      'react/prop-types': 'warn',
+      'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.jsx'] }],
+      'react/prop-types': 'off',
       'prettier/prettier': 'error',
     },
   },
@@ -39,7 +53,7 @@ export default [
   pluginReact.configs.flat.recommended,
   eslintConfigPrettier,
   {
-    files: ['**/*.test.js', '**/*.spec.js', '**/*.cy.js'],
+    files: ['**/*.test.{js,ts,tsx}', '**/*.spec.{js,ts,tsx}', '**/*.cy.{js,ts,tsx}'],
     languageOptions: {
       globals: {
         jest: 'readonly',
@@ -54,6 +68,7 @@ export default [
     },
     rules: {
       'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
       'no-undef': 'off',
     },
   },
