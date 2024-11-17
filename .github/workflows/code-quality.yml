@@ -211,5 +211,5 @@ jobs:
           working-directory: ./party-up-frontend
       
         - name: Run Jest tests
-          run: npm type-check
+          run: npm run type-check
           working-directory: ./party-up-frontend
