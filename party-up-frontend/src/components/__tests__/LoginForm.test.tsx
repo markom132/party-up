@@ -9,6 +9,9 @@ jest.mock('../../services/authService', () => ({
   loginUser: jest.fn(),
 }));
 
+// eslint-disable-next-line no-undef
+const mockedLoginUser = loginUser as jest.MockedFunction<typeof loginUser>;
+
 describe('LoginForm Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -32,7 +35,7 @@ describe('LoginForm Component', () => {
 
   test('Shows API error message when login request failed', async () => {
     // Mock for loginUser which will throw error
-    loginUser.mockRejectedValueOnce(new Error('Invalid credentials'));
+    mockedLoginUser.mockRejectedValueOnce(new Error('Invalid credentials'));
 
     render(<LoginForm />);
 

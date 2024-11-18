@@ -5,12 +5,13 @@ import pluginPrettier from 'eslint-plugin-prettier';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import pluginTypescript from '@typescript-eslint/eslint-plugin';
 import parserTypescript from '@typescript-eslint/parser';
+import parser from '@babel/eslint-parser';
 import pluginCypress from 'eslint-plugin-cypress';
 
 export default [
   // Base Configuration
   {
-    files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
+    files: ['**/*.{mjs,cjs,jsx,ts,tsx}'],
     ignores: [
       'node_modules/**',
       'dist/**',
@@ -63,6 +64,13 @@ export default [
   {
     files: ['**/*.test.{js,ts,tsx}', '**/*.spec.{js,ts,tsx}'],
     languageOptions: {
+      parser: parser,
+      parserOptions: {
+        requireConfigFile: false,
+        babelOptions: {
+          presets: ['@babel/preset-react'],
+        },
+      },
       globals: {
         window: 'readonly',
         Event: 'readonly',
