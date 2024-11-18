@@ -1,13 +1,16 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import LoginForm from '../LoginForm';
+import LoginForm from '../LoginForm/LoginForm';
 import { loginUser } from '../../services/authService';
 
 // Mock for loginUser function
 jest.mock('../../services/authService', () => ({
   loginUser: jest.fn(),
 }));
+
+// eslint-disable-next-line no-undef
+const mockedLoginUser = loginUser as jest.MockedFunction<typeof loginUser>;
 
 describe('LoginForm Component', () => {
   beforeEach(() => {
@@ -25,14 +28,14 @@ describe('LoginForm Component', () => {
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
     expect(
-      await screen.findByText('Please enter your username')
+      await screen.findByText('Please enter your username'),
     ).toBeInTheDocument();
     expect(screen.getByText('Please enter your password')).toBeInTheDocument();
   });
 
   test('Shows API error message when login request failed', async () => {
     // Mock for loginUser which will throw error
-    loginUser.mockRejectedValueOnce(new Error('Invalid credentials'));
+    mockedLoginUser.mockRejectedValueOnce(new Error('Invalid credentials'));
 
     render(<LoginForm />);
 

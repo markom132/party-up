@@ -1,8 +1,13 @@
-// jest.config.js
-module.exports = {
-  testPathIgnorePatterns: ['/node_modules/', '/cypress/'],
+export default {
+  preset: 'ts-jest',
   testEnvironment: 'jsdom',
-  moduleNameMapper: {
-    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  transform: {
+    '^.+\\.(ts|tsx)$': 'ts-jest',
   },
+  transformIgnorePatterns: ['<rootDir>/node_modules/'],
+  moduleNameMapper: {
+    '\\.(css|scss|sass)$': 'identity-obj-proxy', // Mock style imports
+  },
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
 };

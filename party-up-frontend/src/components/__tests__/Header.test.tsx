@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Header from '../Header';
+import Header from '../Header/Header';
 
 describe('Header Component', () => {
   test('Shows login and sign in buttons when user is not logged in', () => {
@@ -17,7 +17,7 @@ describe('Header Component', () => {
     render(<Header />);
 
     expect(
-      screen.getByRole('button', { name: /log out/i })
+      screen.getByRole('button', { name: /log out/i }),
     ).toBeInTheDocument();
     expect(screen.queryByText('Login')).not.toBeInTheDocument();
     expect(screen.queryByText('Sign Up')).not.toBeInTheDocument();

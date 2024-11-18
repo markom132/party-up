@@ -5,11 +5,11 @@ import {
   Routes,
   Navigate,
 } from 'react-router-dom';
-import './App.css';
-import LoginForm from './components/LoginForm';
-import Header from './components/Header';
+import LoginForm from './components/LoginForm/LoginForm';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 
-function App() {
+const App: React.FC = () => {
   return (
     <Router>
       <Header />
@@ -17,8 +17,9 @@ function App() {
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<LoginForm />} />
       </Routes>
+      <Footer />
     </Router>
   );
-}
+};
 
 export default App;
