@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './Header.module.scss';
 
 // Defining a Props interface in case it will be needed to pass props to the Header in the future
-interface HeaderProps { }
+interface HeaderProps {}
 
 const Header: React.FC<HeaderProps> = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
