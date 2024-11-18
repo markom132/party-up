@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import styles from './Header.module.scss';
 
-const Header: React.FC = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+// Defining a Props interface in case it will be needed to pass props to the Header in the future
+interface HeaderProps { }
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+const Header: React.FC<HeaderProps> = () => {
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState<boolean>(false);
+
+  const toggleMenu = (): void => {
+    setMenuOpen((prev) => !prev);
   };
-  const toggleProfileMenu = () => setIsProfileMenuOpen((prev) => !prev);
+
+  const toggleProfileMenu = (): void => {
+    setIsProfileMenuOpen((prev) => !prev);
+  };
 
   return (
     <header className={styles.header}>
