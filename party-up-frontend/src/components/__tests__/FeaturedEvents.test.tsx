@@ -5,9 +5,9 @@ import '@testing-library/jest-dom';
 import FeaturedEvents from '../FeaturedEvents/FeaturedEvents';
 
 jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
-    useNavigate: jest.fn(),
-  }));
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: jest.fn(),
+}));
 
 // Mock data for deatured events
 const mockEvent = [
@@ -52,19 +52,19 @@ describe('FeaturedEvents Component', () => {
     const mockNavigate = jest.fn();
     // eslint-disable-next-line no-undef
     (useNavigate as jest.Mock).mockImplementation(() => mockNavigate);
-  
+
     render(<FeaturedEvents events={mockEvent} />);
-  
+
     // Find all "Details" buttons
     const detailButtons = screen.getAllByRole('button', { name: /details/i });
-  
+
     // Simulate click on the second "Details" button
     fireEvent.click(detailButtons[1]);
-  
+
     // Check if navigation was called with correct URL
     expect(mockNavigate).toHaveBeenCalledWith(`/event/${mockEvent[1].id}`);
     expect(mockNavigate).toHaveBeenCalledTimes(1);
-  
+
     // Verify that the second button was clicked
     expect(detailButtons[1]).toBeVisible();
   });

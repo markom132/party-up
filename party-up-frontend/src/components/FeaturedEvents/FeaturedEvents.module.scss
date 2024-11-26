@@ -6,7 +6,7 @@
 
   .section-title {
     font-size: 2rem;
-    color: #ffffff;
+    color: #fff;
     margin-bottom: 1.5rem;
     text-align: center;
   }
@@ -23,7 +23,7 @@
     border-radius: 8px;
     padding: 1rem;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgb(0 0 0 / 20%);
     transition: transform 0.2s ease;
 
     &:hover {
@@ -42,26 +42,26 @@
 
     .event-title {
       font-size: 1.5rem;
-      color: #ffffff;
+      color: #fff;
       margin: 0.5rem 0;
     }
 
     .event-date,
     .event-location {
       font-size: 1rem;
-      color: #cccccc;
+      color: #ccc;
     }
 
     .event-description {
       font-size: 0.9rem;
-      color: #dddddd;
+      color: #ddd;
       margin: 0.5rem 0 1rem;
     }
 
     .event-button {
       padding: 0.5rem 1rem;
       font-size: 1rem;
-      color: #ffffff;
+      color: #fff;
       background-color: #ff6e61;
       border: none;
       border-radius: 5px;
@@ -75,7 +75,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .events-grid {
     flex-direction: column;
     gap: 1.5rem;
