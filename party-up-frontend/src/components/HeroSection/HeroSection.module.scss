@@ -1,7 +1,9 @@
+@use 'sass:color';
+
 $primary-color: #ff6e61; // Bittersweet
 $secondary-color: #a1d661; // Confier
-$text-light: #ffffff; // White
-$overlay-color: rgba(0, 0, 0, 0.2); // Dark overlay
+$text-light: #fff; // White
+$overlay-color: rgb(0 0 0 / 20%); // Dark overlay
 
 .hero {
   position: relative;
@@ -51,7 +53,7 @@ $overlay-color: rgba(0, 0, 0, 0.2); // Dark overlay
     justify-content: center;
     gap: 20px;
 
-    .primaryButton {
+    .primary-button {
       background-color: $primary-color;
       color: $text-light;
       padding: 10px 20px;
@@ -62,12 +64,12 @@ $overlay-color: rgba(0, 0, 0, 0.2); // Dark overlay
       transition: all 0.3s;
 
       &:hover {
-        background-color: darken($primary-color, 10%);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        background-color: color.adjust($primary-color, $lightness: -10%);
+        box-shadow: 0 4px 6px rgb(0 0 0 / 20%);
       }
     }
 
-    .secondaryButton {
+    .secondary-button {
       background-color: $secondary-color;
       color: $text-light;
       padding: 10px 20px;
@@ -78,14 +80,14 @@ $overlay-color: rgba(0, 0, 0, 0.2); // Dark overlay
       transition: all 0.3s;
 
       &:hover {
-        background-color: darken($secondary-color, 10%);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        background-color: color.adjust($secondary-color, $lightness: -10%);
+        box-shadow: 0 4px 6px rgb(0 0 0 / 20%);
       }
     }
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .hero {
     padding: 1.5rem;
     min-height: 50vh;
