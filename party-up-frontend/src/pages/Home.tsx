@@ -5,6 +5,7 @@ import SearchFilter, {
   SearchFilters,
 } from '../components/SearchFilter/SearchFilter';
 import SocialFeed from '../components/SocialFeed/SocialFeed';
+import TopReviews from '../components/TopReviews/TopReviews';
 
 const HomePage: React.FC = () => {
   const userName: string = 'Marko';
@@ -61,6 +62,30 @@ const HomePage: React.FC = () => {
     console.log(`Commented on post ${postId}`);
   };
 
+  const mockPlaces = [
+    {
+      id: 1,
+      name: 'Blue Lagoon Bar',
+      rating: 4.8,
+      description: 'The best cocktails in town with amazing sea views.',
+      image: '/images/bar.jpg',
+    },
+    {
+      id: 2,
+      name: 'Downtown Cafe',
+      rating: 4.3,
+      description: 'Cozy cafe with delicious coffee and snacks.',
+      image: '/images/caffe.jpg',
+    },
+    {
+      id: 3,
+      name: 'Sunset Park',
+      rating: 4.7,
+      description: 'Perfect place for evening walks and beautiful sunsets.',
+      image: '/images/park.jpg',
+    },
+  ];
+
   return (
     <div>
       <section>
@@ -78,6 +103,9 @@ const HomePage: React.FC = () => {
           onLike={handleLike}
           onComment={handleComment}
         />
+      </section>
+      <section>
+        <TopReviews places={mockPlaces} />
       </section>
     </div>
   );
