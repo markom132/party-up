@@ -1,6 +1,9 @@
 import React from 'react';
 import HeroSection from '../components/HeroSection/HeroSection';
 import FeaturedEvents from '../components/FeaturedEvents/FeaturedEvents';
+import SearchFilter, {
+  SearchFilters,
+} from '../components/SearchFilter/SearchFilter';
 
 const HomePage: React.FC = () => {
   const userName: string = 'Marko';
@@ -25,11 +28,22 @@ const HomePage: React.FC = () => {
     },
   ];
 
+  const handleSearch = (filters: SearchFilters) => {
+    console.log('Searching with filters: ', filters);
+  };
+
   return (
-    <>
-      <HeroSection userName={userName} />
-      <FeaturedEvents events={events} />
-    </>
+    <div>
+      <section>
+        <HeroSection userName={userName} />
+      </section>
+      <section>
+        <FeaturedEvents events={events} />
+      </section>
+      <section>
+        <SearchFilter onSearch={handleSearch} />
+      </section>
+    </div>
   );
 };
 
