@@ -14,7 +14,9 @@ describe('SearchFilter Component', () => {
     render(<SearchFilter onSearch={mockOnSearch} />);
 
     // Check if all fields are present
-    expect(screen.getByPlaceholderText('Find event by name')).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('Find event by name'),
+    ).toBeInTheDocument();
     expect(screen.getByText('Select Location')).toBeInTheDocument();
     expect(screen.getByText('Select Category')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /search/i })).toBeInTheDocument();
@@ -28,11 +30,11 @@ describe('SearchFilter Component', () => {
       target: { value: 'Concert' },
     });
     fireEvent.change(screen.getByRole('combobox', { name: /location/i }), {
-        target: { value: 'city' },
-      });
-      fireEvent.change(screen.getByRole('combobox', { name: /category/i }), {
-        target: { value: 'party' },
-      });
+      target: { value: 'city' },
+    });
+    fireEvent.change(screen.getByRole('combobox', { name: /category/i }), {
+      target: { value: 'party' },
+    });
     fireEvent.change(screen.getByLabelText('date'), {
       target: { value: '2024-12-31' },
     });
