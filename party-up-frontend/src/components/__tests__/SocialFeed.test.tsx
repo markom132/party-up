@@ -57,15 +57,11 @@ describe('SocialFeed Component', () => {
 
     // Check that each post is rendered
     expect(screen.getByText('JohnDoe')).toBeInTheDocument();
-    expect(
-      screen.getByText('Post 1'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Post 1')).toBeInTheDocument();
     expect(screen.getByAltText('Post content')).toBeInTheDocument();
 
     expect(screen.getByText('JaneSmith')).toBeInTheDocument();
-    expect(
-      screen.getByText('Post 2'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Post 2')).toBeInTheDocument();
   });
 
   test('displays correct number of likes and comments', () => {

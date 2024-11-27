@@ -25,9 +25,16 @@ const SocialFeed: React.FC<SocialFeedProps> = ({
   onComment,
 }) => {
   const [visiblePosts, setVisiblePosts] = useState<number>(3); // shows only 3 posts at the begining
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleLoadMore = () => {
-    setVisiblePosts((prev) => prev + 3); // add 3 more posts
+    if (isLoading) return; // prevent mulitple clicks
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setVisiblePosts((prev) => prev + 3); // add 3 more posts
+      setIsLoading(false);
+    }, 1500);
   };
 
   return (
@@ -80,7 +87,11 @@ const SocialFeed: React.FC<SocialFeedProps> = ({
             onClick={handleLoadMore}
             aria-label="Load more posts"
           >
-            Load More
+            {isLoading ? (
+              <span className={styles.spinner}>Loading...</span>
+            ) : (
+              'Load More'
+            )}
           </button>
         )}
       </section>
