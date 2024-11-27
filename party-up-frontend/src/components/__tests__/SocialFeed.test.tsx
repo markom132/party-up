@@ -8,7 +8,7 @@ const mockPosts = [
     id: 1,
     username: 'JohnDoe',
     profilePicture: '/images/john.jpg',
-    content: 'Had an amazing time at the concert last night!',
+    content: 'Post 1',
     image: '/images/concert.jpg',
     likes: 42,
     comments: 5,
@@ -17,9 +17,27 @@ const mockPosts = [
     id: 2,
     username: 'JaneSmith',
     profilePicture: '/images/jane.jpg',
-    content: 'Can’t wait for the next meetup! Who’s joining?',
+    content: 'Post 2',
     image: '',
     likes: 27,
+    comments: 8,
+  },
+  {
+    id: 3,
+    username: 'MikeLee',
+    profilePicture: '/images/jane.jpg',
+    content: 'Post 3',
+    image: '',
+    likes: 15,
+    comments: 7,
+  },
+  {
+    id: 4,
+    username: 'AnnaWhite',
+    profilePicture: '/images/jane.jpg',
+    content: 'Post 4',
+    image: '',
+    likes: 25,
     comments: 8,
   },
 ];
@@ -40,13 +58,13 @@ describe('SocialFeed Component', () => {
     // Check that each post is rendered
     expect(screen.getByText('JohnDoe')).toBeInTheDocument();
     expect(
-      screen.getByText('Had an amazing time at the concert last night!'),
+      screen.getByText('Post 1'),
     ).toBeInTheDocument();
     expect(screen.getByAltText('Post content')).toBeInTheDocument();
 
     expect(screen.getByText('JaneSmith')).toBeInTheDocument();
     expect(
-      screen.getByText('Can’t wait for the next meetup! Who’s joining?'),
+      screen.getByText('Post 2'),
     ).toBeInTheDocument();
   });
 
@@ -120,5 +138,37 @@ describe('SocialFeed Component', () => {
     // Check image for the first post
     const image1 = screen.getByAltText('Post content');
     expect(image1).toHaveAttribute('src', '/images/concert.jpg');
+  });
+
+  test('renders initial posts and Load More button', () => {
+    render(
+      <SocialFeed
+        posts={mockPosts}
+        onLike={handleLike}
+        onComment={handleComment}
+      />,
+    );
+    expect(screen.getByText('Post 1')).toBeInTheDocument();
+    expect(screen.getByText('Post 3')).toBeInTheDocument();
+    expect(screen.queryByText('Post 4')).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /load more/i }),
+    ).toBeInTheDocument();
+  });
+
+  test('loads more posts when Load More button is clicked', () => {
+    render(
+      <SocialFeed
+        posts={mockPosts}
+        onLike={handleLike}
+        onComment={handleComment}
+      />,
+    );
+    const loadMoreButton = screen.getByRole('button', { name: /load more/i });
+
+    fireEvent.click(loadMoreButton);
+
+    expect(screen.getByText('Post 4')).toBeInTheDocument();
+    expect(loadMoreButton).not.toBeInTheDocument();
   });
 });

@@ -52,6 +52,46 @@ const HomePage: React.FC = () => {
       likes: 27,
       comments: 8,
     },
+    {
+      id: 3,
+      username: 'JaneSmith1',
+      profilePicture: '/images/jane.jpg',
+      content: 'Can’t wait for the next meetup! Who’s joining?',
+      likes: 271,
+      comments: 8,
+    },
+    {
+      id: 4,
+      username: 'JaneSmith2',
+      profilePicture: '/images/jane.jpg',
+      content: 'Can’t wait for the next meetup! Who’s joining?',
+      likes: 227,
+      comments: 8,
+    },
+    {
+      id: 5,
+      username: 'JaneSmith3',
+      profilePicture: '/images/jane.jpg',
+      content: 'Can’t wait for the next meetup! Who’s joining?',
+      likes: 247,
+      comments: 18,
+    },
+    {
+      id: 6,
+      username: 'JaneSmith4',
+      profilePicture: '/images/jane.jpg',
+      content: 'Can’t wait for the next meetup! Who’s joining?',
+      likes: 2744,
+      comments: 81,
+    },
+    {
+      id: 7,
+      username: 'JaneSmith5',
+      profilePicture: '/images/jane.jpg',
+      content: 'Can’t wait for the next meetup! Who’s joining?',
+      likes: 21744,
+      comments: 81,
+    },
   ];
 
   const handleLike = (postId: number) => {
