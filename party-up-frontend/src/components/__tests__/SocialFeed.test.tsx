@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SocialFeed from '../SocialFeed/SocialFeed';
 
@@ -152,7 +152,7 @@ describe('SocialFeed Component', () => {
     ).toBeInTheDocument();
   });
 
-  test('loads more posts when Load More button is clicked', () => {
+  test('loads more posts when Load More button is clicked', async () => {
     render(
       <SocialFeed
         posts={mockPosts}
@@ -164,7 +164,12 @@ describe('SocialFeed Component', () => {
 
     fireEvent.click(loadMoreButton);
 
-    expect(screen.getByText('Post 4')).toBeInTheDocument();
+    await waitFor(
+      () => {
+        expect(screen.getByText('Post 4')).toBeInTheDocument();
+      },
+      { timeout: 2000 },
+    );
     expect(loadMoreButton).not.toBeInTheDocument();
   });
 });
