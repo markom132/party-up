@@ -20,13 +20,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({ userName }) => {
           unforgettable moments.
         </p>
         <div className={styles.buttons}>
-          <a href="#explore" className={styles['primary-button']}>
+          <a href="/events" className={styles['primary-button']}>
             Explore Events
           </a>
-          <a href="#create-event" className={styles['secondary-button']}>
+          <a href="/create-event" className={styles['secondary-button']}>
             Create Event
           </a>
-          <a href="#profile" className={styles['secondary-button']}>
+          <a href="/profile" className={styles['secondary-button']}>
             View Profile
           </a>
         </div>

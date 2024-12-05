@@ -24,7 +24,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ onSearch }) => {
   };
 
   return (
-    <div className={styles['search-filter']}>
+    <div className={styles['search-filter']} data-testid="search-filter">
       <h2>Search Events</h2>
       <div className={styles.fields}>
         {/* Search Term */}

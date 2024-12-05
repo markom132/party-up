@@ -22,7 +22,10 @@ const FeaturedEvents: React.FC<FeaturedEventsProps> = ({ events }) => {
     navigate(`/event/${id}`);
   };
   return (
-    <section className={styles['featured-events']}>
+    <section
+      className={styles['featured-events']}
+      data-testid="featured-events"
+    >
       <h2 className={styles['section-title']}>Featured Events</h2>
       <div className={styles['events-grid']}>
         {events.map((event) => (
@@ -36,7 +39,9 @@ const FeaturedEvents: React.FC<FeaturedEventsProps> = ({ events }) => {
               alt={event.title}
               className={styles['event-image']}
             />
-            <h3 className={styles['event-title']}>{event.title}</h3>
+            <h3 className={styles['event-title']} data-testid="event-title">
+              {event.title}
+            </h3>
             <p className={styles['event-date']}>{event.date}</p>
             <p className={styles['event-location']}>{event.location}</p>
             <p className={styles['event-description']}>{event.description}</p>

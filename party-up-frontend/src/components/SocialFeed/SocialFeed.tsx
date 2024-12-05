@@ -39,14 +39,14 @@ const SocialFeed: React.FC<SocialFeedProps> = ({
 
   return (
     <div className={styles.container}>
-      <section className={styles['social-feed']}>
+      <section className={styles['social-feed']} data-testid="social-feed">
         <h2 className={styles.header}>Social Feed</h2>
         <ul className={styles.posts}>
           {posts.slice(0, visiblePosts).map(
             (
               post, // Use slice to control visible posts
             ) => (
-              <li key={post.id} className={styles.post}>
+              <li key={post.id} className={styles.post} data-testid="post">
                 <div className={styles['post-header']}>
                   <img
                     src={post.profilePicture}
