@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import TopReviews from '../TopReviews/TopReviews';
@@ -23,20 +24,32 @@ const mockPlaces = [
 
 describe('TopReviews Component', () => {
   test('renders top reviews section with places', () => {
-    render(<TopReviews places={mockPlaces} />);
+    render(
+      <MemoryRouter>
+        <TopReviews places={mockPlaces} />
+      </MemoryRouter>,
+    );
     expect(screen.getByText('Top Rated Places')).toBeInTheDocument();
     expect(screen.getByText('Blue Lagoon Bar')).toBeInTheDocument();
     expect(screen.getByText('Downtown Cafe')).toBeInTheDocument();
   });
 
   test('renders review button for each place', () => {
-    render(<TopReviews places={mockPlaces} />);
+    render(
+      <MemoryRouter>
+        <TopReviews places={mockPlaces} />
+      </MemoryRouter>,
+    );
     const buttons = screen.getAllByRole('button', { name: /read reviews/i });
     expect(buttons).toHaveLength(mockPlaces.length);
   });
 
   test('calls action when "Read Reviews" button is clicked', async () => {
-    render(<TopReviews places={mockPlaces} />);
+    render(
+      <MemoryRouter>
+        <TopReviews places={mockPlaces} />
+      </MemoryRouter>,
+    );
     const buttons = screen.getAllByRole('button', { name: /read reviews/i });
     await userEvent.click(buttons[0]);
   });
