@@ -101,7 +101,7 @@ const LoginForm: React.FC = () => {
               Forgot Password?
             </a>
             <span className={styles['divider']}>|</span>
-            <a href="#create-account" className={styles['create-account']}>
+            <a href="/create-account" className={styles['create-account']}>
               Create Account
             </a>
           </p>
