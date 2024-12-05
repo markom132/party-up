@@ -1,129 +1,129 @@
 .register-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #1a1a1d;
+  color: #fff;
+  min-height: 100vh;
+
+  .form-header {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    .title {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 0.5;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #a0a0a5;
+    }
+  }
+
+  .register-form {
+    background-color: #2b2b2d;
     padding: 2rem;
-    background-color: #1a1a1d;
-    color: #ffffff;
-    min-height: 100vh;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgb(0 0 0 / 30%);
+    width: 100%;
+    max-width: 400px;
 
-    .form-header {
-        text-align: center;
-        margin-bottom: 2rem;
+    .input-group {
+      margin-bottom: 1.5rem;
 
-        .title {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 0.5;
-        }
+      label {
+        display: block;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        color: #fff;
+      }
 
-        .subtitle {
-            font-size: 1rem;
-            color: #a0a0a5;
-        }
-    }
-
-    .register-form {
-        background-color: #2b2b2d;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      input {
         width: 100%;
-        max-width: 400px;
+        padding: 0.75rem;
+        border: 1px solid #333;
+        border-radius: 4px;
+        background-color: #333;
+        color: #fff;
+        font-size: 0.9rem;
 
-        .input-group {
-            margin-bottom: 1.5rem;
-
-            label {
-                display: block;
-                font-size: 0.9rem;
-                margin-bottom: 0.5rem;
-                color: #ffffff;
-            }
-
-            input {
-                width: 100%;
-                padding: 0.75rem;
-                border: 1px solid #333333;
-                border-radius: 4px;
-                background-color: #333333;
-                color: #ffffff;
-                font-size: 0.9rem;
-
-                &:focus {
-                    outline: none;
-                    border-color: #a1d661;
-                    box-shadow: 0 0 0 2px rgba(161, 214, 97, 0.3);
-                }
-                
-                &.error-input {
-                    border-color: #ff6e61;
-                }
-            }
-
-            .error-text {
-                color: #ff6e61;
-                font-size: 0.8rem;
-                margin-top: 0.25rem;
-            }
-
-            .password-strength {
-                font-size: 0.8rem;
-                margin-top: 0.25rem;
-                color: #a0a0a5;
-            }
+        &:focus {
+          outline: none;
+          border-color: #a1d661;
+          box-shadow: 0 0 0 2px rgb(161 214 97 / 30%);
         }
 
-        .terms-container {
-            margin-bottom: 1.5rem;
-
-            .checkbox {
-                display: flex;
-                align-items: center;
-                font-size: 0.9rem;
-
-                input {
-                    margin-right: 0.5rem;
-                }
-
-                span {
-                    color: #ffffff;
-                }
-            }
+        &.error-input {
+          border-color: #ff6e61;
         }
+      }
 
-        .register-button {
-            width: 100%;
-            padding: 0.75rem;
-            font-size: 1rem;
-            font-weight: bold;
-            color: #ffffff;
-            background-color: #ff6e61;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+      .error-text {
+        color: #ff6e61;
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+      }
 
-            &:hover {
-                background-color: #ff8877;
-            }
-        }
-
-        .login-text {
-            text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-
-            .login-link {
-                color: #a1d661;
-                font-weight: bold;
-                text-decoration: none;
-
-                &:hover {
-                    text-decoration: underline;
-                }
-            }
-        }
+      .password-strength {
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+        color: #a0a0a5;
+      }
     }
+
+    .terms-container {
+      margin-bottom: 1.5rem;
+
+      .checkbox {
+        display: flex;
+        align-items: center;
+        font-size: 0.9rem;
+
+        input {
+          margin-right: 0.5rem;
+        }
+
+        span {
+          color: #fff;
+        }
+      }
+    }
+
+    .register-button {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #fff;
+      background-color: #ff6e61;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #f87;
+      }
+    }
+
+    .login-text {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+
+      .login-link {
+        color: #a1d661;
+        font-weight: bold;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
 }
