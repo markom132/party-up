@@ -8,6 +8,7 @@ import {
 import LoginForm from './components/LoginForm/LoginForm';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import HomePage from './pages/Home';
 
 const App: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<LoginForm />} />
+        <Route path="home" element={<HomePage />} />
       </Routes>
       <Footer />
     </Router>

@@ -1,0 +1,111 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .social-feed {
+    padding: 20px;
+    background-color: #1a1a1d;
+    color: #f5f5f5;
+
+    .header {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .posts {
+      list-style: none;
+      padding: 0;
+
+      .post {
+        background-color: #2b2b2d;
+        max-width: 600px;
+        margin-bottom: 15px;
+        padding: 15px;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .post-header {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          .profile-picture {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+          }
+
+          .username {
+            font-weight: bold;
+            font-size: 1.2rem;
+          }
+        }
+
+        .post-image {
+          width: 100%;
+          height: auto;
+          border-radius: 8px;
+          object-fit: cover;
+        }
+
+        .content {
+          font-size: 1rem;
+        }
+
+        .actions {
+          display: flex;
+          gap: 10px;
+
+          .like-button,
+          .comment-button {
+            background-color: #ff6e61;
+            border: none;
+            padding: 10px;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+              background-color: #ff8673;
+            }
+          }
+        }
+      }
+    }
+
+    .load-more-button {
+      background-color: #ff6e61;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+      margin: 20px auto;
+      display: block;
+      transition:
+        background-color 0.3s ease,
+        box-shadow 0.3s ease;
+
+      &:hover {
+        background-color: #ff867a;
+        box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 4px 2px rgb(255 110 97 / 80%);
+      }
+    }
+
+    .spinner {
+      display: inline-block;
+      font-weight: bold;
+      font-size: 16px;
+    }
+  }
+}
