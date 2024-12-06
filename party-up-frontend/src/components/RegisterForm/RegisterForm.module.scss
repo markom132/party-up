@@ -108,6 +108,11 @@
       &:hover {
         background-color: #f87;
       }
+
+      &:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
     }
 
     .login-text {
@@ -125,5 +130,16 @@
         }
       }
     }
+  }
+  .error-message {
+    color: red;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .success-message {
+    color: green;
+    margin-bottom: 10px;
+    text-align: center;
   }
 }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { registerUser, RegisterData } from '../../services/registerService';
 import styles from './RegisterForm.module.scss';
 
 interface FormError {
@@ -6,49 +7,38 @@ interface FormError {
   lastName: string;
   username: string;
   email: string;
-  password: string;
-  confirmPassword: string;
+  birthDay: string;
 }
 const RegisterForm: React.FC = () => {
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const [passwordStrength, setPasswordStrength] = useState<string>('');
+  const [birthDay, setBirthDay] = useState<string>('');
   const [error, setError] = useState<FormError>({
     firstName: '',
     lastName: '',
     username: '',
     email: '',
-    password: '',
-    confirmPassword: '',
+    birthDay: '',
   });
+  const [apiError, setApiError] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
-  const validatePassword = (password: string): string => {
-    if (password.length < 8) return 'Weak';
-    if (
-      /[A-Z]/.test(password) &&
-      /[0-9]/.test(password) &&
-      /[@$!%*?&#]/.test(password)
-    ) {
-      return 'Strong';
-    }
-    return 'Moderate';
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    setIsLoading(true);
+    setApiError('');
+    setSuccessMessage('');
     let hasError = false;
     const newError: FormError = {
       firstName: '',
       lastName: '',
       username: '',
       email: '',
-      password: '',
-      confirmPassword: '',
+      birthDay: '',
     };
 
     if (!firstName) {
@@ -67,20 +57,36 @@ const RegisterForm: React.FC = () => {
       newError.email = 'A valid email is required';
       hasError = true;
     }
-    if (!password) {
-      newError.password = 'Password is required';
-      hasError = true;
-    } else if (password.length < 8) {
-      newError.password = 'Password is week';
-      hasError = true;
-    } else if (password !== confirmPassword) {
-      newError.confirmPassword = 'Passwords do not match';
+    if (!birthDay) {
+      newError.birthDay = 'Birth date is required';
       hasError = true;
     }
 
     setError(newError);
     if (!hasError) {
-      console.log({ firstName, lastName, username, email, password });
+      console.log({ firstName, lastName, username, email, birthDay });
+    }
+
+    const registerData: RegisterData = {
+      firstName,
+      lastName,
+      username,
+      email,
+      birthDay,
+    };
+
+    try {
+      const response = await registerUser(registerData);
+
+      if (response.success) {
+        setSuccessMessage(response.message || 'Registration successful!');
+      } else {
+        setApiError(response.message || 'Registration failed.');
+      }
+    } catch (error: any) {
+      setApiError(error.message || 'An unexpected error occurred.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -92,6 +98,13 @@ const RegisterForm: React.FC = () => {
           Join the Party and find events near you.
         </p>
       </div>
+
+      {/* Feedback Messages */}
+      {apiError && <p className={styles['error-message']}>{apiError}</p>}
+      {successMessage && (
+        <p className={styles['success-message']}>{successMessage}</p>
+      )}
+
       <form onSubmit={handleSubmit} className={styles['register-form']}>
         {/* First Name */}
         <div className={styles['input-group']}>
@@ -155,43 +168,20 @@ const RegisterForm: React.FC = () => {
           {error.email && <p className={styles['error-text']}>{error.email}</p>}
         </div>
 
-        {/* Password */}
+        {/* Birth date */}
         <div className={styles['input-group']}>
-          <label htmlFor="password">Password</label>
+          <label htmlFor="birthDay">Birth date</label>
           <input
-            type="password"
-            id="password"
-            value={password}
+            type="date"
+            id="birthDay"
+            value={birthDay}
             onChange={(e) => {
-              setPassword(e.target.value);
-              setPasswordStrength(validatePassword(e.target.value));
+              setBirthDay(e.target.value);
             }}
-            placeholder="Enter your password"
-            className={error.password ? styles['error-input'] : ''}
+            className={error.birthDay ? styles['error-input'] : ''}
           />
-          {error.password && (
-            <p className={styles['error-text']}>{error.password}</p>
-          )}
-          {password && (
-            <p className={styles['password-strength']}>
-              Strength: {passwordStrength}
-            </p>
-          )}
-        </div>
-
-        {/* Confirm Password */}
-        <div className={styles['input-group']}>
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Confirm your password"
-            className={error.confirmPassword ? styles['error-input'] : ''}
-          />
-          {error.confirmPassword && (
-            <p className={styles['error-text']}>{error.confirmPassword}</p>
+          {error.birthDay && (
+            <p className={styles['error-text']}>{error.birthDay}</p>
           )}
         </div>
 
@@ -204,8 +194,12 @@ const RegisterForm: React.FC = () => {
         </div>
 
         {/* Submit Button */}
-        <button type="submit" className={styles['register-button']}>
-          Sign Up
+        <button
+          type="submit"
+          className={styles['register-button']}
+          disabled={isLoading}
+        >
+          {isLoading ? 'Registering...' : 'Sign Up'}
         </button>
 
         {/* Login Link */}
