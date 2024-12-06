@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { registerUser, RegisterData } from '../../services/registerService';
+import SuccessMessageModal from '../SuccessMessageModal/SuccessMessageModal';
 import styles from './RegisterForm.module.scss';
 
 interface FormError {
@@ -25,6 +26,7 @@ const RegisterForm: React.FC = () => {
   const [apiError, setApiError] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -80,6 +82,7 @@ const RegisterForm: React.FC = () => {
 
       if (response.success) {
         setSuccessMessage(response.message || 'Registration successful!');
+        setIsModalOpen(true);
       } else {
         setApiError(response.message || 'Registration failed.');
       }
@@ -88,6 +91,11 @@ const RegisterForm: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleResendEmail = () => {
+    // Logic for resending email
+    alert('Email poslat ponovo!');
   };
 
   return (
@@ -210,6 +218,11 @@ const RegisterForm: React.FC = () => {
           </a>
         </p>
       </form>
+      <SuccessMessageModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onResendEmail={handleResendEmail}
+      />
     </div>
   );
 };
