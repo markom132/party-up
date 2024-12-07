@@ -32,7 +32,11 @@ const SuccessMessageModal: React.FC<SuccessMessageModalProps> = ({
         >
           Got a problem? Contact us.
         </a>
-        <a href="/login" className={styles['close-button']}>
+        <a
+          href="/login"
+          className={styles['close-button']}
+          data-testid="return-login"
+        >
           Return to login page
         </a>
       </div>
