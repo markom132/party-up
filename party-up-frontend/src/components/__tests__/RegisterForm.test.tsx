@@ -26,6 +26,12 @@ describe('RegisterForm', () => {
 
   it('shows validation errors for empty fields', async () => {
     render(<RegisterForm />);
+    // Check the Terms and Conditions checkbox
+    fireEvent.click(
+      screen.getByLabelText(
+        /I agree to the Terms of Service and Privacy Policy/i,
+      ),
+    );
 
     fireEvent.click(screen.getByRole('button', { name: /Sign Up/i }));
 
@@ -63,6 +69,12 @@ describe('RegisterForm', () => {
     fireEvent.change(screen.getByLabelText(/Birth date/i), {
       target: { value: '1990-01-01' },
     });
+    // Check the Terms and Conditions checkbox
+    fireEvent.click(
+      screen.getByLabelText(
+        /I agree to the Terms of Service and Privacy Policy/i,
+      ),
+    );
 
     fireEvent.click(screen.getByRole('button', { name: /Sign Up/i }));
 
@@ -74,12 +86,14 @@ describe('RegisterForm', () => {
   });
 
   it('disables the submit button when the form is submitting', async () => {
-    // eslint-disable-next-line no-undef
+    // Mock the registerUser service
     const mockRegisterUser = service.registerUser as jest.Mock;
     mockRegisterUser.mockResolvedValueOnce({ success: true });
 
+    // Render the RegisterForm component
     render(<RegisterForm />);
 
+    // Fill out all the form fields
     fireEvent.change(screen.getByLabelText(/First Name/i), {
       target: { value: 'John' },
     });
@@ -96,8 +110,17 @@ describe('RegisterForm', () => {
       target: { value: '1990-01-01' },
     });
 
+    // Check the Terms and Conditions checkbox
+    fireEvent.click(
+      screen.getByLabelText(
+        /I agree to the Terms of Service and Privacy Policy/i,
+      ),
+    );
+
+    // Click the submit button
     fireEvent.click(screen.getByRole('button', { name: /Sign Up/i }));
 
+    // Assert that the button is disabled while submitting
     expect(
       screen.getByRole('button', { name: /Registering.../i }),
     ).toBeDisabled();
