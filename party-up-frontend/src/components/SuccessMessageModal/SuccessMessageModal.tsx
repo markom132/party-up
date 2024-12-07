@@ -14,7 +14,7 @@ const SuccessMessageModal: React.FC<SuccessMessageModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className={styles.overlay}>
+    <div className={styles.overlay} data-testid="success-modal">
       <div className={styles.modal}>
         <div className={styles.icon}>🎉</div>
         <h2 className={styles.title}>Thanks for registering!</h2>

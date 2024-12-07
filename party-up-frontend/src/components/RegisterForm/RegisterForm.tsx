@@ -27,6 +27,27 @@ const RegisterForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+
+  // Function to handle field value change and remove field-specific error
+  const handleInputChange = (
+    field: keyof FormError,
+    value: string,
+    setValue: React.Dispatch<React.SetStateAction<string>>,
+  ) => {
+    setValue(value);
+
+    // Remove error for the specific field
+    setError((prevError) => ({
+      ...prevError,
+      [field]: '',
+    }));
+  };
+
+  // Function to check if there are any validation errors
+  const hasErrors = Object.values(error).some(
+    (errorMessage) => errorMessage !== '',
+  );
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -121,12 +142,16 @@ const RegisterForm: React.FC = () => {
             type="text"
             id="firstName"
             value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            onChange={(e) =>
+              handleInputChange('firstName', e.target.value, setFirstName)
+            }
             placeholder="Enter your first name"
             className={error.firstName ? styles['error-input'] : ''}
           />
           {error.firstName && (
-            <p className={styles['error-text']}>{error.firstName}</p>
+            <p className={styles['error-text']} data-testid="first-name-error">
+              {error.firstName}
+            </p>
           )}
         </div>
 
@@ -137,12 +162,16 @@ const RegisterForm: React.FC = () => {
             type="text"
             id="lastName"
             value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            onChange={(e) =>
+              handleInputChange('lastName', e.target.value, setLastName)
+            }
             placeholder="Enter your last name"
             className={error.lastName ? styles['error-input'] : ''}
           />
           {error.lastName && (
-            <p className={styles['error-text']}>{error.lastName}</p>
+            <p className={styles['error-text']} data-testid="last-name-error">
+              {error.lastName}
+            </p>
           )}
         </div>
 
@@ -153,12 +182,16 @@ const RegisterForm: React.FC = () => {
             type="text"
             id="username"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) =>
+              handleInputChange('username', e.target.value, setUsername)
+            }
             placeholder="Enter your username"
             className={error.username ? styles['error-input'] : ''}
           />
           {error.username && (
-            <p className={styles['error-text']}>{error.username}</p>
+            <p className={styles['error-text']} data-testid="username-error">
+              {error.username}
+            </p>
           )}
         </div>
 
@@ -169,11 +202,17 @@ const RegisterForm: React.FC = () => {
             type="email"
             id="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) =>
+              handleInputChange('email', e.target.value, setEmail)
+            }
             placeholder="Enter your email"
             className={error.email ? styles['error-input'] : ''}
           />
-          {error.email && <p className={styles['error-text']}>{error.email}</p>}
+          {error.email && (
+            <p className={styles['error-text']} data-testid="email-error">
+              {error.email}
+            </p>
+          )}
         </div>
 
         {/* Birth date */}
@@ -183,20 +222,26 @@ const RegisterForm: React.FC = () => {
             type="date"
             id="birthDay"
             value={birthDay}
-            onChange={(e) => {
-              setBirthDay(e.target.value);
-            }}
+            onChange={(e) =>
+              handleInputChange('birthDay', e.target.value, setBirthDay)
+            }
             className={error.birthDay ? styles['error-input'] : ''}
           />
           {error.birthDay && (
-            <p className={styles['error-text']}>{error.birthDay}</p>
+            <p className={styles['error-text']} data-testid="birth-day-error">
+              {error.birthDay}
+            </p>
           )}
         </div>
 
         {/* Terms and Conditions */}
         <div className={styles['terms-container']}>
           <label className={styles['checkbox']}>
-            <input type="checkbox" required />
+            <input
+              type="checkbox"
+              checked={isCheckboxChecked}
+              onChange={(e) => setIsCheckboxChecked(e.target.checked)}
+            />
             <span>I agree to the Terms of Service and Privacy Policy</span>
           </label>
         </div>
@@ -205,7 +250,7 @@ const RegisterForm: React.FC = () => {
         <button
           type="submit"
           className={styles['register-button']}
-          disabled={isLoading}
+          disabled={!isCheckboxChecked || isLoading || hasErrors}
         >
           {isLoading ? 'Registering...' : 'Sign Up'}
         </button>
