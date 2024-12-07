@@ -39,6 +39,7 @@ describe('RegisterForm', () => {
   });
 
   it('displays API errors returned by the backend', async () => {
+    // eslint-disable-next-line no-undef
     const mockRegisterUser = service.registerUser as jest.Mock;
     mockRegisterUser.mockResolvedValueOnce({
       success: false,
@@ -73,6 +74,7 @@ describe('RegisterForm', () => {
   });
 
   it('disables the submit button when the form is submitting', async () => {
+    // eslint-disable-next-line no-undef
     const mockRegisterUser = service.registerUser as jest.Mock;
     mockRegisterUser.mockResolvedValueOnce({ success: true });
 
