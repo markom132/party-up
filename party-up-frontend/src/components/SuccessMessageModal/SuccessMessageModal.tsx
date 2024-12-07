@@ -28,6 +28,7 @@ const SuccessMessageModal: React.FC<SuccessMessageModalProps> = ({
         <a
           href="mailto:support@partyup.com"
           className={styles['support-button']}
+          data-testid="contact-support"
         >
           Got a problem? Contact us.
         </a>

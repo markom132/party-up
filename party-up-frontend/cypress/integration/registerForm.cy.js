@@ -28,28 +28,30 @@ describe('User Registration Flow', () => {
   
 
   it('should navigate to the email client on clicking contact support', () => {
-    // Fill in the registration form
+    cy.intercept('POST', 'http://localhost:8080/api/create-user', {
+      statusCode: 200,
+      body: { success: true, message: 'User created successfully' },
+    }).as('createUser'); // Set up mock and alias
+    
     cy.get('input#firstName').type('John');
     cy.get('input#lastName').type('Doe');
     cy.get('input#username').type('johndoe');
     cy.get('input#email').type('john.doe@example.com');
     cy.get('input#birthDay').type('1990-01-01');
-    cy.get('input[type="checkbox"]').check(); // Check Terms & Conditions
+    cy.get('input[type="checkbox"]').check();
+  
     cy.get('button[type="submit"]').click();
+  
+    // Ensure the API request is completed
+    cy.wait('@createUser');
 
-    // Mock backend response
-    cy.intercept('POST', 'http://localhost:8080/api/create-user', {
-      statusCode: 200,
-      body: {
-        success: true,
-        message: 'User created successfully',
-      },
+    cy.get('[data-testid="success-modal"]').should('be.visible'); // Ensure the modal is open
+  
+    cy.get('[data-testid="contact-support"]') // Assuming this is the test ID for the "Contact Us" link
+      .should('have.attr', 'href', 'mailto:support@partyup.com') // Verify the email link
+    ;
     });
-    // Verify `mailto` link
-    cy.get('a')
-      .contains('Got a problem? Contact us.')
-      .should('have.attr', 'href', 'mailto:support@partyup.com');
-  });
+  
 
   it('should close the modal and navigate to the login page', () => {
     // Fill in the registration form
