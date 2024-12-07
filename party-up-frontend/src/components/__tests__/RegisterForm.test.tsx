@@ -87,6 +87,7 @@ describe('RegisterForm', () => {
 
   it('disables the submit button when the form is submitting', async () => {
     // Mock the registerUser service
+    // eslint-disable-next-line no-undef
     const mockRegisterUser = service.registerUser as jest.Mock;
     mockRegisterUser.mockResolvedValueOnce({ success: true });
 
