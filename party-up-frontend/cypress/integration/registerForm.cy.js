@@ -20,7 +20,8 @@ describe('User Registration Flow', () => {
         success: true,
         message: 'User created successfully',
       },
-    });
+    }).as('createUser');
+    
     // Verify success modal appears
     cy.get('[data-testid="success-modal"]')
       .should('be.visible')
