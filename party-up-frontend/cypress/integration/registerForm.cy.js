@@ -4,29 +4,28 @@ describe('User Registration Flow', () => {
   });
 
   it('should register a user and show the success message modal', () => {
-    // Fill in the registration form
+    cy.intercept('POST', 'http://localhost:8080/api/create-user', {
+      statusCode: 200,
+      body: { success: true, message: 'User created successfully' },
+    }).as('createUser'); // Set up mock and alias
+    
     cy.get('input#firstName').type('John');
     cy.get('input#lastName').type('Doe');
     cy.get('input#username').type('johndoe');
     cy.get('input#email').type('john.doe@example.com');
     cy.get('input#birthDay').type('1990-01-01');
-    cy.get('input[type="checkbox"]').check(); // Check Terms & Conditions
+    cy.get('input[type="checkbox"]').check();
+  
     cy.get('button[type="submit"]').click();
-
-    // Mock backend response
-    cy.intercept('POST', 'http://localhost:8080/api/create-user', {
-      statusCode: 200,
-      body: {
-        success: true,
-        message: 'User created successfully',
-      },
-    }).as('createUser');
-    
-    // Verify success modal appears
-    cy.get('[data-testid="success-modal"]')
-      .should('be.visible')
+  
+    // Ensure the API request is completed
+    cy.wait('@createUser');
+  
+    // Assert modal appears (extend timeout if needed)
+    cy.get('[data-testid="success-modal"]', { timeout: 10000 }).should('be.visible')
       .contains('Thanks for registering!');
   });
+  
 
   it('should navigate to the email client on clicking contact support', () => {
     // Fill in the registration form
