@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Header from '../Header/Header';
-import { AuthProvider, AuthContext } from '../../context/AuthContext'; // Import AuthContext and AuthProvider
+import { AuthContext } from '../../context/AuthContext'; // Import AuthContext and AuthProvider
 import { MemoryRouter } from 'react-router-dom'; // Import MemoryRouter for routing context
 
 describe('Header Component', () => {
