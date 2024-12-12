@@ -8,6 +8,7 @@ import com.party_up.network.model.dto.LoginSuccessResponseDTO;
 import com.party_up.network.model.dto.UserDTO;
 import com.party_up.network.model.enums.AccountStatus;
 import com.party_up.network.service.UserService;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,15 +116,19 @@ public class UserControllerTest {
     @Test
     @WithMockUser(username = "testuser")
     void logout_Successful() throws Exception {
-        String jwtToken = "Bearer mockedJwtToken";
+        // Arrange: Simulate a valid cookie
+        Cookie authTokenCookie = new Cookie("authToken", "mockedJwtToken");
 
+        // Act: Perform the POST request with the cookie
         mockMvc.perform(post("/api/auth/logout")
-                        .header("Authorization", jwtToken)
-                        .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Logged out successfully"));
+                        .cookie(authTokenCookie) // Attach the authToken cookie
+                        .with(csrf())) // Add CSRF token
+                // Assert: Check the response
+                .andExpect(status().isOk()) // Expect 200 OK
+                .andExpect(content().string("Logged out successfully")); // Expect success message
 
-        verify(userService).logout("Bearer mockedJwtToken");
+        // Verify: Check that the service was called with the correct token
+        verify(userService).logout("mockedJwtToken");
     }
 
     @Test
@@ -138,14 +143,19 @@ public class UserControllerTest {
     @Test
     @WithMockUser(username = "testuser")
     void logout_ErrorDuringLogout() throws Exception {
-        String jwtToken = "Bearer validToken";
+        // Arrange: Simulate a valid cookie
+        Cookie authTokenCookie = new Cookie("authToken", "validToken");
+
+        // Mock the behavior of the service to throw an exception
         doThrow(new RuntimeException("Logout failed")).when(userService).logout(anyString());
 
+        // Act: Perform the POST request with the cookie
         mockMvc.perform(post("/api/auth/logout")
-                        .header("Authorization", jwtToken)
-                        .with(csrf()))
-                .andExpect(status().isInternalServerError())
-                .andExpect(content().string("Logout failed"));
+                        .cookie(authTokenCookie) // Attach the authToken cookie
+                        .with(csrf())) // Add CSRF token
+                // Assert: Check the response
+                .andExpect(status().isInternalServerError()) // Expect 500 Internal Server Error
+                .andExpect(content().string("Logout failed")); // Expect error message
     }
 
     @Test

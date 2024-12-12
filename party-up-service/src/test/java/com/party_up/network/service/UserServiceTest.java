@@ -8,6 +8,8 @@ import com.party_up.network.model.dto.LoginRequestDTO;
 import com.party_up.network.model.dto.LoginSuccessResponseDTO;
 import com.party_up.network.model.enums.AccountStatus;
 import com.party_up.network.repository.UserRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -149,30 +151,44 @@ public class UserServiceTest {
 
     @Test
     public void testLogout_Success() {
-        String authorizationHeader = "Bearer sampleToken";
+        // Arrange: Mock an "authToken" cookie and return a valid token
+        Cookie[] cookies = new Cookie[] {
+                new Cookie("authToken", "sampleToken")
+        };
 
         when(authTokenService.findByToken("sampleToken")).thenReturn(authToken);
 
-        userService.logout(authorizationHeader);
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        when(mockRequest.getCookies()).thenReturn(cookies);
 
-        verify(authTokenService).updateToExpired(authToken);
+        // Act: Call the logout method
+        userService.logout(String.valueOf(mockRequest));
+
+        // Assert: Verify the token was marked as expired
+        verify(authTokenService).updateToExpired(any());
     }
 
     @Test
     public void testLogout_TokenNotFound() {
-        String authorizationHeader = "Bearer sampleToken";
+        // Arrange: Mock an empty cookie or a missing token
+        Cookie[] cookies = new Cookie[] {
+                new Cookie("otherCookie", "otherValue") // No "authToken" cookie
+        };
 
-        when(authTokenService.findByToken("sampleToken")).thenThrow(new ResourceNotFoundException("Token not found: sampleToken"));
+        when(authTokenService.findByToken(anyString()))
+                .thenThrow(new ResourceNotFoundException("Token not found"));
 
-        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> userService.logout(authorizationHeader));
-        assertEquals("Token not found: sampleToken", exception.getMessage());
-    }
+        // Mock the HttpServletRequest to include the cookies
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        when(mockRequest.getCookies()).thenReturn(cookies);
 
-    @Test
-    public void testLogout_MissingAuthorizationHeader() {
-        String authorizationHeader = "";
+        // Act & Assert: Call the logout method and verify exception
+        ResourceNotFoundException exception = assertThrows(
+                ResourceNotFoundException.class,
+                () -> userService.logout(String.valueOf(mockRequest))
+        );
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> userService.logout(authorizationHeader));
-        assertEquals("Invalid Authorization header format", exception.getMessage());
+        // Verify the exception message
+        assertEquals("Token not found", exception.getMessage());
     }
 }
