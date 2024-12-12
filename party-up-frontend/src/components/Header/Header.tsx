@@ -45,8 +45,12 @@ const Header: React.FC<HeaderProps> = () => {
           <a href="#home" data-testid="nav-link-home">
             Home
           </a>
-          <a href="#events">Events</a>
-          <a href="#explore">Explore</a>
+          <a href="#events" data-testid="nav-link-events">
+            Events
+          </a>
+          <a href="#explore" data-testid="nav-link-explore">
+            Explore
+          </a>
         </div>
         <div className={styles['auth-buttons']}>
           {isLoggedIn ? (
