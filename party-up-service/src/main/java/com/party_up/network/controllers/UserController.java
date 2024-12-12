@@ -1,7 +1,7 @@
 package com.party_up.network.controllers;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -9,15 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 import com.party_up.network.model.dto.LoginRequestDTO;
 import com.party_up.network.model.dto.LoginSuccessResponseDTO;
 import com.party_up.network.model.dto.UserDTO;
 import com.party_up.network.service.UserService;
-
-import java.util.Arrays;
 
 /**
  * Controller for handling user-related operations such as authentication,
@@ -41,6 +41,7 @@ public class UserController {
      * Handles user login requests.
      *
      * @param loginRequest the login request containing username and password
+     * @param response the Http Servlet response object
      * @return a response entity containing login response or error message
      */
     @PostMapping("/auth/login")
@@ -69,6 +70,7 @@ public class UserController {
      * Handles user logout requests.
      *
      * @param request the HTTP servlet request
+     * @param response the Http Servlet response object
      * @return a response entity indicating the logout status
      */
     @PostMapping("/auth/logout")

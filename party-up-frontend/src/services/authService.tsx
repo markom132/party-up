@@ -3,10 +3,6 @@ interface LoginResponse {
   message?: string;
 }
 
-interface LogoutResponse {
-  message?: string;
-}
-
 export const loginUser = async (
   username: string,
   password: string,
