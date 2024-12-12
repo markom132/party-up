@@ -1,7 +1,7 @@
 describe('LoginForm Component E2E Tests', () => {
   beforeEach(() => {
-     // Intercept login request to mock a successful response
-     cy.intercept('POST', 'http://localhost:8080/api/auth/login', {
+    // Intercept login request to mock a successful response
+    cy.intercept('POST', 'http://localhost:8080/api/auth/login', {
       statusCode: 200,
       body: {
         token: 'mocked-jwt-token',
