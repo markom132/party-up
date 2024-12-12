@@ -2,7 +2,9 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import LoginForm from '../LoginForm/LoginForm';
+import { AuthProvider } from '../../context/AuthContext'; // Import AuthProvider
 import { loginUser } from '../../services/authService';
+import { MemoryRouter } from 'react-router-dom'; // Import MemoryRouter
 
 // Mock for loginUser function
 jest.mock('../../services/authService', () => ({
@@ -17,14 +19,22 @@ describe('LoginForm Component', () => {
     jest.clearAllMocks();
   });
 
+  const renderWithProviders = (ui: React.ReactNode) => {
+    return render(
+      <MemoryRouter>
+        <AuthProvider>{ui}</AuthProvider>
+      </MemoryRouter>,
+    );
+  };
+
   test('Shows component without errors', () => {
-    render(<LoginForm />);
+    renderWithProviders(<LoginForm />);
     expect(screen.getByRole('heading', { name: /login/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
   });
 
   test('Shows errors for empty fields', async () => {
-    render(<LoginForm />);
+    renderWithProviders(<LoginForm />);
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
     expect(
@@ -37,7 +47,7 @@ describe('LoginForm Component', () => {
     // Mock for loginUser which will throw error
     mockedLoginUser.mockRejectedValueOnce(new Error('Invalid credentials'));
 
-    render(<LoginForm />);
+    renderWithProviders(<LoginForm />);
 
     // Fill input fields and send form
     fireEvent.change(screen.getByPlaceholderText('Enter your username'), {
