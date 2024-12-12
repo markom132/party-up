@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { logoutUser } from '../../services/authService'; // Update with your actual service file path
+import { useAuth } from '../../context/AuthContext';
 import styles from './Header.module.scss';
 
-// Defining a Props interface in case it will be needed to pass props to the Header in the future
 interface HeaderProps {}
 
 const Header: React.FC<HeaderProps> = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const toggleMenu = (): void => {
     setMenuOpen((prev) => !prev);
@@ -15,6 +18,17 @@ const Header: React.FC<HeaderProps> = () => {
 
   const toggleProfileMenu = (): void => {
     setIsProfileMenuOpen((prev) => !prev);
+  };
+
+  const handleLogout = async () => {
+    try {
+      const message = await logoutUser(); // Call the centralized logout function
+      console.log('Logout message:', message); // Log or handle the success message
+      setIsLoggedIn(false); // Update local state
+      navigate('/login'); // Redirect to login page
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
   };
 
   return (
@@ -31,8 +45,12 @@ const Header: React.FC<HeaderProps> = () => {
           <a href="#home" data-testid="nav-link-home">
             Home
           </a>
-          <a href="#events">Events</a>
-          <a href="#explore">Explore</a>
+          <a href="#events" data-testid="nav-link-events">
+            Events
+          </a>
+          <a href="#explore" data-testid="nav-link-explore">
+            Explore
+          </a>
         </div>
         <div className={styles['auth-buttons']}>
           {isLoggedIn ? (
@@ -51,7 +69,7 @@ const Header: React.FC<HeaderProps> = () => {
               >
                 <a href="#profile">My Profile</a>
                 <a href="#settings">Settings</a>
-                <button onClick={() => setIsLoggedIn(false)}>Log out</button>
+                <button onClick={handleLogout}>Log out</button>
               </div>
             </div>
           ) : (

@@ -2,29 +2,46 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Header from '../Header/Header';
+import { AuthContext } from '../../context/AuthContext'; // Import AuthContext and AuthProvider
+import { MemoryRouter } from 'react-router-dom'; // Import MemoryRouter for routing context
 
 describe('Header Component', () => {
-  test('Shows login and sign in buttons when user is not logged in', () => {
-    render(<Header />);
+  const renderWithProviders = (
+    ui: React.ReactNode,
+    { isLoggedIn }: { isLoggedIn: boolean },
+  ) => {
+    return render(
+      <MemoryRouter>
+        <AuthContext.Provider
+          value={{
+            isLoggedIn,
+            setIsLoggedIn: jest.fn(), // Mock `setIsLoggedIn` for logging in/out
+          }}
+        >
+          {ui}
+        </AuthContext.Provider>
+      </MemoryRouter>,
+    );
+  };
 
-    fireEvent.click(screen.getByText('Log out'));
+  test('Shows login and sign-in buttons when user is not logged in', () => {
+    renderWithProviders(<Header />, { isLoggedIn: false });
 
     expect(screen.getByText('Login')).toBeInTheDocument();
     expect(screen.getByText('Sign Up')).toBeInTheDocument();
   });
 
   test('Shows profile avatar when user is logged in', () => {
-    render(<Header />);
+    renderWithProviders(<Header />, { isLoggedIn: true });
 
-    expect(
-      screen.getByRole('button', { name: /log out/i }),
-    ).toBeInTheDocument();
+    const logOutButton = screen.getByRole('button', { name: /log out/i });
+    expect(logOutButton).toBeInTheDocument();
     expect(screen.queryByText('Login')).not.toBeInTheDocument();
     expect(screen.queryByText('Sign Up')).not.toBeInTheDocument();
   });
 
   test('Shows dropdown menu when profile avatar is clicked', () => {
-    render(<Header />);
+    renderWithProviders(<Header />, { isLoggedIn: true });
 
     const profileAvatarIcon = screen.getByLabelText('Profile Avatar');
     fireEvent.click(profileAvatarIcon);
@@ -35,8 +52,9 @@ describe('Header Component', () => {
   });
 
   test('Opens and closes hamburger menu when clicked on small screens', () => {
-    render(<Header />);
+    renderWithProviders(<Header />, { isLoggedIn: false });
 
+    // Simulate small screen
     window.innerWidth = 500;
     window.dispatchEvent(new Event('resize'));
 

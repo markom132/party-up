@@ -1,5 +1,7 @@
 package com.party_up.network.controllers;
 
+import java.util.Arrays;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -7,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 import com.party_up.network.model.dto.LoginRequestDTO;
@@ -37,14 +41,25 @@ public class UserController {
      * Handles user login requests.
      *
      * @param loginRequest the login request containing username and password
+     * @param response the Http Servlet response object
      * @return a response entity containing login response or error message
      */
     @PostMapping("/auth/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO loginRequest) {
-        LoginSuccessResponseDTO response;
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO loginRequest, HttpServletResponse response) {
+        LoginSuccessResponseDTO responseDTO;
         try {
-            response = userService.login(loginRequest);
-            return ResponseEntity.status(HttpStatus.OK).body(response);
+            responseDTO = userService.login(loginRequest);
+
+            // Create Cookie for storing jwt token
+            Cookie cookie = new Cookie("authToken", responseDTO.getToken());
+            cookie.setHttpOnly(true);
+            cookie.setSecure(false); // Ensure this is true in production (requires HTTPS);
+            cookie.setPath("/"); // Cookie valid for the entire domain
+            cookie.setMaxAge(24 * 60 * 60); // 1 day expiration
+            cookie.setDomain("localhost"); // Explicitly set the domain for localhost
+            response.addCookie(cookie);
+
+            return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
         } catch (RuntimeException e) {
             logger.error("Login error for {}: {}", loginRequest.getUsername(), e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -55,19 +70,35 @@ public class UserController {
      * Handles user logout requests.
      *
      * @param request the HTTP servlet request
+     * @param response the Http Servlet response object
      * @return a response entity indicating the logout status
      */
     @PostMapping("/auth/logout")
-    public ResponseEntity<?> logout(HttpServletRequest request) {
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String authorizationHeader = request.getHeader("Authorization");
+            // Read token from cookies
+            String token = Arrays.stream(request.getCookies())
+                    .filter(cookie -> "authToken".equals(cookie.getName()))
+                    .findFirst()
+                    .map(Cookie::getValue)
+                    .orElse(null);
 
-            if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-                logger.warn("Authorization header is missing or invalid during logout");
-                return ResponseEntity.badRequest().body("Authorization header is missing or invalid");
+            if (token == null) {
+                logger.warn("Authorization cookie is missing or invalid during logout");
+                return ResponseEntity.badRequest().body("Authorization cookie is missing or invalid");
             }
 
-            userService.logout(authorizationHeader);
+            // Invalidate the token using the service
+            userService.logout(token);
+
+            // Remove the authToken cookie
+            Cookie cookie = new Cookie("authToken", null);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(false);
+            cookie.setPath("/");
+            cookie.setMaxAge(0); // Immediately expire
+            response.addCookie(cookie);
+
             logger.info("User logged out successfully");
             return ResponseEntity.ok("Logged out successfully");
         } catch (RuntimeException e) {

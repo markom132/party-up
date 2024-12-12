@@ -12,6 +12,7 @@ export const loginUser = async (
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include', // Include cookies in the request
     body: JSON.stringify({ username, password }),
   });
 
@@ -29,4 +30,28 @@ export const loginUser = async (
   }
 
   return response.json();
+};
+
+export const logoutUser = async (): Promise<string> => {
+  const response = await fetch('http://localhost:8080/api/auth/logout', {
+    method: 'POST',
+    credentials: 'include', // Include cookies
+  });
+
+  if (!response.ok) {
+    const responseClone = response.clone();
+
+    let errorMessage: string;
+    try {
+      const errorData = await response.json();
+      errorMessage = errorData.message || 'An error occurred';
+    } catch {
+      errorMessage = await responseClone.text();
+    }
+    throw new Error(errorMessage);
+  }
+
+  // Handle responses that are plain text
+  const responseText = await response.text();
+  return responseText; // Return plain text (e.g., "Logged out successfully")
 };

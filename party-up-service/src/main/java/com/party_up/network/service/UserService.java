@@ -102,16 +102,13 @@ public class UserService {
     /**
      * Logs out the user by marking the JWT token as expired.
      *
-     * @param authorizationHeader authorization header containing JWT token
+     * @param token JWT token
      */
-    public void logout(String authorizationHeader) {
-        if (authorizationHeader == null ||
-                !authorizationHeader.startsWith("Bearer ") ||
-                authorizationHeader.length() < 8) {
+    public void logout(String token) {
+        if (token == null) {
             throw new IllegalArgumentException("Invalid Authorization header format");
         }
-        logger.info("Logging out user with token: {}", authorizationHeader);
-        String token = authorizationHeader.substring(7);
+        logger.info("Logging out user with token: {}", token);
         AuthToken authToken = authTokenService.findByToken(token);
 
         authTokenService.updateToExpired(authToken);

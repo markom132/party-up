@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../services/authService';
+import { useAuth } from '../../context/AuthContext'; // Import AuthContext
 import styles from './LoginForm.module.scss';
 
 interface ErrorState {
@@ -18,6 +20,8 @@ const LoginForm: React.FC = () => {
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>('');
+  const { setIsLoggedIn } = useAuth(); // Access the AuthContext
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,7 +51,11 @@ const LoginForm: React.FC = () => {
       setIsLoading(true);
       try {
         const data = await loginUser(username, password);
-        setSuccessMessage('Login successful');
+        if (data.token) {
+          setIsLoggedIn(true); // Update AuthContext state
+          setSuccessMessage('Login successful');
+          navigate('/home'); // Redirect after login
+        }
         console.log('Logged in successfully:', data);
       } catch (error: any) {
         setError((prevError) => ({ ...prevError, api: error.message }));

@@ -1,5 +1,14 @@
 describe('LoginForm Component E2E Tests', () => {
   beforeEach(() => {
+    // Intercept login request to mock a successful response
+    cy.intercept('POST', 'http://localhost:8080/api/auth/login', {
+      statusCode: 200,
+      body: {
+        token: 'mocked-jwt-token',
+        message: 'Login successful',
+      },
+    }).as('loginRequest');
+
     cy.visit('/login');
   });
 
@@ -16,21 +25,17 @@ describe('LoginForm Component E2E Tests', () => {
     cy.contains('Please enter your password').should('be.visible');
   });
 
-  it('Login suiccessful', () => {
-    // Mock for successful login
-    cy.intercept('POST', '/api/auth/login', {
-      statusCode: 200,
-      body: { message: 'Login successful' },
-    }).as('loginRequest');
-
-    // Fill the form
+  it('Redirects to /home after successful login', () => {
+    // Fill in username and password
     cy.get('input[placeholder="Enter your username"]').type('testuser');
     cy.get('input[placeholder="Enter your password"]').type('password123');
     cy.get('button').contains('Login').click();
 
-    // Checking request
-    cy.wait('@loginRequest');
-    cy.contains('Login successful').should('be.visible');
+    // Wait for the login request to complete
+    cy.wait('@loginRequest').its('response.statusCode').should('eq', 200);
+
+    // Assert that the user is redirected to /home
+    cy.url().should('include', '/home');
   });
 
   it('Login failed', () => {

@@ -2,6 +2,7 @@ package com.party_up.network.config.authentication;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import io.micrometer.common.lang.NonNull;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -53,8 +55,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
-        // Extract the Authorization header from the request
-        final String authorizationHeader = request.getHeader("Authorization");
+        // Retrieve JWT from cookie
+        String jwtToken = Arrays.stream(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
+                .filter(cookie -> "authToken".equals(cookie.getName()))
+                .findFirst()
+                .map(Cookie::getValue)
+                .orElse(null);
 
         if (request.getRequestURI().equals("/api/auth/login") ||
                 request.getRequestURI().equals("/api/create-user")) {
@@ -62,15 +68,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             return; // Exit the method
         }
 
-        // Check if the Authorization header is present and starts with "Bearer "
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+        // Check if the jwt token cookie is present
+        if (jwtToken == null) {
+            logger.warn("No JWT token found in cookies");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("JWT token is missing or invalid");
-            return; // Exit the method
+            return;
         }
 
         String username;
-        String jwtToken = authorizationHeader.substring(7); // Extract the JWT token
 
         // Validate the JWT and handle potential exceptions
         try {
