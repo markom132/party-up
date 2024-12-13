@@ -7,8 +7,6 @@ describe('Header Component E2E Tests', () => {
     cy.viewport(1024, 768);
 
     cy.get('[data-testid="nav-link-home"]').should('be.visible');
-    cy.get('[data-testid="nav-link-events"]').should('be.visible');
-    cy.get('[data-testid="nav-link-explore"]').should('be.visible');
   });
 
   it('Opens and closes hamburger menu on small screens', () => {
@@ -16,9 +14,7 @@ describe('Header Component E2E Tests', () => {
 
     cy.get('[data-testid="hamburger-menu"]').should('be.visible');
     cy.get('[data-testid="hamburger-menu"]').click();
-    cy.get('a[href="#home"]').should('be.visible');
-    cy.get('a[href="#events"]').should('be.visible');
-    cy.get('a[href="#explore"]').should('be.visible');
+    cy.get('[data-testid="nav-link-home"]').should('be.visible');
 
     cy.get('[data-testid="hamburger-menu"]').click();
     // Nav links should be hidden

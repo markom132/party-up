@@ -20,12 +20,12 @@ const Footer: React.FC<FooterProps> = () => {
         <div className={`${styles['footer-section']} ${styles['quick-links']}`}>
           <h4>Links</h4>
           <div className={styles['links-columns']}>
-            <a href="#home">Home</a>
-            <a href="#events">Events</a>
-            <a href="#explore">Explore</a>
-            <a href="#support">Support</a>
-            <a href="#privacy-policy">Privacy Policy</a>
-            <a href="#terms-of-service">Terms of Service</a>
+            <a href="/home">Home</a>
+            <a href="/events">Events</a>
+            <a href="/explore">Explore</a>
+            <a href="/support">Support</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/terms-of-service">Terms of Service</a>
           </div>
         </div>
 

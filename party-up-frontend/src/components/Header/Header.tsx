@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { logoutUser } from '../../services/authService'; // Update with your actual service file path
 import { useAuth } from '../../context/AuthContext';
 import styles from './Header.module.scss';
@@ -31,6 +31,10 @@ const Header: React.FC<HeaderProps> = () => {
     }
   };
 
+  const handleCreateAccount = (): void => {
+    navigate('/create-account');
+  };
+
   return (
     <header className={styles.header}>
       <h1 className={styles.logo}>
@@ -42,15 +46,23 @@ const Header: React.FC<HeaderProps> = () => {
           className={`${styles['nav-links']} ${menuOpen ? styles.open : ''}`}
           data-testid="nav-links"
         >
-          <a href="#home" data-testid="nav-link-home">
+          {/* Dynamically set the Home link based on login state */}
+          <Link
+            to={isLoggedIn ? '/home' : '/welcome'}
+            data-testid="nav-link-home"
+          >
             Home
-          </a>
-          <a href="#events" data-testid="nav-link-events">
-            Events
-          </a>
-          <a href="#explore" data-testid="nav-link-explore">
-            Explore
-          </a>
+          </Link>
+          {isLoggedIn && (
+            <>
+              <a href="/events" data-testid="nav-link-events">
+                Events
+              </a>
+              <a href="/explore" data-testid="nav-link-explore">
+                Explore
+              </a>
+            </>
+          )}
         </div>
         <div className={styles['auth-buttons']}>
           {isLoggedIn ? (
@@ -67,15 +79,15 @@ const Header: React.FC<HeaderProps> = () => {
                 }`}
                 data-testid="dropdown-menu"
               >
-                <a href="#profile">My Profile</a>
-                <a href="#settings">Settings</a>
+                <a href="/profile">My Profile</a>
+                <a href="/settings">Settings</a>
                 <button onClick={handleLogout}>Log out</button>
               </div>
             </div>
           ) : (
             <>
               <a
-                href="#login"
+                href="/login"
                 className={styles['login-link']}
                 data-testid="login-link"
               >
@@ -83,6 +95,7 @@ const Header: React.FC<HeaderProps> = () => {
               </a>
               <button
                 className={styles['signup-button']}
+                onClick={handleCreateAccount}
                 data-testid="signup-button"
               >
                 Sign Up

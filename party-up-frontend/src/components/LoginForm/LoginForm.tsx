@@ -105,7 +105,7 @@ const LoginForm: React.FC = () => {
             {isLoading ? <span className={styles['spinner']}></span> : 'Login'}
           </button>
           <p className={styles['account-options']}>
-            <a href="#forgot-password" className={styles['forgot-password']}>
+            <a href="/forgot-password" className={styles['forgot-password']}>
               Forgot Password?
             </a>
             <span className={styles['divider']}>|</span>
