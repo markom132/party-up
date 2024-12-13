@@ -24,12 +24,12 @@ describe('Footer Component', () => {
   test('Renders quick links with correct text and href attributes', () => {
     render(<Footer />);
     const links = [
-      { text: 'Home', href: '#home' },
-      { text: 'Events', href: '#events' },
-      { text: 'Explore', href: '#explore' },
-      { text: 'Support', href: '#support' },
-      { text: 'Privacy Policy', href: '#privacy-policy' },
-      { text: 'Terms of Service', href: '#terms-of-service' },
+      { text: 'Home', href: '/home' },
+      { text: 'Events', href: '/events' },
+      { text: 'Explore', href: '/explore' },
+      { text: 'Support', href: '/support' },
+      { text: 'Privacy Policy', href: '/privacy-policy' },
+      { text: 'Terms of Service', href: '/terms-of-service' },
     ];
 
     links.forEach(({ text, href }) => {
