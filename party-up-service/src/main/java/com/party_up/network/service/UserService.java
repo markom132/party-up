@@ -2,6 +2,7 @@ package com.party_up.network.service;
 
 import java.time.format.DateTimeFormatter;
 
+import com.party_up.network.exceptions.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -184,6 +185,17 @@ public class UserService {
                 jwtToken,
                 expiresAt
         );
+    }
+
+    /**
+     * Returns a User object by ID.
+     *
+     * @param userId ID of the user.
+     * @return User object.
+     */
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + userId));
     }
 
 }

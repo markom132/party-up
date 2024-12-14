@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Repository interface for managing {@link Friendship} entities.
@@ -20,8 +21,18 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
     /**
      * Returns a list of all friends for specific user.
      */
-    @Query("SELECT f FROM Friendships f WHERE (f.user = :user OR f.userTwo = :user) AND f.status = 'ACCEPTED'")
-    List<Friendship> findAllFriendsForUser(@Param("user") User user);
+    @Query("SELECT CASE WHEN f.userOne = :user THEN f.userTwo ELSE f.userOne END " +
+            "FROM Friendship f " +
+            "WHERE (f.userOne = :user OR f.userTwo = :user) AND f.status = 'ACCEPTED'")
+    List<User> findAllFriendsForUser(@Param("user") User user);
+
+    /**
+     * Returns friendship object between two users.
+     */
+    @Query("SELECT f FROM Friendship f " +
+            "WHERE (f.userOne = :userOne AND f.userTwo = :userTwo) " +
+            "   OR (f.userOne = :userTwo AND f.userTwo = :userOne)")
+    Optional<Friendship> findFriendshipByUsers(@Param("userOne") User userOne, @Param("userTwo") User userTwo);
 
     /**
      * Check are two users friends or not.
@@ -35,8 +46,10 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
     /**
      * Returns all PENDING requests.
      */
-    @Query("SELECT f FROM Friendship f WHERE f.userTwo = :user AND f.status = 'PENDING'")
-    List<Friendship> findPendingRequestsForUser(@Param("user") User user);
+    @Query("SELECT CASE WHEN f.userOne = :user THEN f.userTwo ELSE f.userOne END " +
+            "FROM Friendship f " +
+            "WHERE (f.userOne = :user OR f.userTwo = :user) AND f.status = 'PENDING'")
+    List<User> findPendingRequestsForUser(@Param("user") User user);
 
     /**
      * Removes friendship connection between users.
