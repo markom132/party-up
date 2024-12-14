@@ -1,7 +1,7 @@
 package com.party_up.network.config.db;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -14,10 +14,9 @@ import com.party_up.network.repository.UserRepository;
  * Database seeder for injecting initial data into the application.
  * This seeder inserts a set of default users if no users exist in the database.
  */
+@Slf4j
 @Component
 public class DatabaseSeeder implements CommandLineRunner {
-
-    private static final Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
 
     private final UserRepository userRepository;
 
@@ -61,9 +60,9 @@ public class DatabaseSeeder implements CommandLineRunner {
             userRepository.save(user4);
             userRepository.save(user5);
 
-            logger.info("Initial users have been successfully injected into the database.");
+            log.info("Initial users have been successfully injected into the database.");
         } else {
-            logger.info("Database already contains users. Seeding skipped");
+            log.info("Database already contains users. Seeding skipped");
         }
     }
 }

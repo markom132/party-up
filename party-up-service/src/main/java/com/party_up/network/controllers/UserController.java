@@ -2,8 +2,8 @@ package com.party_up.network.controllers;
 
 import java.util.Arrays;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,13 +23,12 @@ import com.party_up.network.service.UserService;
  * Controller for handling user-related operations such as authentication,
  * account activation, password management, and user information retrieval.
  */
+@Slf4j
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:3000") // Enables access from React app
 @Validated
 public class UserController {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
 
@@ -61,7 +60,7 @@ public class UserController {
 
             return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
         } catch (RuntimeException e) {
-            logger.error("Login error for {}: {}", loginRequest.getUsername(), e.getMessage());
+            log.error("Login error for {}: {}", loginRequest.getUsername(), e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
@@ -84,7 +83,7 @@ public class UserController {
                     .orElse(null);
 
             if (token == null) {
-                logger.warn("Authorization cookie is missing or invalid during logout");
+                log.warn("Authorization cookie is missing or invalid during logout");
                 return ResponseEntity.badRequest().body("Authorization cookie is missing or invalid");
             }
 
@@ -99,10 +98,10 @@ public class UserController {
             cookie.setMaxAge(0); // Immediately expire
             response.addCookie(cookie);
 
-            logger.info("User logged out successfully");
+            log.info("User logged out successfully");
             return ResponseEntity.ok("Logged out successfully");
         } catch (RuntimeException e) {
-            logger.error("Logout error: {}", e.getMessage());
+            log.error("Logout error: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
@@ -118,14 +117,14 @@ public class UserController {
     @PostMapping("/create-user")
     public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
         try {
-            logger.info("Received request to create user with username: {}", userDTO.getUsername());
+            log.info("Received request to create user with username: {}", userDTO.getUsername());
 
             // Delegates user creation to the service layer
             UserDTO userCreated = userService.createUser(userDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(userCreated);
         } catch (RuntimeException e) {
             // Logs the error with exception details for debugging
-            logger.error("Error creating user with username: {}", userDTO.getUsername(), e);
+            log.error("Error creating user with username: {}", userDTO.getUsername(), e);
 
             // Returns an error response with status 500
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

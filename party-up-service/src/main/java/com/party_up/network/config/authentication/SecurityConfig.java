@@ -1,7 +1,7 @@
 package com.party_up.network.config.authentication;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,11 +22,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * Security configuration class for setting up JWT-based authentication and
  * security rules in the application.
  */
+@Slf4j
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
-    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
     private final JwtRequestFilter jwtRequestFilter;
 
@@ -47,7 +46,7 @@ public class SecurityConfig {
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        logger.info("Creating PasswordEncoder bean with BCryptPasswordEncoder.");
+        log.info("Creating PasswordEncoder bean with BCryptPasswordEncoder.");
         return new BCryptPasswordEncoder();
     }
 
@@ -61,7 +60,7 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        logger.info("Configuring security filter chain.");
+        log.info("Configuring security filter chain.");
 
         // Disable CSRF as we're using stateless JWT authentication
         http.csrf(AbstractHttpConfigurer::disable)
@@ -81,7 +80,7 @@ public class SecurityConfig {
 
         // Add JwtRequestFilter before UsernamePasswordAuthenticationFilter
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-        logger.info("JwtRequestFilter added to the security filter chain.");
+        log.info("JwtRequestFilter added to the security filter chain.");
 
         return http.build();
     }
@@ -96,7 +95,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authentication(
             AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        logger.info("Retrieving AuthenticationManager from AuthenticationConfiguration.");
+        log.info("Retrieving AuthenticationManager from AuthenticationConfiguration.");
         return authenticationConfiguration.getAuthenticationManager();
     }
 

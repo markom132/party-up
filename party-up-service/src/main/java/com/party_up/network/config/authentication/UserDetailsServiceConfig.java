@@ -2,8 +2,8 @@ package com.party_up.network.config.authentication;
 
 import java.util.Collections;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,10 +16,9 @@ import com.party_up.network.repository.UserRepository;
  * Configuration class that implements UserDetailsService for Spring Security.
  * This service is responsible for loading user-specific data during authentication.
  */
+@Slf4j
 @Configuration
 public class UserDetailsServiceConfig implements UserDetailsService {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserDetailsServiceConfig.class);
 
     private final UserRepository userRepository;
 
@@ -44,11 +43,11 @@ public class UserDetailsServiceConfig implements UserDetailsService {
         User user = userRepository
                 .findByUsername(email)
                 .orElseThrow(() -> {
-                    logger.warn("User not found with username: {}", email);
+                    log.warn("User not found with username: {}", email);
                     return new UsernameNotFoundException("User not found with username: " + email);
                 });
 
-        logger.info("User found: {}", user.getUsername());
+        log.info("User found: {}", user.getUsername());
 
         // Returning the user details with an empty authority list
         return new org.springframework.security.core.userdetails.User(

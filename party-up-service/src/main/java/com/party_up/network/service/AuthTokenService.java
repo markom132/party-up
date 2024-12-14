@@ -2,8 +2,7 @@ package com.party_up.network.service;
 
 import java.time.LocalDateTime;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +13,13 @@ import com.party_up.network.model.AuthToken;
 import com.party_up.network.model.User;
 import com.party_up.network.repository.AuthTokenRepository;
 
+@Slf4j
 @Service
 public class AuthTokenService {
 
     private final AuthTokenRepository authTokenRepository;
 
     private final JwtUtil jwtUtil;
-
-    private final Logger logger = LoggerFactory.getLogger(AuthTokenService.class);
 
     public AuthTokenService(AuthTokenRepository authTokenRepository, JwtUtil jwtUtil) {
         this.authTokenRepository = authTokenRepository;
@@ -47,10 +45,10 @@ public class AuthTokenService {
             LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(30);
             authToken.setExpiresAt(expiresAt);
 
-            logger.info("Creating auth token for user: {}", user.getUsername());
+            log.info("Creating auth token for user: {}", user.getUsername());
             return authTokenRepository.save(authToken);
         } catch (DataAccessException e) {
-            logger.error("Database error while creating auth token: {}", e.getMessage());
+            log.error("Database error while creating auth token: {}", e.getMessage());
             throw new DatabaseException("Unable to create auth token " + e);
         }
     }
@@ -63,7 +61,7 @@ public class AuthTokenService {
     public void updateToExpired(AuthToken authToken) {
         authToken.setExpiresAt(LocalDateTime.now());
         authTokenRepository.save(authToken);
-        logger.info("Auth token for user {} marked as expired", authToken.getUser().getEmail());
+        log.info("Auth token for user {} marked as expired", authToken.getUser().getEmail());
     }
 
     /**
@@ -79,7 +77,7 @@ public class AuthTokenService {
                     new ResourceNotFoundException("Token not found: " + token)
             );
         } catch (DataAccessException e) {
-            logger.error("Resource not found: {},", e.getMessage());
+            log.error("Resource not found: {},", e.getMessage());
             throw new ResourceNotFoundException("Token not found" + e);
         }
     }

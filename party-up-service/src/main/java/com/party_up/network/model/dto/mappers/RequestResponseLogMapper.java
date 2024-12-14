@@ -3,8 +3,7 @@ package com.party_up.network.model.dto.mappers;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import com.party_up.network.model.RequestResponseLog;
@@ -13,10 +12,9 @@ import com.party_up.network.model.dto.RequestResponseLogDTO;
 /**
  * Mapper for converting between RequestResponseLog entities and RequestResponseLogDTOs.
  */
+@Slf4j
 @Component
 public class RequestResponseLogMapper {
-
-    private static final Logger logger = LoggerFactory.getLogger(RequestResponseLogMapper.class);
 
     /**
      * Converts a RequestResponseLog entity to a RequestResponseLogDTO.
@@ -26,7 +24,7 @@ public class RequestResponseLogMapper {
      */
     public RequestResponseLogDTO toDTO(RequestResponseLog requestResponseLog) {
         if (requestResponseLog == null) {
-            logger.warn("Attempted to convert a null RequestResponseLog to RequestResponseLogDTO");
+            log.warn("Attempted to convert a null RequestResponseLog to RequestResponseLogDTO");
             return null;
         }
 
@@ -48,7 +46,7 @@ public class RequestResponseLogMapper {
      * @return a list of RequestResponseLogDTOs
      */
     public List<RequestResponseLogDTO> toDtoList(List<RequestResponseLog> logs) {
-        logger.info("Converting a list of RequestResponseLog entities to list of " +
+        log.info("Converting a list of RequestResponseLog entities to list of " +
                 "RequestResponseLogDTOs. Total logs: {}", logs.size());
         return logs.stream()
                 .map(this::toDTO)
@@ -63,11 +61,11 @@ public class RequestResponseLogMapper {
      */
     public RequestResponseLog toEntity(RequestResponseLogDTO requestResponseLogDTO) {
         if (requestResponseLogDTO == null) {
-            logger.warn("Attempted to convert a null RequestResponseLogDTO to RequestResponseLog ");
+            log.warn("Attempted to convert a null RequestResponseLogDTO to RequestResponseLog ");
             return null;
         }
 
-        logger.info("Converting RequestResponseLogDTO with method {} and endpoint {} to entity", 
+        log.info("Converting RequestResponseLogDTO with method {} and endpoint {} to entity",
                 requestResponseLogDTO.getMethod(), requestResponseLogDTO.getEndpoint());
         
         RequestResponseLog requestResponseLog = new RequestResponseLog();

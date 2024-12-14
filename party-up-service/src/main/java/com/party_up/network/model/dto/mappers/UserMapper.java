@@ -4,8 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import com.party_up.network.model.User;
@@ -14,11 +13,9 @@ import com.party_up.network.model.dto.UserDTO;
 /**
  * Mapper for converting between User entities and UserDTOs.
  */
-
+@Slf4j
 @Component
 public class UserMapper {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserMapper.class);
 
     /**
      * Converts a User entity to a UserDTO.
@@ -28,7 +25,7 @@ public class UserMapper {
      */
     public UserDTO toDTO(User user) {
         if (user == null) {
-            logger.warn("Attempted to convert a null User to UserDTO");
+            log.warn("Attempted to convert a null User to UserDTO");
             return null;
         }
 
@@ -62,7 +59,7 @@ public class UserMapper {
      */
     public User toEntity(UserDTO userDTO) {
         if (userDTO == null) {
-            logger.warn("Attempted to convert a null UserDTO to User");
+            log.warn("Attempted to convert a null UserDTO to User");
             return null;
         }
 

@@ -3,19 +3,16 @@ package com.party_up.network.config.log_cached_body.response;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jakarta.servlet.ServletOutputStream;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * A custom ServletOutputStream that duplicates (or "tees") the output stream.
  * This allows capturing the response body by writing to both the original response
  * output stream and a secondary copy stream simultaneously.
  */
+@Slf4j
 public class TeeServletOutputStream extends ServletOutputStream {
-
-    private static final Logger logger = LoggerFactory.getLogger(TeeServletOutputStream.class);
 
     private final ServletOutputStream outputStream;
 
@@ -30,7 +27,7 @@ public class TeeServletOutputStream extends ServletOutputStream {
     public TeeServletOutputStream(ServletOutputStream outputStream, ByteArrayOutputStream copyStream) {
         this.outputStream = outputStream;
         this.copyStream = copyStream;
-        logger.debug("TeeServletOutputStream initialized with output and copy streams.");
+        log.debug("TeeServletOutputStream initialized with output and copy streams.");
     }
 
     /**
@@ -43,7 +40,7 @@ public class TeeServletOutputStream extends ServletOutputStream {
     public void write(int b) throws IOException {
         outputStream.write(b); // Write to the original response stream
         copyStream.write(b); // Write to the copy stream for capturing response data
-        logger.trace("Byte written to both output and copy streams.");
+        log.trace("Byte written to both output and copy streams.");
     }
 
     /**
@@ -64,6 +61,6 @@ public class TeeServletOutputStream extends ServletOutputStream {
     @Override
     public void setWriteListener(jakarta.servlet.WriteListener writeListener) {
         outputStream.setWriteListener(writeListener);
-        logger.debug("WriteListener set for output stream.");
+        log.debug("WriteListener set for output stream.");
     }
 }

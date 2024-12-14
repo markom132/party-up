@@ -2,8 +2,7 @@ package com.party_up.network.config.log_cached_body.request;
 
 import java.io.ByteArrayInputStream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import jakarta.servlet.ReadListener;
 import jakarta.servlet.ServletInputStream;
@@ -11,9 +10,8 @@ import jakarta.servlet.ServletInputStream;
 /**
  * Custom ServletInputStream that wraps a cached body, allowing multiple reads of the request body.
  */
+@Slf4j
 public class CachedBodyServletInputStream extends ServletInputStream {
-
-    private static final Logger logger = LoggerFactory.getLogger(CachedBodyServletInputStream.class);
 
     private final ByteArrayInputStream inputStream;
 
@@ -24,7 +22,7 @@ public class CachedBodyServletInputStream extends ServletInputStream {
      */
     public CachedBodyServletInputStream(byte[] cachedBody) {
         this.inputStream = new ByteArrayInputStream(cachedBody);
-        logger.debug("CachedBodyServletInputStream initialized with cached request body.");
+        log.debug("CachedBodyServletInputStream initialized with cached request body.");
     }
 
     /**
@@ -35,7 +33,7 @@ public class CachedBodyServletInputStream extends ServletInputStream {
     @Override
     public boolean isFinished() {
         boolean finished = inputStream.available() == 0;
-        logger.debug("isFinished called. Result: {}", finished);
+        log.debug("isFinished called. Result: {}", finished);
         return finished;
     }
 
@@ -46,7 +44,7 @@ public class CachedBodyServletInputStream extends ServletInputStream {
      */
     @Override
     public boolean isReady() {
-        logger.debug("isReady called. Result: true");
+        log.debug("isReady called. Result: true");
         return true;
     }
 
@@ -58,7 +56,7 @@ public class CachedBodyServletInputStream extends ServletInputStream {
      */
     @Override
     public void setReadListener(ReadListener readListener) {
-        logger.warn("setReadListener called, but operation is not supported.");
+        log.warn("setReadListener called, but operation is not supported.");
         throw new UnsupportedOperationException("Non-blocking read is not supported.");
     }
 
@@ -70,7 +68,7 @@ public class CachedBodyServletInputStream extends ServletInputStream {
     @Override
     public int read() {
         int byteData = inputStream.read();
-        logger.debug("read called, Byte read: {}", byteData);
+        log.debug("read called, Byte read: {}", byteData);
         return byteData;
     }
 }

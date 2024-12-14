@@ -3,8 +3,8 @@ package com.party_up.network.config.interceptor;
 import java.util.Arrays;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +15,9 @@ import org.springframework.stereotype.Component;
  * under the property key `excluded.log.endpoints`.
  * </p>
  */
+@Slf4j
 @Component
 public class ExcludedEndpointsConfig {
-
-    private static final Logger logger = LoggerFactory.getLogger(ExcludedEndpointsConfig.class);
 
     @Value("${excluded.log.endpoints}")
     private String excludedEndpoint;
@@ -31,7 +30,7 @@ public class ExcludedEndpointsConfig {
      */
     public List<String> getExcludedEndpoint() {
         List<String> excludedEndpoints = Arrays.asList(excludedEndpoint.split(","));
-        logger.debug("Excluded endpoints list: {}", excludedEndpoints);
+        log.debug("Excluded endpoints list: {}", excludedEndpoints);
 
         return excludedEndpoints;
     }

@@ -3,8 +3,8 @@ package com.party_up.network.service;
 import java.time.format.DateTimeFormatter;
 
 import com.party_up.network.exceptions.ResourceNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -26,10 +26,9 @@ import com.party_up.network.repository.UserRepository;
  * Service class for managing user-related operations such as login, account activation,
  * password reset, and user data retrieval.
  */
+@Slf4j
 @Service
 public class UserService {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
 
@@ -92,10 +91,10 @@ public class UserService {
 
             LoginSuccessResponseDTO response = fillSuccessfulLoginResponse(user, token, formattedExpiresAt);
 
-            logger.info("Login successful for user: {}", user.getEmail());
+            log.info("Login successful for user: {}", user.getEmail());
             return response;
         } catch (AuthenticationException e) {
-            logger.error("Authentication failed for user: {}", username, e);
+            log.error("Authentication failed for user: {}", username, e);
             throw new RuntimeException("Invalid credentials");
         }
     }
@@ -109,11 +108,11 @@ public class UserService {
         if (token == null) {
             throw new IllegalArgumentException("Invalid Authorization header format");
         }
-        logger.info("Logging out user with token: {}", token);
+        log.info("Logging out user with token: {}", token);
         AuthToken authToken = authTokenService.findByToken(token);
 
         authTokenService.updateToExpired(authToken);
-        logger.info("Token {} marked as expired", token);
+        log.info("Token {} marked as expired", token);
     }
 
     /**
@@ -126,7 +125,7 @@ public class UserService {
      * @throws RuntimeException if the username or email is already in use.
      */
     public UserDTO createUser(UserDTO userDTO) {
-        logger.info("Creating new user with username: {}", userDTO.getUsername());
+        log.info("Creating new user with username: {}", userDTO.getUsername());
 
         // Extract username and email from the userDTO
         String username = userDTO.getUsername();
@@ -141,7 +140,7 @@ public class UserService {
 
         // Save the new user in the repository
         userRepository.save(newUser);
-        logger.info("User successfully created with username: {}", userDTO.getUsername());
+        log.info("User successfully created with username: {}", userDTO.getUsername());
 
         // Convert entity back to DTO and return it
         return userMapper.toDTO(newUser);
@@ -158,10 +157,10 @@ public class UserService {
     public void validateCreateUserRequest(String username, String email) {
         // Check if a user with the given username or email already exists
         if (userRepository.findByUsername(username).isPresent()) {
-            logger.warn("Validation failed: User already exists with username: {}", username);
+            log.warn("Validation failed: User already exists with username: {}", username);
             throw new RuntimeException("User already exists with username: " + username);
         } else if (userRepository.findByEmail(email).isPresent()) {
-            logger.warn("Validation failed: User already exists with email: {}", email);
+            log.warn("Validation failed: User already exists with email: {}", email);
             throw new RuntimeException("User already exists with email: " + email);
         }
     }
@@ -175,7 +174,7 @@ public class UserService {
      * @return LoginSuccessResponseDTO containing user details, JWT token, and token expiration.
      */
     private LoginSuccessResponseDTO fillSuccessfulLoginResponse(User user, String jwtToken, String expiresAt) {
-        logger.debug("Filling successful login response for user with ID: {}", user.getId());
+        log.debug("Filling successful login response for user with ID: {}", user.getId());
         return new LoginSuccessResponseDTO(
                 user.getId(),
                 user.getUsername(),
