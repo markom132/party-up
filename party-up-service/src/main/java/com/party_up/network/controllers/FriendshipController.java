@@ -23,11 +23,26 @@ public class FriendshipController {
     private final FriendshipService friendshipService;
     private final UserService userService;
 
+    /**
+     * Endpoint to send a friend request.
+     *
+     * @param senderId ID of the user sending the request.
+     * @param recipientId ID of the user receiving the request.
+     * @return Response entity with success message.
+     */
     @PostMapping("/send-request")
     public ResponseEntity<String> sendFriendRequest(
             @RequestParam Long senderId,
             @RequestParam Long recipientId) {
         friendshipService.sendFriendshipRequest(senderId, recipientId);
         return ResponseEntity.status(HttpStatus.OK).body("Friend request sent successfully.");
+    }
+
+    @PostMapping("/accept-request")
+    public ResponseEntity<String> acceptFriendRequest(
+            @RequestParam Long userOneId,
+            @RequestParam Long userTwoId) {
+        friendshipService.acceptFriendRequest(userOneId, userTwoId);
+        return ResponseEntity.status(HttpStatus.OK).body("Friend request accepted successfully.");
     }
 }

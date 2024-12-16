@@ -65,13 +65,26 @@ public class FriendshipService {
     /**
      * Accepts a friend request.
      *
-     * @param friendshipId the ID of the Friendship to accept.
-     * @return the updated Friendship object.
+     * @param userOneId the ID of the first user in relationship.
+     * @param userTwoId the ID of the second user in relationship.
+     * @return the updated(accepted) Friendship object.
      */
-    public Friendship acceptFriendRequest(Long friendshipId) {
-        log.info("Accepting friend request with ID {}", friendshipId);
-        Friendship friendship = friendshipRepository.findById(friendshipId)
-                .orElseThrow(() -> new ResourceNotFoundException("Friendship not found with ID: " + friendshipId));
+    public Friendship acceptFriendRequest(Long userOneId, Long userTwoId) {
+        // Find users
+        User user1 = userService.getUserById(userOneId);
+        User user2 = userService.getUserById(userTwoId);
+
+        // Find friendship object between them
+        Friendship friendship = friendshipRepository.findFriendshipByUsers(user1, user2)
+                        .orElseThrow(() -> new ResourceNotFoundException("Friendship not found for users: " + userOneId + " and " + userTwoId));
+
+        // Checking is friendship object in "PENDING" state
+        if (!friendship.getStatus().equals(FriendshipStatus.PENDING)) {
+            log.warn("Friendship is not in PENDING state, so can't be changed to accepted");
+            throw new IllegalArgumentException("Friendship is not in PENDING state, so can't be accepted");
+        }
+
+        log.info("Accepting friend request with ID {}", friendship.getId());
         friendship.setStatus(FriendshipStatus.ACCEPTED);
         return friendshipRepository.save(friendship);
     }
