@@ -67,4 +67,19 @@ public class FriendshipController {
         friendshipService.rejectFriendRequest(userOneId, userTwoId);
         return ResponseEntity.status(HttpStatus.OK).body("Friend request declined successfully.");
     }
+
+    /**
+     * Emdpoint to delete a friendship.
+     *
+     * @param userId ID of the first user.
+     * @param friendId ID of the second user.
+     * @return ResponseEntity with success message.
+     */
+    @PostMapping("/remove-friend")
+    public ResponseEntity<String> removeFriend(
+            @RequestParam Long userId,
+            @RequestParam Long friendId) {
+        friendshipService.deleteFriendship(userId, friendId);
+        return ResponseEntity.status(HttpStatus.OK).body("Friendship removed successfully.");
+    }
 }
