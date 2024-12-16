@@ -38,9 +38,27 @@ public class FriendshipService {
      * @param userTwo the user receiving the friend request.
      * @return the created friendship object.
      */
-    public Friendship sendFriendshipRequest(User userOne, User userTwo) {
-        log.info("Sending friend request from user {} to user {}", userOne.getId(), userTwo.getId());
-        Friendship friendship = new Friendship(userOne, userTwo, FriendshipStatus.PENDING);
+    public Friendship sendFriendshipRequest(Long userOne, Long userTwo) {
+        log.info("Sending friend request from user {} to user {}", userOne, userTwo);
+
+        // Check are two IDs different
+        if (userOne == userTwo) {
+            log.warn("Friendship can't be created with yourself.");
+            throw new IllegalArgumentException("Friendship can't be created with yourself");
+        }
+
+        // Search for users
+        User sender = userService.getUserById(userOne);
+        User recipient = userService.getUserById(userTwo);
+
+        // Check if friendship already exist
+        if (friendshipRepository.findFriendshipByUsers(sender, recipient).isPresent()) {
+            log.warn("Friendship already exist between user {} and user {}", userOne, userTwo);
+            throw new IllegalArgumentException("Friendship already exists between these users");
+        }
+
+        // Create new friendship
+        Friendship friendship = new Friendship(sender, recipient, FriendshipStatus.PENDING);
         return friendshipRepository.save(friendship);
     }
 

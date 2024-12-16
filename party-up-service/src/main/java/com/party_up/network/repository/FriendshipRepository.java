@@ -73,7 +73,7 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
             "FROM Friendship f " +
             "WHERE (f.userOne = :otherUser OR f.userTwo = :otherUser) " +
             "AND f.status = 'ACCEPTED' " +
-            "AND (f.userOne != :currentUser AND f.userTwo != currentUser)")
+            "AND (f.userOne != :currentUser AND f.userTwo != :currentUser)")
     List<User> findFriendsOfOtherUser(@Param("currentUser") User currentUser, @Param("otherUser") User otherUser);
 
     /**
