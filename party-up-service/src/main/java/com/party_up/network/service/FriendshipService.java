@@ -164,18 +164,6 @@ public class FriendshipService {
     }
 
     /**
-     * Gets all friends of a specific user other than a given user.
-     *
-     * @param currentUser the user making the request.
-     * @param otherUser the user whose friends are to be retrieved.
-     * @return a list of friends for the specific user excluding the current user.
-     */
-    public List<User> getFriendsOfOtherUser(User currentUser, User otherUser) {
-        log.info("Fetching friends of user {} excluding user {}", otherUser.getId(), currentUser.getId());
-        return friendshipRepository.findFriendsOfOtherUser(currentUser, otherUser);
-    }
-
-    /**
      * Fetches a list of pending friend requests for a user.
      *
      * @param userId of the user.
