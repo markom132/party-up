@@ -38,11 +38,33 @@ public class FriendshipController {
         return ResponseEntity.status(HttpStatus.OK).body("Friend request sent successfully.");
     }
 
+    /**
+     * Endpoint to accept a friend request.
+     *
+     * @param userOneId ID of the first user in the relationship
+     * @param userTwoId ID of the second user in the relationship
+     * @return ResponseEntity with a success message.
+     */
     @PostMapping("/accept-request")
     public ResponseEntity<String> acceptFriendRequest(
             @RequestParam Long userOneId,
             @RequestParam Long userTwoId) {
         friendshipService.acceptFriendRequest(userOneId, userTwoId);
         return ResponseEntity.status(HttpStatus.OK).body("Friend request accepted successfully.");
+    }
+
+    /**
+     * Endpoint to decline a friend request.
+     *
+     * @param userOneId ID of the user who sent the request.
+     * @param userTwoId ID of the user declining the request.
+     * @return ResponseEntity with success message.
+     */
+    @PostMapping("/decline-request")
+    public ResponseEntity<String> declineFriendRequest(
+            @RequestParam Long userOneId,
+            @RequestParam Long userTwoId) {
+        friendshipService.rejectFriendRequest(userOneId, userTwoId);
+        return ResponseEntity.status(HttpStatus.OK).body("Friend request declined successfully.");
     }
 }

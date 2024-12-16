@@ -92,14 +92,26 @@ public class FriendshipService {
     /**
      * Rejects a friend request.
      *
-     * @param friendshipId teh ID of the Friendship to reject.
+     * @param userOneId the ID of the first user in the relationship.
+     * @param userTwoId the ID of the second user in the relationship.
      */
-    public void rejectFriendRequest(Long friendshipId) {
-        log.info("Rejecting friend request with ID {}", friendshipId);
-        Friendship friendship = friendshipRepository.findById(friendshipId)
-                .orElseThrow(() -> new ResourceNotFoundException("Friendship not found with ID: " + friendshipId));
-        friendship.setStatus(FriendshipStatus.REJECTED);
-        friendshipRepository.save(friendship);
+    public void rejectFriendRequest(Long userOneId, Long userTwoId) {
+        // Find users
+        User userOne = userService.getUserById(userOneId);
+        User userTwo = userService.getUserById(userTwoId);
+
+        // Find friendship object between them
+        Friendship friendship = friendshipRepository.findFriendshipByUsers(userOne, userTwo)
+                .orElseThrow(() -> new ResourceNotFoundException("Friendship not found for users: " + userOneId + " and " + userTwoId));
+
+        // Checking is friendship object in "PENDING" state
+        if (!friendship.getStatus().equals(FriendshipStatus.PENDING)) {
+            log.warn("Friendship is not in PENDING state, so can't be changed to rejected");
+            throw new IllegalArgumentException("Friendship is not in PENDING state, so can't be rejected");
+        }
+
+        log.info("Rejecting (deleting) friend request with ID {}", friendship.getId());
+        friendshipRepository.delete(friendship);
     }
 
     /**
