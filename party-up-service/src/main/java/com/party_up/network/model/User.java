@@ -106,6 +106,9 @@ public class User {
     /**
      * Constructor for creating a user with username, password, first name, last name, email, and status.
      *
+     * @param age       the age of the user
+     * @param bio       the bio of the user profile
+     * @param birthDate the birthdate of the user
      * @param username  the username of the user
      * @param password  the password of the user
      * @param firstName the first name of the user
@@ -113,8 +116,11 @@ public class User {
      * @param email     the email of the user
      * @param status    the status of the user
      */
-    public User(String username, String password, String firstName,
+    public User(int age, String bio, LocalDate birthDate, String username, String password, String firstName,
                 String lastName, String email, AccountStatus status) {
+        this.age = age;
+        this.bio = bio;
+        this.birthDate = birthDate;
         this.username = username;
         this.email = email;
         this.password = password;

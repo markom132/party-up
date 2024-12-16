@@ -3,6 +3,8 @@ package com.party_up.network.model.dto.mappers;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -49,6 +51,19 @@ public class UserMapper {
                 formatCreatedAt,
                 formatLastUpdatedAt
         );
+    }
+
+    /**
+     * Convert a list of User entities to a list of UserDTOs.
+     *
+     * @param users the list of User entities to convert
+     * @return a list of UserDTOs
+     */
+    public List<UserDTO> toDtoList(List<User> users) {
+        log.info("Converting list of User entities to list of UserDTOs. Total users: {}", users.size());
+        return users.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 
     /**

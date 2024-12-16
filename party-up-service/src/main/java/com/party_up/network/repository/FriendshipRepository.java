@@ -19,12 +19,15 @@ import java.util.Optional;
 public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 
     /**
-     * Returns a list of all friends for specific user.
+     * Returns a list of IDs of all friends for specific user.
      */
-    @Query("SELECT CASE WHEN f.userOne = :user THEN f.userTwo ELSE f.userOne END " +
+    @Query("SELECT CASE " +
+            "WHEN f.userOne.id = :userId THEN f.userTwo.id " +
+            "ELSE f.userOne.id END " +
             "FROM Friendship f " +
-            "WHERE (f.userOne = :user OR f.userTwo = :user) AND f.status = 'ACCEPTED'")
-    List<User> findAllFriendsForUser(@Param("user") User user);
+            "WHERE (f.userOne.id = :userId OR f.userTwo.id = :userId) " +
+            "AND f.status = 'ACCEPTED'")
+    List<Long> findFriendIdsByUserId(@Param("userId") Long userId);
 
     /**
      * Returns friendship object between two users.

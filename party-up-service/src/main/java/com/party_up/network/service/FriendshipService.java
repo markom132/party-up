@@ -3,8 +3,11 @@ package com.party_up.network.service;
 import com.party_up.network.exceptions.ResourceNotFoundException;
 import com.party_up.network.model.Friendship;
 import com.party_up.network.model.User;
+import com.party_up.network.model.dto.UserDTO;
+import com.party_up.network.model.dto.mappers.UserMapper;
 import com.party_up.network.model.enums.FriendshipStatus;
 import com.party_up.network.repository.FriendshipRepository;
+import com.party_up.network.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -20,15 +23,19 @@ public class FriendshipService {
 
     private final FriendshipRepository friendshipRepository;
     private final UserService userService;
+    private final UserMapper userMapper;
+    private final UserRepository userRepository;
 
     /**
      * Constructor for injecting the FriendshipRepository.
      *
      * @param friendshipRepository the repository for managing Friendship entities.
      */
-    public FriendshipService(FriendshipRepository friendshipRepository, UserService userService) {
+    public FriendshipService(FriendshipRepository friendshipRepository, UserService userService, UserMapper userMapper, UserRepository userRepository) {
         this.friendshipRepository = friendshipRepository;
         this.userService = userService;
+        this.userMapper = userMapper;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -117,13 +124,18 @@ public class FriendshipService {
     /**
      * Gets all friends of a specific user.
      *
-     * @param user the user for whom to retrieve friends.
-     * @return a list of Friendship objects representing accepted friendships.
+     * @param userId the user ID for whom to retrieve friends.
+     * @return a list of User objects representing accepted friends.
      */
-    public List<User> getAllFriendsForUser(User user) {
-        log.info("Fetching all friends for user {}", user.getId());
-        return friendshipRepository.findAllFriendsForUser(user);
+    public List<UserDTO> getFriends(Long userId) {
+        // Find user IDs
+        List<Long> ids = friendshipRepository.findFriendIdsByUserId(userId);
+
+        // Get all friends based on their IDs
+        List<User> users = userRepository.findAllById(ids);
+        return userMapper.toDtoList(users);
     }
+
 
     /**
      * Checks if two users are friends.

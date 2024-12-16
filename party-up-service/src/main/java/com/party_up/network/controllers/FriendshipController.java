@@ -1,15 +1,16 @@
 package com.party_up.network.controllers;
 
+import com.party_up.network.model.User;
+import com.party_up.network.model.dto.UserDTO;
 import com.party_up.network.service.FriendshipService;
 import com.party_up.network.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Controller for managing friendship in the application.
@@ -81,5 +82,16 @@ public class FriendshipController {
             @RequestParam Long friendId) {
         friendshipService.deleteFriendship(userId, friendId);
         return ResponseEntity.status(HttpStatus.OK).body("Friendship removed successfully.");
+    }
+
+    /**
+     * Endpoint to get all friends of a user.
+     *
+     * @param userId ID of the user.
+     * @return List of friends (in UserDTOs).
+     */
+    @GetMapping("/friends")
+    public ResponseEntity<List<UserDTO>> getFriends(@RequestParam Long userId) {
+        return ResponseEntity.status(HttpStatus.OK).body(friendshipService.getFriends(userId));
     }
 }
