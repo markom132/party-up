@@ -94,4 +94,15 @@ public class FriendshipController {
     public ResponseEntity<List<UserDTO>> getFriends(@RequestParam Long userId) {
         return ResponseEntity.status(HttpStatus.OK).body(friendshipService.getFriends(userId));
     }
+
+    /**
+     * Endpoint to get pending friend requests for user.
+     *
+     * @param userId ID of the user.
+     * @return List of Users who sent friend request.
+     */
+    @GetMapping("/pending-requests")
+    public ResponseEntity<List<UserDTO>> getPendingRequests(@RequestParam Long userId) {
+        return ResponseEntity.status(HttpStatus.OK).body(friendshipService.getPendingFriendRequest(userId));
+    }
 }

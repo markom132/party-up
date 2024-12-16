@@ -177,14 +177,16 @@ public class FriendshipService {
      * Fetches a list of pending friend requests for a user.
      *
      * @param userId of the user.
-     * @return list of pending friend requests as Users.
+     * @return list of pending friend requests as UserDTOs.
      */
-    public List<User> getPendingFriendRequest(Long userId) {
+    public List<UserDTO> getPendingFriendRequest(Long userId) {
         log.info("Fetching pending friend request for user with ID: {}", userId);
-        User user = userService.getUserById(userId);
-        List<User> pendingRequests = friendshipRepository.findPendingRequestsForUser(user);
+        // Find PENDING requests
+        List<Long> userIDs = friendshipRepository.findPendingRequestsForUser(userId);
+        List<User> pendingRequests = userRepository.findAllById(userIDs);
+
         log.info("Found {} pending friend requests for user with ID: {}", pendingRequests.size(), userId);
-        return pendingRequests;
+        return userMapper.toDtoList(pendingRequests);
     }
 
     /**

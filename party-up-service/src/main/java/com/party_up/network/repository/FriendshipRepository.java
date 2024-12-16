@@ -47,12 +47,15 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
     boolean areUsersFriends(@Param("user1") User user1, @Param("user2") User user2);
 
     /**
-     * Returns all PENDING requests.
+     * Returns all PENDING request User IDs.
      */
-    @Query("SELECT CASE WHEN f.userOne = :user THEN f.userTwo ELSE f.userOne END " +
+    @Query("SELECT CASE " +
+            "WHEN f.userOne.id = :userId THEN f.userTwo.id " +
+            "ELSE f.userOne.id END " +
             "FROM Friendship f " +
-            "WHERE (f.userOne = :user OR f.userTwo = :user) AND f.status = 'PENDING'")
-    List<User> findPendingRequestsForUser(@Param("user") User user);
+            "WHERE (f.userOne.id = :userId OR f.userTwo.id = :userId) " +
+            "AND f.status = 'PENDING'")
+    List<Long> findPendingRequestsForUser(@Param("userId") Long userId);
 
     /**
      * Removes friendship connection between users.
