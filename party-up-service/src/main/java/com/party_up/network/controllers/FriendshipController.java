@@ -105,4 +105,18 @@ public class FriendshipController {
     public ResponseEntity<List<UserDTO>> getPendingRequests(@RequestParam Long userId) {
         return ResponseEntity.status(HttpStatus.OK).body(friendshipService.getPendingFriendRequest(userId));
     }
+
+    /**
+     * Endpoint to get mutual friends between two users.
+     *
+     * @param userOneId ID of the first user.
+     * @param userTwoId ID of the second user.
+     * @return List of the mutual friends.
+     */
+    @GetMapping("/mutual-friends")
+    public ResponseEntity<List<UserDTO>> getMutualFriends(
+            @RequestParam Long userOneId,
+            @RequestParam Long userTwoId) {
+        return ResponseEntity.status(HttpStatus.OK).body(friendshipService.getMutualFriends(userOneId, userTwoId));
+    }
 }

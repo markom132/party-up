@@ -83,15 +83,18 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
     List<User> findFriendsOfOtherUser(@Param("currentUser") User currentUser, @Param("otherUser") User otherUser);
 
     /**
-     * Returns a list of mutual friends.
+     * Returns a list of mutual friends IDs.
      */
-    @Query("SELECT CASE WHEN f1.userOne = f2.userTwo THEN f1.userOne " +
-            "           WHEN f1.userTwo = f2.userOne THEN f1.userTwo " +
-            "           ELSE NULL END " +
+    @Query("SELECT DISTINCT CASE " +
+            "WHEN f1.userOne.id = f2.userOne.id THEN f1.userOne.id " +
+            "WHEN f1.userOne.id = f2.userTwo.id THEN f1.userOne.id " +
+            "WHEN f1.userTwo.id = f2.userOne.id THEN f1.userTwo.id " +
+            "WHEN f1.userTwo.id = f2.userTwo.id THEN f1.userTwo.id " +
+            "ELSE NULL END " +
             "FROM Friendship f1, Friendship f2 " +
-            "WHERE (f1.userOne = :user1 OR f1.userTwo = :user1) " +
-            "AND (f2.userOne = :user2 OR f2.userTwo = :user2) " +
-            "AND f1.status = 'ACCEPTED' AND f2.status = 'ACCEPTED' " +
-            "AND ((f1.userOne = f2.userTwo) OR (f1.userTwo = f2.userOne))")
-    List<User> findMutualFriends(@Param("user1") User user1, @Param("user2") User user2);
+            "WHERE (f1.userOne.id = :user1 OR f1.userTwo.id = :user1) " +
+            "AND (f2.userOne.id = :user2 OR f2.userTwo.id = :user2) " +
+            "AND f1.status = 'ACCEPTED' " +
+            "AND f2.status = 'ACCEPTED'")
+    List<Long> findMutualFriendIds(@Param("user1") Long user1, @Param("user2") Long user2);
 }

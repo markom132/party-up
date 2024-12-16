@@ -152,13 +152,15 @@ public class FriendshipService {
     /**
      * Gets mutual friends between two users.
      *
-     * @param userOne the first user.
-     * @param userTwo the second user.
+     * @param userOneId the first user.
+     * @param userTwoId the second user.
      * @return a list of mutual friends.
      */
-    public List<User> getMutualFriends(User userOne, User userTwo) {
-        log.info("Fetching mutual friends between user {} and user {}", userOne.getId(), userTwo.getId());
-        return friendshipRepository.findMutualFriends(userOne, userTwo);
+    public List<UserDTO> getMutualFriends(Long userOneId, Long userTwoId) {
+        log.info("Fetching mutual friends between user {} and user {}", userOneId, userTwoId);
+        List<Long> mutualUserIDs = friendshipRepository.findMutualFriendIds(userOneId, userTwoId);
+        List<User> mutualUsers = userRepository.findAllById(mutualUserIDs);
+        return userMapper.toDtoList(mutualUsers);
     }
 
     /**
