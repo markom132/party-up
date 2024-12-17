@@ -2,19 +2,17 @@ package com.party_up.network.config.log_cached_body.request;
 
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Filter that wraps the HttpServletRequest to cache the request body,
  * allowing it to be read multiple times in subsequent processing.
  */
+@Slf4j
 public class RequestBodyCacheFilter implements Filter {
-
-    private static final Logger logger = LoggerFactory.getLogger(RequestBodyCacheFilter.class);
 
     /**
      * Wraps the HttpServletRequest in a CachedBodyHttpServletRequest to enable repeated reading of the request body.
@@ -30,15 +28,15 @@ public class RequestBodyCacheFilter implements Filter {
             throws IOException, ServletException {
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        logger.debug("RequestBodyCacheFilter invoked for URI: {}", httpRequest.getRequestURI());
+        log.debug("RequestBodyCacheFilter invoked for URI: {}", httpRequest.getRequestURI());
 
         // Wrap the original request in CachedBodyHttpServletRequest
         CachedBodyHttpServletRequest wrappedRequest = new CachedBodyHttpServletRequest(httpRequest);
-        logger.debug("HttpServletRequest wrapped with CachedBodyHttpServletRequest.");
+        log.debug("HttpServletRequest wrapped with CachedBodyHttpServletRequest.");
 
         // Pass the wrapped request through the filter chain
         chain.doFilter(wrappedRequest, response);
-        logger.debug("Request passed through filter chain.");
+        log.debug("Request passed through filter chain.");
     }
 }
 

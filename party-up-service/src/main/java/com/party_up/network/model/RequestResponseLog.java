@@ -43,7 +43,7 @@ public class RequestResponseLog {
     /**
      * The body of the response, limited to 500 characters.
      */
-    @Column(length = 500)
+    @Column(length = 2500)
     private String responseBody;
 
     /**

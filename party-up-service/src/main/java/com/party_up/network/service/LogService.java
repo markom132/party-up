@@ -9,8 +9,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.party_up.network.model.RequestResponseLog;
@@ -18,17 +16,18 @@ import com.party_up.network.model.dto.RequestResponseLogDTO;
 import com.party_up.network.model.dto.mappers.RequestResponseLogMapper;
 import com.party_up.network.repository.RequestResponseLogRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Service class for managing request and response logs.
  */
+@Slf4j
 @Service
 public class LogService {
 
     private final RequestResponseLogRepository requestResponseLogRepository;
 
     private final RequestResponseLogMapper requestResponseLogMapper;
-
-    private final Logger logger = LoggerFactory.getLogger(LogService.class);
 
     public LogService(RequestResponseLogRepository requestResponseLogRepository,
                       RequestResponseLogMapper requestResponseLogMapper) {
@@ -50,7 +49,7 @@ public class LogService {
      */
     public List<RequestResponseLogDTO> getAllLogs() {
         List<RequestResponseLog> response = requestResponseLogRepository.findAll();
-        logger.info("Retrieved all logs, count: {}", response.size());
+        log.info("Retrieved all logs, count: {}", response.size());
         return requestResponseLogMapper.toDtoList(response);
     }
 
@@ -66,10 +65,10 @@ public class LogService {
         Optional<List<RequestResponseLog>> response =
                 requestResponseLogRepository.findByCriteria(endpoint, method, statusCode);
         if (response.isPresent()) {
-            logger.info("Found {} logs for criteria: endpoint={}, method={}, statusCode={}",
+            log.info("Found {} logs for criteria: endpoint={}, method={}, statusCode={}",
                     response.get().size(), endpoint, method, statusCode);
         } else {
-            logger.info("No logs found for criteria: endpoint={}, method={}, statusCode={}",
+            log.info("No logs found for criteria: endpoint={}, method={}, statusCode={}",
                     endpoint, method, statusCode);
         }
         return response.map(requestResponseLogMapper::toDtoList).orElseGet(Collections::emptyList);
@@ -86,9 +85,9 @@ public class LogService {
         LocalDateTime startDateTime = parseDate(start);
         LocalDateTime endDateTime = parseDate(end);
 
-        logger.info("Retrieving logs between {} and {}", startDateTime, endDateTime);
+        log.info("Retrieving logs between {} and {}", startDateTime, endDateTime);
         List<RequestResponseLog> logs = requestResponseLogRepository.findByTimestampBetween(startDateTime, endDateTime);
-        logger.info("Retrieved {} logs between {} and {}", logs.size(), startDateTime, endDateTime);
+        log.info("Retrieved {} logs between {} and {}", logs.size(), startDateTime, endDateTime);
 
         return requestResponseLogMapper.toDtoList(logs);
     }
@@ -112,10 +111,10 @@ public class LogService {
                 }
             } catch (DateTimeParseException e) {
                 //ignoring error to try another format
-                logger.warn("Failed to parse date '{}', trying next format", dateString);
+                log.warn("Failed to parse date '{}', trying next format", dateString);
             }
         }
-        logger.error("Invalid date format: {}", dateString);
+        log.error("Invalid date format: {}", dateString);
         throw new IllegalArgumentException("Invalid date format: " + dateString);
     }
 }

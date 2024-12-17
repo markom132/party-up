@@ -3,20 +3,18 @@ package com.party_up.network.config.log_cached_body.response;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletResponseWrapper;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * A HttpServletResponse wrapper that caches the response body,
  * allowing it to be accessed multiple times.
  */
+@Slf4j
 public class CachedBodyHttpServletResponse extends HttpServletResponseWrapper {
-
-    private static final Logger logger = LoggerFactory.getLogger(CachedBodyHttpServletResponse.class);
 
     private final ByteArrayOutputStream cachedContent = new ByteArrayOutputStream();
 
@@ -29,7 +27,7 @@ public class CachedBodyHttpServletResponse extends HttpServletResponseWrapper {
      */
     public CachedBodyHttpServletResponse(HttpServletResponse response) {
         super(response);
-        logger.debug("CachedBodyHttpServletResponse initialized for response caching.");
+        log.debug("CachedBodyHttpServletResponse initialized for response caching.");
     }
 
     /**
@@ -42,7 +40,7 @@ public class CachedBodyHttpServletResponse extends HttpServletResponseWrapper {
     public ServletOutputStream getOutputStream() throws IOException {
         if (outputStream == null) {
             outputStream = new TeeServletOutputStream(super.getOutputStream(), cachedContent);
-            logger.debug("ServletOutputStream wrapped with caching output stream.");
+            log.debug("ServletOutputStream wrapped with caching output stream.");
         }
         return outputStream;
     }
@@ -56,7 +54,7 @@ public class CachedBodyHttpServletResponse extends HttpServletResponseWrapper {
     public void flushBuffer() throws IOException {
         if (outputStream != null) {
             outputStream.flush();
-            logger.debug("Output stream buffer flushed.");
+            log.debug("Output stream buffer flushed.");
         }
     }
 
@@ -66,7 +64,7 @@ public class CachedBodyHttpServletResponse extends HttpServletResponseWrapper {
      * @return byte array of cached content
      */
     public byte[] getCachedContent() {
-        logger.debug("Cached content retrieved with size: {} bytes.", cachedContent.size());
+        log.debug("Cached content retrieved with size: {} bytes.", cachedContent.size());
         return cachedContent.toByteArray();
     }
 }

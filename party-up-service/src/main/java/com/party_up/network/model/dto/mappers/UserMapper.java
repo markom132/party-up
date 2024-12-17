@@ -3,22 +3,22 @@ package com.party_up.network.model.dto.mappers;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.party_up.network.model.User;
 import com.party_up.network.model.dto.UserDTO;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Mapper for converting between User entities and UserDTOs.
  */
-
+@Slf4j
 @Component
 public class UserMapper {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserMapper.class);
 
     /**
      * Converts a User entity to a UserDTO.
@@ -28,7 +28,7 @@ public class UserMapper {
      */
     public UserDTO toDTO(User user) {
         if (user == null) {
-            logger.warn("Attempted to convert a null User to UserDTO");
+            log.warn("Attempted to convert a null User to UserDTO");
             return null;
         }
 
@@ -55,6 +55,19 @@ public class UserMapper {
     }
 
     /**
+     * Convert a list of User entities to a list of UserDTOs.
+     *
+     * @param users the list of User entities to convert
+     * @return a list of UserDTOs
+     */
+    public List<UserDTO> toDtoList(List<User> users) {
+        log.info("Converting list of User entities to list of UserDTOs. Total users: {}", users.size());
+        return users.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Convert a UserDTO to a User entity.
      *
      * @param userDTO the UserDTO to convert
@@ -62,7 +75,7 @@ public class UserMapper {
      */
     public User toEntity(UserDTO userDTO) {
         if (userDTO == null) {
-            logger.warn("Attempted to convert a null UserDTO to User");
+            log.warn("Attempted to convert a null UserDTO to User");
             return null;
         }
 
