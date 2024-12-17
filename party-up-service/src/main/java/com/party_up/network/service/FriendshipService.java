@@ -1,5 +1,10 @@
 package com.party_up.network.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
 import com.party_up.network.exceptions.ResourceNotFoundException;
 import com.party_up.network.model.Friendship;
 import com.party_up.network.model.User;
@@ -8,11 +13,8 @@ import com.party_up.network.model.dto.mappers.UserMapper;
 import com.party_up.network.model.enums.FriendshipStatus;
 import com.party_up.network.repository.FriendshipRepository;
 import com.party_up.network.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service class for managing friendship-related operations.
@@ -22,16 +24,23 @@ import java.util.Optional;
 public class FriendshipService {
 
     private final FriendshipRepository friendshipRepository;
+
     private final UserService userService;
+
     private final UserMapper userMapper;
+
     private final UserRepository userRepository;
 
     /**
      * Constructor for injecting the FriendshipRepository.
      *
      * @param friendshipRepository the repository for managing Friendship entities.
+     * @param userService the service class for managing User operations.
+     * @param userRepository the repository for managing User entities.
+     * @param userMapper the class with implemented methods for converting User to UserDTO
      */
-    public FriendshipService(FriendshipRepository friendshipRepository, UserService userService, UserMapper userMapper, UserRepository userRepository) {
+    public FriendshipService(FriendshipRepository friendshipRepository, UserService userService,
+                             UserMapper userMapper, UserRepository userRepository) {
         this.friendshipRepository = friendshipRepository;
         this.userService = userService;
         this.userMapper = userMapper;
@@ -83,7 +92,8 @@ public class FriendshipService {
 
         // Find friendship object between them
         Friendship friendship = friendshipRepository.findFriendshipByUsers(user1, user2)
-                        .orElseThrow(() -> new ResourceNotFoundException("Friendship not found for users: " + userOneId + " and " + userTwoId));
+                        .orElseThrow(() -> new ResourceNotFoundException(
+                                "Friendship not found for users: " + userOneId + " and " + userTwoId));
 
         // Checking is friendship object in "PENDING" state
         if (!friendship.getStatus().equals(FriendshipStatus.PENDING)) {
@@ -109,7 +119,8 @@ public class FriendshipService {
 
         // Find friendship object between them
         Friendship friendship = friendshipRepository.findFriendshipByUsers(userOne, userTwo)
-                .orElseThrow(() -> new ResourceNotFoundException("Friendship not found for users: " + userOneId + " and " + userTwoId));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Friendship not found for users: " + userOneId + " and " + userTwoId));
 
         // Checking is friendship object in "PENDING" state
         if (!friendship.getStatus().equals(FriendshipStatus.PENDING)) {

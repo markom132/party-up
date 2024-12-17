@@ -2,9 +2,6 @@ package com.party_up.network.service;
 
 import java.time.format.DateTimeFormatter;
 
-import com.party_up.network.exceptions.ResourceNotFoundException;
-
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -13,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.party_up.network.config.authentication.JwtUtil;
+import com.party_up.network.exceptions.ResourceNotFoundException;
 import com.party_up.network.model.AuthToken;
 import com.party_up.network.model.User;
 import com.party_up.network.model.dto.LoginRequestDTO;
@@ -21,6 +19,8 @@ import com.party_up.network.model.dto.UserDTO;
 import com.party_up.network.model.dto.mappers.UserMapper;
 import com.party_up.network.model.enums.AccountStatus;
 import com.party_up.network.repository.UserRepository;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service class for managing user-related operations such as login, account activation,

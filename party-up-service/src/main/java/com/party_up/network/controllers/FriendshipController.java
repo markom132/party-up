@@ -1,16 +1,17 @@
 package com.party_up.network.controllers;
 
-import com.party_up.network.model.User;
-import com.party_up.network.model.dto.UserDTO;
-import com.party_up.network.service.FriendshipService;
-import com.party_up.network.service.UserService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.party_up.network.model.dto.UserDTO;
+import com.party_up.network.service.FriendshipService;
+import com.party_up.network.service.UserService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Controller for managing friendship in the application.
@@ -22,6 +23,7 @@ import java.util.List;
 public class FriendshipController {
 
     private final FriendshipService friendshipService;
+
     private final UserService userService;
 
     /**

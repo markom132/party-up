@@ -1,12 +1,14 @@
 package com.party_up.network.model;
 
-import com.party_up.network.model.enums.FriendshipStatus;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
+
+import com.party_up.network.model.enums.FriendshipStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 /**
  * Entity class representing a friendship between users.

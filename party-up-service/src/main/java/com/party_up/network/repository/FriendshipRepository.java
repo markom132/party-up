@@ -1,15 +1,16 @@
 package com.party_up.network.repository;
 
-import com.party_up.network.model.Friendship;
-import com.party_up.network.model.User;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
+import com.party_up.network.model.Friendship;
+import com.party_up.network.model.User;
 
 /**
  * Repository interface for managing {@link Friendship} entities.
@@ -19,7 +20,8 @@ import java.util.Optional;
 public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 
     /**
-     * Returns a list of IDs of all friends for specific user.
+     * @param userId ID of the user
+     * @return Returns a list of IDs of all friends for specific user.
      */
     @Query("SELECT CASE " +
             "WHEN f.userOne.id = :userId THEN f.userTwo.id " +
@@ -30,7 +32,9 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
     List<Long> findFriendIdsByUserId(@Param("userId") Long userId);
 
     /**
-     * Returns friendship object between two users.
+     * @param userOne first user.
+     * @param userTwo second user.
+     * @return Returns friendship object between two users.
      */
     @Query("SELECT f FROM Friendship f " +
             "WHERE (f.userOne = :userOne AND f.userTwo = :userTwo) " +
@@ -39,6 +43,9 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 
     /**
      * Check are two users friends or not.
+     * @param user1 first user.
+     * @param user2 second user.
+     * @return boolean which represent are user friends or not.
      */
     @Query("SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END " +
             "FROM Friendship f " +
@@ -47,7 +54,8 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
     boolean areUsersFriends(@Param("user1") User user1, @Param("user2") User user2);
 
     /**
-     * Returns all PENDING request User IDs.
+     * @param userId ID of the user
+     * @return Returns all PENDING request User IDs.
      */
     @Query("SELECT CASE " +
             "WHEN f.userOne.id = :userId THEN f.userTwo.id " +
@@ -59,21 +67,18 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 
     /**
      * Removes friendship connection between users.
+     * @param user1 first user.
+     * @param user2 second user.
      */
     @Modifying
-    @Query("DELETE FROM Friendship f WHERE (f.userOne = :user1 AND f.userTwo = :user2) OR (f.userOne = :user2 AND f.userTwo = :user1)")
+    @Query("DELETE FROM Friendship f WHERE (f.userOne = :user1 AND f.userTwo = :user2) " +
+            "OR (f.userOne = :user2 AND f.userTwo = :user1)")
     void deleteFriendshipBetweenUsers(@Param("user1") User user1, @Param("user2") User user2);
 
     /**
-     * Return the number of user friends.
-     */
-    @Query("SELECT COUNT(f) " +
-            "FROM Friendship f " +
-            "WHERE (f.userOne = :user OR f.userTwo = :user) AND f.status = 'ACCEPTED'")
-    int countFriends(@Param("user") User user);
-
-    /**
-     * Returns a list of all user friends(except the one who make this call).
+     * @param currentUser the user who make the call.
+     * @param otherUser the user which friends we will retrieve.
+     * @return Returns a list of all user friends(except the one who make this call).
      */
     @Query("SELECT CASE WHEN f.userOne = :otherUser THEN f.userTwo ELSE f.userOne END " +
             "FROM Friendship f " +
@@ -83,7 +88,9 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
     List<User> findFriendsOfOtherUser(@Param("currentUser") User currentUser, @Param("otherUser") User otherUser);
 
     /**
-     * Returns a list of mutual friends IDs.
+     * @param user1 first user.
+     * @param user2 second user.
+     * @return Returns a list of mutual friends IDs.
      */
     @Query("SELECT DISTINCT CASE " +
             "WHEN f1.userOne.id = f2.userOne.id THEN f1.userOne.id " +

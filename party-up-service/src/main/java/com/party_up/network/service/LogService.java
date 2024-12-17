@@ -9,13 +9,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import com.party_up.network.model.RequestResponseLog;
 import com.party_up.network.model.dto.RequestResponseLogDTO;
 import com.party_up.network.model.dto.mappers.RequestResponseLogMapper;
 import com.party_up.network.repository.RequestResponseLogRepository;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service class for managing request and response logs.

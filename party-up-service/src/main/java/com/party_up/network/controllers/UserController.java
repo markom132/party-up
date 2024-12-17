@@ -2,8 +2,6 @@ package com.party_up.network.controllers;
 
 import java.util.Arrays;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +16,8 @@ import com.party_up.network.model.dto.LoginRequestDTO;
 import com.party_up.network.model.dto.LoginSuccessResponseDTO;
 import com.party_up.network.model.dto.UserDTO;
 import com.party_up.network.service.UserService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Controller for handling user-related operations such as authentication,

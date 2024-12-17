@@ -2,7 +2,6 @@ package com.party_up.network.service;
 
 import java.time.LocalDateTime;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +11,8 @@ import com.party_up.network.exceptions.ResourceNotFoundException;
 import com.party_up.network.model.AuthToken;
 import com.party_up.network.model.User;
 import com.party_up.network.repository.AuthTokenRepository;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service

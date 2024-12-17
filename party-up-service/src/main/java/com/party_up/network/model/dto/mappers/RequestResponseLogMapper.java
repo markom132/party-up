@@ -3,11 +3,12 @@ package com.party_up.network.model.dto.mappers;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import com.party_up.network.model.RequestResponseLog;
 import com.party_up.network.model.dto.RequestResponseLogDTO;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Mapper for converting between RequestResponseLog entities and RequestResponseLogDTOs.

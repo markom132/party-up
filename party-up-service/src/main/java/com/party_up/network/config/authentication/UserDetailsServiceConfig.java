@@ -2,8 +2,6 @@ package com.party_up.network.config.authentication;
 
 import java.util.Collections;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,6 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.party_up.network.model.User;
 import com.party_up.network.repository.UserRepository;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Configuration class that implements UserDetailsService for Spring Security.

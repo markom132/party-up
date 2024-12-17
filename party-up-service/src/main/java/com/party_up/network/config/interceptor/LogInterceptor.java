@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -19,6 +17,8 @@ import com.party_up.network.config.log_cached_body.request.CachedBodyHttpServlet
 import com.party_up.network.config.log_cached_body.response.CachedBodyHttpServletResponse;
 import com.party_up.network.model.RequestResponseLog;
 import com.party_up.network.repository.RequestResponseLogRepository;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Interceptor for logging request and response details.

@@ -6,11 +6,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import com.party_up.network.model.User;
 import com.party_up.network.model.dto.UserDTO;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Mapper for converting between User entities and UserDTOs.

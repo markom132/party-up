@@ -3,10 +3,10 @@ package com.party_up.network.config.interceptor;
 import java.util.Arrays;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Config class for managing endpoints that are excluded from logging.
