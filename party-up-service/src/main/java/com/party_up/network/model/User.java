@@ -13,46 +13,92 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entity class representing an actual user.
+ * This class is mapped to the 'users' table in the database.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class User {
 
+    /**
+     * Unique identifier for the user.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Unique username of the user.
+     */
     @Column(nullable = false, unique = true)
     private String username;
 
+    /**
+     * User password for logging in.
+     */
     private String password;
 
+    /**
+     * Users first name.
+     */
     @Column(nullable = false)
     private String firstName;
 
+    /**
+     * Users last name.
+     */
     @Column(nullable = false)
     private String lastName;
 
+    /**
+     * Email of the user(must be unique).
+     */
     @Column(nullable = false, unique = true)
     private String email;
 
+    /**
+     * User account status (ACTIVE/INACTIVE).
+     */
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
 
+    /**
+     * User profile image.
+     */
     @Lob
     private byte[] image;
 
+    /**
+     * Users day of birth.
+     */
     private LocalDate birthDate;
 
+    /**
+     * Users age.
+     */
     private int age;
 
+    /**
+     * User profile bio.
+     */
     private String bio;
 
+    /**
+     * When user is created.
+     */
     private LocalDateTime createdAt;
 
+    /**
+     * When user is last time updated.
+     */
     private LocalDateTime lastUpdatedAt;
 
+    /**
+     * Users authTokens.
+     */
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AuthToken> authTokens;
@@ -60,6 +106,9 @@ public class User {
     /**
      * Constructor for creating a user with username, password, first name, last name, email, and status.
      *
+     * @param age       the age of the user
+     * @param bio       the bio of the user profile
+     * @param birthDate the birthdate of the user
      * @param username  the username of the user
      * @param password  the password of the user
      * @param firstName the first name of the user
@@ -67,8 +116,11 @@ public class User {
      * @param email     the email of the user
      * @param status    the status of the user
      */
-    public User(String username, String password, String firstName,
+    public User(int age, String bio, LocalDate birthDate, String username, String password, String firstName,
                 String lastName, String email, AccountStatus status) {
+        this.age = age;
+        this.bio = bio;
+        this.birthDate = birthDate;
         this.username = username;
         this.email = email;
         this.password = password;

@@ -2,20 +2,18 @@ package com.party_up.network.config.log_cached_body.response;
 
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Filter that wraps the HttpServletResponse to allow capturing and caching the response body context.
  * This cached response is useful for logging or further processing after request completion.
  */
+@Slf4j
 public class ResponseCaptureFilter implements Filter {
-
-    private static final Logger logger = LoggerFactory.getLogger(ResponseCaptureFilter.class);
 
     /**
      * Wraps the HttpServletResponse in a CachedBodyHttpServletResponse to capture response content.
@@ -30,7 +28,7 @@ public class ResponseCaptureFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-        logger.debug("Initializing response capture filter for request: {}",
+        log.debug("Initializing response capture filter for request: {}",
                 ((HttpServletRequest) request).getRequestURI());
 
         // Wraps the response to capture its content
@@ -40,10 +38,10 @@ public class ResponseCaptureFilter implements Filter {
         // Cast the request and set the wrapped response in the request attributes for later access
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         httpRequest.setAttribute("responseWrapper", responseWrapper);
-        logger.debug("CachedBodyHttpServletResponse set in request attributes.");
+        log.debug("CachedBodyHttpServletResponse set in request attributes.");
 
         chain.doFilter(httpRequest, responseWrapper);
-        logger.debug("Response capture completed for request: {}", httpRequest.getRequestURI());
+        log.debug("Response capture completed for request: {}", httpRequest.getRequestURI());
     }
 }
 

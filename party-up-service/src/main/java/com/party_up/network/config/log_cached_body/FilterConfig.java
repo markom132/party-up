@@ -1,7 +1,5 @@
 package com.party_up.network.config.log_cached_body;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,14 +7,15 @@ import org.springframework.context.annotation.Configuration;
 import com.party_up.network.config.log_cached_body.request.RequestBodyCacheFilter;
 import com.party_up.network.config.log_cached_body.response.ResponseCaptureFilter;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Configuration class to register filters for caching request and response bodies.
  * This enables access to request and response data multiple times within the application.
  */
+@Slf4j
 @Configuration
 public class FilterConfig {
-
-    private static final Logger logger = LoggerFactory.getLogger(FilterConfig.class);
 
     /**
      * Registers the RequestBodyCacheFilter to intercept all requests.
@@ -29,7 +28,7 @@ public class FilterConfig {
         FilterRegistrationBean<RequestBodyCacheFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new RequestBodyCacheFilter());
         registrationBean.addUrlPatterns("/*"); // Apply to all URLs
-        logger.debug("RequestBodyCacheFilter registered for all URL patterns.");
+        log.debug("RequestBodyCacheFilter registered for all URL patterns.");
         return registrationBean;
     }
 
@@ -44,7 +43,7 @@ public class FilterConfig {
         FilterRegistrationBean<ResponseCaptureFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new ResponseCaptureFilter());
         registrationBean.addUrlPatterns("/*"); // Apply to all URLs
-        logger.debug("ResponseCaptureFilter registered for all URL patterns.");
+        log.debug("ResponseCaptureFilter registered for all URL patterns.");
         return registrationBean;
     }
 }

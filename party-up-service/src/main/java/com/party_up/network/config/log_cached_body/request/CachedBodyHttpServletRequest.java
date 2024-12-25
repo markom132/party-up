@@ -4,19 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Wrapper for HttpServletRequest to allow caching of the request body, enabling it to be read multiple times.
  */
+@Slf4j
 public class CachedBodyHttpServletRequest extends HttpServletRequestWrapper {
-
-    private static final Logger logger = LoggerFactory.getLogger(CachedBodyHttpServletRequest.class);
 
     private final byte[] cachedBody;
 
@@ -29,7 +27,7 @@ public class CachedBodyHttpServletRequest extends HttpServletRequestWrapper {
     public CachedBodyHttpServletRequest(HttpServletRequest request) throws IOException {
         super(request);
 
-        logger.debug("Initializing CachedBodyHttpServletRequest with request body caching.");
+        log.debug("Initializing CachedBodyHttpServletRequest with request body caching.");
 
         // Read the request body and store it in a byte array
         InputStreamReader inputStreamReader = new InputStreamReader(request.getInputStream());
@@ -43,7 +41,7 @@ public class CachedBodyHttpServletRequest extends HttpServletRequestWrapper {
 
         cachedBody = body.toString().getBytes();
 
-        logger.debug("Request body cached successfully.");
+        log.debug("Request body cached successfully.");
     }
 
     /**
@@ -53,7 +51,7 @@ public class CachedBodyHttpServletRequest extends HttpServletRequestWrapper {
      */
     @Override
     public ServletInputStream getInputStream() {
-        logger.debug("Providing cached ServletInputStream for request body.");
+        log.debug("Providing cached ServletInputStream for request body.");
         return new CachedBodyServletInputStream(cachedBody);
     }
 
@@ -64,7 +62,7 @@ public class CachedBodyHttpServletRequest extends HttpServletRequestWrapper {
      */
     @Override
     public BufferedReader getReader() {
-        logger.debug("Providing BufferedReader for cached request body.");
+        log.debug("Providing BufferedReader for cached request body.");
         return new BufferedReader(new InputStreamReader(getInputStream()));
     }
 }
